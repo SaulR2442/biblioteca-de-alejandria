@@ -103,7 +103,7 @@ static void ShowBooksMenu()
                 break;
 
             case 4:
-                // UpdateBookMenu()
+                UpdateBookMenu() ;
                 break;
 
             case 5:
@@ -274,3 +274,134 @@ static void ViewBookDetail()
     • La tejedora de coronas – Germán Espinosa - id: 1982 - Ficción histórica / Barroco
     ") ;
 }
+
+static void UpdateBookMenu()
+{
+    byte opcionActualizarLibro ;
+
+    Console.WriteLine(@"
+    =========================================================
+    === Opcion de actualizar libros elegida correctamente ===
+    =========================================================
+    ");
+
+    Console.WriteLine(@"
+    =====================================
+    == Que desea hacer especificamente ==
+    =====================================
+    1. Editar titulo.
+    2. Editar autor.
+    3. Editar año / categoria.
+    ") ;
+
+    while (!byte.TryParse(Console.ReadLine(), out opcionActualizarLibro))
+    {
+        Console.WriteLine("Opcion no valida, vuelva y elija otra ->");
+    }
+
+    switch (opcionActualizarLibro)
+    {
+        case 1:
+            EditBookTitle() ;
+            break;
+
+        case 2:
+            EditBookAuthor() ;
+            break;
+
+        case 3:
+            EditBookYearCategory() ;
+            break;
+
+        default:
+            Console.WriteLine("Numero ingresado incorrecto, es del uno al 3") ;
+            break;
+        
+    }
+}
+
+static void EditBookTitle()
+{
+    Console.WriteLine(@"
+    ======================================================================
+    === Opcion de editar el titulo de los libros elegida correctamente ===
+    ======================================================================
+    ");
+
+    Console.WriteLine("Ingrese el antiguo nombre del libro ->") ;
+    string nombreLibroAntiguo = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese el nuevo nombre del libro ->") ;
+    string nombreLibroNuevo = Console.ReadLine() ;
+
+    Console.WriteLine(@$"
+    ===================================
+    == Nombre guardado correctamente ==
+    ===================================
+    El libro {nombreLibroAntiguo}, 
+    actualizo su nombre a 
+    {nombreLibroNuevo}.
+    ") ;
+}
+
+static void EditBookAuthor()
+{
+    Console.WriteLine(@"
+    =====================================================================
+    === Opcion de editar el autor de los libros elegida correctamente ===
+    =====================================================================
+    ");
+
+    Console.WriteLine("Ingrese el nombre del libro ->") ;
+    string nombreLibroEditarAutor = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese el antiguo nombre del autor del libro ->") ;
+    string nombreAutorLibroAntiguo = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese el nuevo nombre del autor del libro ->") ;
+    string nombreAutorLibroNuevo = Console.ReadLine() ;
+
+    Console.WriteLine(@$"
+    ===================================
+    == Nombre guardado correctamente ==
+    ===================================
+    El libro {nombreLibroEditarAutor},
+    cambio de autor de {nombreAutorLibroAntiguo},
+    a {nombreAutorLibroNuevo}.
+    ") ;
+}
+
+static void EditBookYearCategory()
+{
+    Console.WriteLine(@"
+    ===============================================================================
+    === Opcion de editar el año y categoria de los libros elegida correctamente ===
+    ===============================================================================
+    ");
+
+    Console.WriteLine("Ingrese el nombre del libro ->") ;
+    string nombreLibroEditarCategoria = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese la antigua categoria del libro ->") ;
+    string nombreCategoriaLibroAntiguo = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese la nueva categoria del libro ->") ;
+    string nombreCategoriaLibroNuevo = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese el antiguo año del libro ->") ;
+    string añoLibroAntiguo = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese el nuevo año del libro ->") ;
+    string añoLibroNuevo = Console.ReadLine() ;
+
+    Console.WriteLine(@$"
+    ============================================
+    == Categoria y año guardado correctamente ==
+    ============================================
+    El libro {nombreLibroEditarCategoria},
+    cambio de categoria de {nombreCategoriaLibroAntiguo},
+    a {nombreCategoriaLibroNuevo}, y el año
+    cambio de {añoLibroAntiguo}, a {añoLibroNuevo}.
+    ") ;
+}
+
