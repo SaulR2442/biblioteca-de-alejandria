@@ -99,7 +99,7 @@ static void ShowBooksMenu()
                 break;
 
             case 3:
-                // ViewBookDetail()
+                ViewBookDetail() ;
                 break;
 
             case 4:
@@ -247,5 +247,30 @@ static void ListBooksBorrowed()
     • El olvido que seremos – Héctor Abad Faciolince 
     • Delirio – Laura Restrepo 
     • El ruido de las cosas al caer – Juan Gabriel Vásquez 
+    ") ;
+}
+
+static void ViewBookDetail()
+{
+    Console.WriteLine(@"
+    =================================================================
+    === Opcion de ver detalle de los libros elegida correctamente ===
+    =================================================================
+    ");
+
+    Console.WriteLine(@"
+    ========================================
+    == Todos los libros, con sus detalles ==
+    ========================================
+    • Cien años de soledad – Gabriel García Márquez - id: 1967 - Realismo magico
+    • La vorágine – José Eustasio Rivera - id: 1924 - Literatura de la selva / Realismo social
+    • María – Jorge Isaacs - id: 1867 - Romanticismo
+    • El olvido que seremos – Héctor Abad Faciolince - id: 2006 - Literatura de la selva / Realismo social
+    • Delirio – Laura Restrepo - id: 2004 - Drama psicológico / Ficción contemporánea
+    • Satanás – Mario Mendoza id: 2002 - Realismo degradado / Novela negra
+    • La perra – Pilar Quintana - id: 2017 - Drama psicológico / Realismo
+    • El ruido de las cosas al caer – Juan Gabriel Vásquez - id: 2011 - Ficción histórica / Drama contemporáneo
+    • Changó, el gran putas – Manuel Zapata Olivella - id: 1983 - Ficción histórica / Epopeya afroamericana
+    • La tejedora de coronas – Germán Espinosa - id: 1982 - Ficción histórica / Barroco
     ") ;
 }
