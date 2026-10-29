@@ -595,3 +595,126 @@ static void ViewUserDetail()
     - Camila - Vargas - 27 - 1098765432 - 3145678901
     ") ;
 }
+
+static void UpdateUserMenu()
+{
+   byte opcionActualizarUsuario;
+
+    Console.WriteLine(@"
+    ==========================================================
+    === Opcion de actualizar usuario elegida correctamente ===
+    ==========================================================
+    ");
+
+    Console.WriteLine(@"
+    =====================================
+    == Que desea hacer especificamente ==
+    =====================================
+    1. Editar nombre.
+    2. Editar telefono.
+    3. Editar edad.
+    ");
+
+    while (!byte.TryParse(Console.ReadLine(), out opcionActualizarUsuario))
+    {
+        Console.WriteLine("Opcion no valida, vuelva y elija otra ->");
+    }
+
+    switch (opcionActualizarUsuario)
+    {
+        case 1:
+            EditUserName();
+            break;
+
+        case 2:
+            EditUserContact();
+            break;
+
+        case 3:
+                ;
+            break;
+
+        default:
+            Console.WriteLine("Numero ingresado incorrecto, es del uno al 3");
+            break;
+
+    } 
+}
+
+static void EditUserName()
+{
+    Console.WriteLine(@"
+    =====================================================================
+    === Opcion de editar el nombre del usuario elegida correctamente  ===
+    =====================================================================
+    ");
+
+    Console.WriteLine("Ingrese el antiguo nombre del usuario ->");
+    string nombreUsuarioAntiguo = Console.ReadLine();
+
+    Console.WriteLine("Ingrese el nuevo nombre del usuario ->");
+    string nombreUsuarioNuevo = Console.ReadLine();
+
+    Console.WriteLine(@$"
+    ===================================
+    == Nombre guardado correctamente ==
+    ===================================
+    El usuario {nombreUsuarioAntiguo}, 
+    actualizo su nombre a 
+    {nombreUsuarioNuevo}.
+    "); 
+}
+
+static void EditUserContact()
+{
+    Console.WriteLine(@"
+    =======================================================================
+    === Opcion de editar el telefono del usuario elegida correctamente  ===
+    =======================================================================
+    ");
+
+    Console.WriteLine("Ingrese el nombre del usuario ->");
+    string nombreUsuarioTelefono = Console.ReadLine();
+
+    Console.WriteLine("Ingrese el antiguo telefono del usuario ->");
+    string telefonoAntiguo = Console.ReadLine();
+
+    Console.WriteLine("Ingrese el nuevo telefono del usuario ->");
+    string telefonoNuevo = Console.ReadLine();
+
+    Console.WriteLine(@$"
+    =====================================
+    == Telefono guardado correctamente ==
+    =====================================
+    El usuario {nombreUsuarioTelefono}, 
+    actualizo su telefono de {telefonoAntiguo},
+    a {telefonoNuevo}.
+    "); 
+}
+
+static void EditUserAge()
+{
+    Console.WriteLine(@"
+    ===================================================================
+    === Opcion de editar la edad del usuario elegida correctamente  ===
+    ===================================================================
+    ");
+
+    Console.WriteLine("Ingrese el nombre del usuario ->");
+    string nombreUsuarioEdad = Console.ReadLine();
+
+    Console.WriteLine("Ingrese la antigua edad del usuario ->");
+    string edadAntiguo = Console.ReadLine();
+
+    Console.WriteLine("Ingrese la nueva edad del usuario ->");
+    string edadNuevo = Console.ReadLine();
+
+    Console.WriteLine(@$"
+    =================================
+    == Edad guardado correctamente ==
+    =================================
+    El usuario {nombreUsuarioEdad}, 
+    actualizo su edad de {edadAntiguo},
+    a {edadNuevo}.
+    "); 
+}
