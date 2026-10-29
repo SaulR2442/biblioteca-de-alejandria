@@ -557,6 +557,32 @@ static void ListUsers()
     =======================
     == Lista de usuarios ==
     =======================
+    - Carlos Gómez 
+    - María López 
+    - Juan Ramírez 
+    - Ana Martínez 
+    - Luis Torres 
+    - Laura Sánchez 
+    - Pedro Castro 
+    - Sofía Herrera 
+    - Andrés Rojas 
+    - Camila Vargas 
+    ") ;
+
+}
+
+static void ViewUserDetail()
+{
+    Console.WriteLine(@"
+    =====================================================================
+    === Opcion ver los detalles de los usuarios elegida correctamente ===
+    =====================================================================
+    ");
+
+    Console.WriteLine(@"
+    =======================
+    == Lista de usuarios ==
+    =======================
     - Carlos - Gómez - 25 - 1039485721 - 3001234567
     - María - López - 32 - 1012938475 - 3109876543
     - Juan - Ramírez - 19 - 1002345678 - 3123456789
@@ -568,5 +594,4 @@ static void ListUsers()
     - Andrés - Rojas - 21 - 1045678901 - 3023456789
     - Camila - Vargas - 27 - 1098765432 - 3145678901
     ") ;
-
 }
