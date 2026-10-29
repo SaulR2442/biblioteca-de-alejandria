@@ -6,7 +6,7 @@ se revisa cual caso escogio el usario y se mete al otro sub menu
 
 static void ShowMainMenu()
 {
-    byte opcionElegida;
+    byte opcionElegidaMenu;
 
     do
     {
@@ -24,12 +24,12 @@ static void ShowMainMenu()
     Ingrese su opcion (solo el numero) -> 
     ");
 
-        while (!byte.TryParse(Console.ReadLine(), out opcionElegida))
+        while (!byte.TryParse(Console.ReadLine(), out opcionElegidaMenu))
         {
-            Console.WriteLine("Opcion no valida, vuelva y eliga otra ->");
+            Console.WriteLine("Opcion no valida, vuelva y elija otra ->");
         }
 
-        switch (opcionElegida)
+        switch (opcionElegidaMenu)
         {
             case 1:
                 // ShowBooksMenu()
@@ -56,8 +56,96 @@ static void ShowMainMenu()
                 break;
         }
     }
-    while (opcionElegida != 6);
+    while (opcionElegidaMenu != 6);
 }
 
+static void ShowBooksMenu()
+{
+    byte opcionElegidaLibros ;
 
+   do
+    {
+        Console.WriteLine(@"
+    ==========================
+    ====== Menu Libros =======
+    ==========================
+    1. Registrar Libro
+    2. Listar libros
+    3. Ver detalle de libro (por ID/ISBN)
+    4. Actualizar libro
+    5. Eliminar libro
+    6. Salir al menu principal
+    ==========================
+    Ingrese su opcion (solo el numero) -> 
+    ");
 
+        while (!byte.TryParse(Console.ReadLine(), out opcionElegidaLibros))
+        {
+            Console.WriteLine("Opcion no valida, vuelva y elija otra ->");
+        }
+
+        switch (opcionElegidaLibros)
+        {
+            case 1:
+                RegisterBook() ; 
+                break;
+
+            case 2:
+                // ListBooksMenu()
+                break;
+
+            case 3:
+                // ViewBookDetail()
+                break;
+
+            case 4:
+                // UpdateBookMenu()
+                break;
+
+            case 5:
+                // DeleteBook()
+                break;
+
+            case 6:
+                // Se vuelve al menu principal automaticamente
+                break;
+        }
+    }
+    while (opcionElegidaLibros != 6);
+}
+
+static void RegisterBook()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Registrar libros elegida correctamente ===
+    ========================================================
+    ");
+
+    Console.WriteLine("Ingrese el nombre del libro ->") ;
+    string nombreLibro = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese el nombre del autor del libro ->") ;
+    string nombreAutorLibro = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese la categoria del libro ->") ;
+    string categoriaLibro = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese el año cuando salio el libro ->") ;
+    string añoLibro = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese el id / isbn del libro ->") ;
+    string idLibro = Console.ReadLine() ;
+
+    Console.WriteLine($@"
+    ====================================
+    === Libro guardado correctamente ===
+    ====================================
+    Nombre -> {nombreLibro}.
+    Author -> {nombreAutorLibro}.
+    Categoria -> {categoriaLibro}.
+    Año -> {añoLibro}.
+    id / isbn -> {idLibro}.
+    ====================================
+    ");
+}
