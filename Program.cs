@@ -508,3 +508,39 @@ static void ShowUsersMenu()
     }
     while (opcionElegidaUsuario != 6); 
 }
+
+static void RegisterUser()
+{
+    Console.WriteLine(@"
+    =========================================================
+    === Opcion de Registrar usuario elegida correctamente ===
+    =========================================================
+    ");
+
+    Console.WriteLine("Ingrese el nombre del usuario ->") ;
+    string nombreUsuario = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese el apellido del usuario ->") ;
+    string apellidoUsuario = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese la edad del usuario ->") ;
+    string edadUsuario = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese el documento del usuario ->") ;
+    string documentoUsuario = Console.ReadLine() ;
+
+    Console.WriteLine("Ingrese el telefono del usuario ->") ;
+    string telefonoUsuario = Console.ReadLine() ;
+
+    Console.WriteLine($@"
+    ========================================
+    === Usuario registrado correctamente ===
+    ========================================
+    Nombre -> {nombreUsuario}.
+    Apellido -> {apellidoUsuario}.
+    Edad -> {edadUsuario}.
+    Documento -> {documentoUsuario}.
+    Telefono -> {telefonoUsuario}.
+    ====================================
+    ");
+}
