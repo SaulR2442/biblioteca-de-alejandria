@@ -585,7 +585,7 @@ static void ListUsers()
     - Sofía Herrera 
     - Andrés Rojas 
     - Camila Vargas 
-    ") ;
+    ");
 
 }
 
@@ -611,12 +611,12 @@ static void ViewUserDetail()
     - Sofía - Herrera - 30 - 1034567890 - 3012345678
     - Andrés - Rojas - 21 - 1045678901 - 3023456789
     - Camila - Vargas - 27 - 1098765432 - 3145678901
-    ") ;
+    ");
 }
 
 static void UpdateUserMenu()
 {
-   byte opcionActualizarUsuario;
+    byte opcionActualizarUsuario;
 
     Console.WriteLine(@"
     ==========================================================
@@ -649,14 +649,14 @@ static void UpdateUserMenu()
             break;
 
         case 3:
-                ;
+            ;
             break;
 
         default:
             Console.WriteLine("Numero ingresado incorrecto, es del uno al 3");
             break;
 
-    } 
+    }
 }
 
 static void EditUserName()
@@ -680,7 +680,7 @@ static void EditUserName()
     El usuario {nombreUsuarioAntiguo}, 
     actualizo su nombre a 
     {nombreUsuarioNuevo}.
-    "); 
+    ");
 }
 
 static void EditUserContact()
@@ -707,7 +707,7 @@ static void EditUserContact()
     El usuario {nombreUsuarioTelefono}, 
     actualizo su telefono de {telefonoAntiguo},
     a {telefonoNuevo}.
-    "); 
+    ");
 }
 
 static void EditUserAge()
@@ -734,7 +734,7 @@ static void EditUserAge()
     El usuario {nombreUsuarioEdad}, 
     actualizo su edad de {edadAntiguo},
     a {edadNuevo}.
-    "); 
+    ");
 }
 
 static void DeleteUser()
