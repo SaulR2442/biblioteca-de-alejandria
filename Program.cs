@@ -36,7 +36,7 @@ static void ShowMainMenu()
                 break;
 
             case 2:
-                // ShowUsersMenu()
+                ShowUsersMenu() ;
                 break;
 
             case 3:
@@ -62,6 +62,30 @@ static void ShowMainMenu()
     }
     while (opcionElegidaMenu != 6);
 }
+
+/*
+En la rama feature/books-menu, se hizo lo siguiente:
+
+1.1 Registrar libro
+
+1.2 Listar libros
+
+- 1.2.1 Listar todos
+- 1.2.2 Listar disponibles
+- 1.2.3 Listar prestados
+    
+    1.3 Ver detalle de libro (por ID/ISBN)
+    
+    1.4 Actualizar libro
+    
+- 1.4.1 Editar título
+- 1.4.2 Editar autor
+- 1.4.3 Editar año / categoría
+    
+    1.5 Eliminar libro
+
+Cabe aclarar que sin guardar ningun tipo de dato, en un base de datos; solo los datos se guardan temporalmente.
+*/
 
 static void ShowBooksMenu()
 {
@@ -106,8 +130,8 @@ static void ShowBooksMenu()
                 UpdateBookMenu() ;
                 break;
 
-                case 5:
-                    DeleteBook() ;
+            case 5:
+                DeleteBook() ;
                 break;
 
             case 6:
@@ -425,3 +449,5 @@ static void DeleteBook()
     la bases de datos correctamente.
     ") ;
 }
+
+
