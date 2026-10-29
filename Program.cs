@@ -32,11 +32,11 @@ static void ShowMainMenu()
         switch (opcionElegidaMenu)
         {
             case 1:
-                ShowBooksMenu() ;
+                ShowBooksMenu();
                 break;
 
             case 2:
-                ShowUsersMenu() ;
+                ShowUsersMenu();
                 break;
 
             case 3:
@@ -56,7 +56,7 @@ static void ShowMainMenu()
                 break;
 
             default:
-                Console.WriteLine("Numero ingresado incorrecto, es del uno al 6") ;
+                Console.WriteLine("Numero ingresado incorrecto, es del uno al 6");
                 break;
         }
     }
@@ -89,9 +89,9 @@ Cabe aclarar que sin guardar ningun tipo de dato, en un base de datos; solo los 
 
 static void ShowBooksMenu()
 {
-    byte opcionElegidaLibros ;
+    byte opcionElegidaLibros;
 
-   do
+    do
     {
         Console.WriteLine(@"
     ==========================
@@ -115,23 +115,23 @@ static void ShowBooksMenu()
         switch (opcionElegidaLibros)
         {
             case 1:
-                RegisterBook() ; 
+                RegisterBook();
                 break;
 
             case 2:
-                ListBooksMenu() ;
+                ListBooksMenu();
                 break;
 
             case 3:
-                ViewBookDetail() ;
+                ViewBookDetail();
                 break;
 
             case 4:
-                UpdateBookMenu() ;
+                UpdateBookMenu();
                 break;
 
             case 5:
-                DeleteBook() ;
+                DeleteBook();
                 break;
 
             case 6:
@@ -139,7 +139,7 @@ static void ShowBooksMenu()
                 break;
 
             default:
-                Console.WriteLine("Numero ingresado incorrecto, es del uno al 6") ;
+                Console.WriteLine("Numero ingresado incorrecto, es del uno al 6");
                 break;
         }
     }
@@ -154,20 +154,20 @@ static void RegisterBook()
     ========================================================
     ");
 
-    Console.WriteLine("Ingrese el nombre del libro ->") ;
-    string nombreLibro = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el nombre del libro ->");
+    string nombreLibro = Console.ReadLine();
 
-    Console.WriteLine("Ingrese el nombre del autor del libro ->") ;
-    string nombreAutorLibro = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el nombre del autor del libro ->");
+    string nombreAutorLibro = Console.ReadLine();
 
-    Console.WriteLine("Ingrese la categoria del libro ->") ;
-    string categoriaLibro = Console.ReadLine() ;
+    Console.WriteLine("Ingrese la categoria del libro ->");
+    string categoriaLibro = Console.ReadLine();
 
-    Console.WriteLine("Ingrese el año cuando salio el libro ->") ;
-    string añoLibro = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el año cuando salio el libro ->");
+    string añoLibro = Console.ReadLine();
 
-    Console.WriteLine("Ingrese el id / isbn del libro ->") ;
-    string idLibro = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el id / isbn del libro ->");
+    string idLibro = Console.ReadLine();
 
     Console.WriteLine($@"
     ====================================
@@ -184,7 +184,7 @@ static void RegisterBook()
 
 static void ListBooksMenu()
 {
-    byte opcionListarLibro ;
+    byte opcionListarLibro;
 
     Console.WriteLine(@"
     ========================================================
@@ -199,7 +199,7 @@ static void ListBooksMenu()
     1. Listar todos los libros.
     2. Listar solo los libros disponibles.
     3. Listar libros prestados.
-    ") ;
+    ");
 
     while (!byte.TryParse(Console.ReadLine(), out opcionListarLibro))
     {
@@ -209,21 +209,21 @@ static void ListBooksMenu()
     switch (opcionListarLibro)
     {
         case 1:
-            ListBooksAll() ;
+            ListBooksAll();
             break;
 
         case 2:
-            ListBooksAvailable() ;
+            ListBooksAvailable();
             break;
 
         case 3:
-            ListBooksBorrowed() ;
+            ListBooksBorrowed();
             break;
 
         default:
-            Console.WriteLine("Numero ingresado incorrecto, es del uno al 3") ;
+            Console.WriteLine("Numero ingresado incorrecto, es del uno al 3");
             break;
-        
+
     }
 }
 
@@ -243,8 +243,8 @@ static void ListBooksAll()
     • El ruido de las cosas al caer – Juan Gabriel Vásquez
     • Changó, el gran putas – Manuel Zapata Olivella
     • La tejedora de coronas – Germán Espinosa
-    ") ;
-} 
+    ");
+}
 
 static void ListBooksAvailable()
 {
@@ -258,7 +258,7 @@ static void ListBooksAvailable()
     • La perra – Pilar Quintana
     • Changó, el gran putas – Manuel Zapata Olivella
     • La tejedora de coronas – Germán Espinosa
-    ") ;
+    ");
 }
 
 static void ListBooksBorrowed()
@@ -271,7 +271,7 @@ static void ListBooksBorrowed()
     • El olvido que seremos – Héctor Abad Faciolince 
     • Delirio – Laura Restrepo 
     • El ruido de las cosas al caer – Juan Gabriel Vásquez 
-    ") ;
+    ");
 }
 
 static void ViewBookDetail()
@@ -296,12 +296,12 @@ static void ViewBookDetail()
     • El ruido de las cosas al caer – Juan Gabriel Vásquez - id: 2011 - Ficción histórica / Drama contemporáneo
     • Changó, el gran putas – Manuel Zapata Olivella - id: 1983 - Ficción histórica / Epopeya afroamericana
     • La tejedora de coronas – Germán Espinosa - id: 1982 - Ficción histórica / Barroco
-    ") ;
+    ");
 }
 
 static void UpdateBookMenu()
 {
-    byte opcionActualizarLibro ;
+    byte opcionActualizarLibro;
 
     Console.WriteLine(@"
     =========================================================
@@ -316,7 +316,7 @@ static void UpdateBookMenu()
     1. Editar titulo.
     2. Editar autor.
     3. Editar año / categoria.
-    ") ;
+    ");
 
     while (!byte.TryParse(Console.ReadLine(), out opcionActualizarLibro))
     {
@@ -326,21 +326,21 @@ static void UpdateBookMenu()
     switch (opcionActualizarLibro)
     {
         case 1:
-            EditBookTitle() ;
+            EditBookTitle();
             break;
 
         case 2:
-            EditBookAuthor() ;
+            EditBookAuthor();
             break;
 
         case 3:
-            EditBookYearCategory() ;
+            EditBookYearCategory();
             break;
 
         default:
-            Console.WriteLine("Numero ingresado incorrecto, es del uno al 3") ;
+            Console.WriteLine("Numero ingresado incorrecto, es del uno al 3");
             break;
-        
+
     }
 }
 
@@ -352,11 +352,11 @@ static void EditBookTitle()
     ======================================================================
     ");
 
-    Console.WriteLine("Ingrese el antiguo nombre del libro ->") ;
-    string nombreLibroAntiguo = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el antiguo nombre del libro ->");
+    string nombreLibroAntiguo = Console.ReadLine();
 
-    Console.WriteLine("Ingrese el nuevo nombre del libro ->") ;
-    string nombreLibroNuevo = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el nuevo nombre del libro ->");
+    string nombreLibroNuevo = Console.ReadLine();
 
     Console.WriteLine(@$"
     ===================================
@@ -365,7 +365,7 @@ static void EditBookTitle()
     El libro {nombreLibroAntiguo}, 
     actualizo su nombre a 
     {nombreLibroNuevo}.
-    ") ;
+    ");
 }
 
 static void EditBookAuthor()
@@ -376,14 +376,14 @@ static void EditBookAuthor()
     =====================================================================
     ");
 
-    Console.WriteLine("Ingrese el nombre del libro ->") ;
-    string nombreLibroEditarAutor = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el nombre del libro ->");
+    string nombreLibroEditarAutor = Console.ReadLine();
 
-    Console.WriteLine("Ingrese el antiguo nombre del autor del libro ->") ;
-    string nombreAutorLibroAntiguo = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el antiguo nombre del autor del libro ->");
+    string nombreAutorLibroAntiguo = Console.ReadLine();
 
-    Console.WriteLine("Ingrese el nuevo nombre del autor del libro ->") ;
-    string nombreAutorLibroNuevo = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el nuevo nombre del autor del libro ->");
+    string nombreAutorLibroNuevo = Console.ReadLine();
 
     Console.WriteLine(@$"
     ===================================
@@ -392,7 +392,7 @@ static void EditBookAuthor()
     El libro {nombreLibroEditarAutor},
     cambio de autor de {nombreAutorLibroAntiguo},
     a {nombreAutorLibroNuevo}.
-    ") ;
+    ");
 }
 
 static void EditBookYearCategory()
@@ -403,20 +403,20 @@ static void EditBookYearCategory()
     ===============================================================================
     ");
 
-    Console.WriteLine("Ingrese el nombre del libro ->") ;
-    string nombreLibroEditarCategoria = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el nombre del libro ->");
+    string nombreLibroEditarCategoria = Console.ReadLine();
 
-    Console.WriteLine("Ingrese la antigua categoria del libro ->") ;
-    string nombreCategoriaLibroAntiguo = Console.ReadLine() ;
+    Console.WriteLine("Ingrese la antigua categoria del libro ->");
+    string nombreCategoriaLibroAntiguo = Console.ReadLine();
 
-    Console.WriteLine("Ingrese la nueva categoria del libro ->") ;
-    string nombreCategoriaLibroNuevo = Console.ReadLine() ;
+    Console.WriteLine("Ingrese la nueva categoria del libro ->");
+    string nombreCategoriaLibroNuevo = Console.ReadLine();
 
-    Console.WriteLine("Ingrese el antiguo año del libro ->") ;
-    string añoLibroAntiguo = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el antiguo año del libro ->");
+    string añoLibroAntiguo = Console.ReadLine();
 
-    Console.WriteLine("Ingrese el nuevo año del libro ->") ;
-    string añoLibroNuevo = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el nuevo año del libro ->");
+    string añoLibroNuevo = Console.ReadLine();
 
     Console.WriteLine(@$"
     ============================================
@@ -426,7 +426,7 @@ static void EditBookYearCategory()
     cambio de categoria de {nombreCategoriaLibroAntiguo},
     a {nombreCategoriaLibroNuevo}, y el año
     cambio de {añoLibroAntiguo}, a {añoLibroNuevo}.
-    ") ;
+    ");
 }
 
 static void DeleteBook()
@@ -437,8 +437,8 @@ static void DeleteBook()
     ===========================================================
     ");
 
-    Console.WriteLine("Ingrese el nombre del libro  que desea eliminar ->") ;
-    string nombreLibroEliminar = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el nombre del libro  que desea eliminar ->");
+    string nombreLibroEliminar = Console.ReadLine();
 
     Console.WriteLine(@$"
     ===================================
@@ -447,14 +447,14 @@ static void DeleteBook()
     El libro {nombreLibroEliminar}, 
     a sido totalmente eliminado en 
     la bases de datos correctamente.
-    ") ;
+    ");
 }
 
 static void ShowUsersMenu()
 {
-    byte opcionElegidaUsuario ;
+    byte opcionElegidaUsuario;
 
-   do
+    do
     {
         Console.WriteLine(@"
     ============================
@@ -478,23 +478,23 @@ static void ShowUsersMenu()
         switch (opcionElegidaUsuario)
         {
             case 1:
-                RegisterUser() ; 
+                RegisterUser();
                 break;
 
             case 2:
-                ListUsers()() ;
+                ListUsers();
                 break;
 
             case 3:
-                ViewUserDetail() ;
+                ViewUserDetail();
                 break;
 
             case 4:
-                UpdateUserMenu() ;
+                UpdateUserMenu();
                 break;
 
             case 5:
-                DeleteUser() ;
+                DeleteUser();
                 break;
 
             case 6:
@@ -502,11 +502,11 @@ static void ShowUsersMenu()
                 break;
 
             default:
-                Console.WriteLine("Numero ingresado incorrecto, es del uno al 6") ;
+                Console.WriteLine("Numero ingresado incorrecto, es del uno al 6");
                 break;
         }
     }
-    while (opcionElegidaUsuario != 6); 
+    while (opcionElegidaUsuario != 6);
 }
 
 static void RegisterUser()
@@ -517,20 +517,20 @@ static void RegisterUser()
     =========================================================
     ");
 
-    Console.WriteLine("Ingrese el nombre del usuario ->") ;
-    string nombreUsuario = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el nombre del usuario ->");
+    string nombreUsuario = Console.ReadLine();
 
-    Console.WriteLine("Ingrese el apellido del usuario ->") ;
-    string apellidoUsuario = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el apellido del usuario ->");
+    string apellidoUsuario = Console.ReadLine();
 
-    Console.WriteLine("Ingrese la edad del usuario ->") ;
-    string edadUsuario = Console.ReadLine() ;
+    Console.WriteLine("Ingrese la edad del usuario ->");
+    string edadUsuario = Console.ReadLine();
 
-    Console.WriteLine("Ingrese el documento del usuario ->") ;
-    string documentoUsuario = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el documento del usuario ->");
+    string documentoUsuario = Console.ReadLine();
 
-    Console.WriteLine("Ingrese el telefono del usuario ->") ;
-    string telefonoUsuario = Console.ReadLine() ;
+    Console.WriteLine("Ingrese el telefono del usuario ->");
+    string telefonoUsuario = Console.ReadLine();
 
     Console.WriteLine($@"
     ========================================
@@ -543,4 +543,30 @@ static void RegisterUser()
     Telefono -> {telefonoUsuario}.
     ====================================
     ");
+}
+
+static void ListUsers()
+{
+    Console.WriteLine(@"
+    ====================================================
+    === Opcion listar usuarios elegida correctamente ===
+    ====================================================
+    ");
+
+    Console.WriteLine(@"
+    =======================
+    == Lista de usuarios ==
+    =======================
+    - Carlos - Gómez - 25 - 1039485721 - 3001234567
+    - María - López - 32 - 1012938475 - 3109876543
+    - Juan - Ramírez - 19 - 1002345678 - 3123456789
+    - Ana - Martínez - 45 - 43567891 - 3156789123
+    - Luis - Torres - 28 - 1023456789 - 3112345678
+    - Laura - Sánchez - 22 - 1056789123 - 3209876543
+    - Pedro - Castro - 50 - 71234567 - 3187654321
+    - Sofía - Herrera - 30 - 1034567890 - 3012345678
+    - Andrés - Rojas - 21 - 1045678901 - 3023456789
+    - Camila - Vargas - 27 - 1098765432 - 3145678901
+    ") ;
+
 }
