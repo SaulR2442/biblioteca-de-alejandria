@@ -718,3 +718,24 @@ static void EditUserAge()
     a {edadNuevo}.
     "); 
 }
+
+static void DeleteUser()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de eliminar usuario elegida correctamente ===
+    ========================================================
+    ");
+
+    Console.WriteLine("Ingrese el nombre del usuario  que desea eliminar ->");
+    string nombreUsuarioEliminar = Console.ReadLine();
+
+    Console.WriteLine(@$"
+    ===================================
+    == Usuario eliminado correctamente ==
+    ===================================
+    El libro {nombreUsuarioEliminar}, 
+    a sido totalmente eliminado en 
+    la bases de datos correctamente.
+    ");
+}
