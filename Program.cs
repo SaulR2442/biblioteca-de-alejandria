@@ -106,8 +106,8 @@ static void ShowBooksMenu()
                 UpdateBookMenu() ;
                 break;
 
-            case 5:
-                // DeleteBook()
+                case 5:
+                    DeleteBook() ;
                 break;
 
             case 6:
@@ -405,3 +405,23 @@ static void EditBookYearCategory()
     ") ;
 }
 
+static void DeleteBook()
+{
+    Console.WriteLine(@"
+    ===========================================================
+    === Opcion de eliminar los libros elegida correctamente ===
+    ===========================================================
+    ");
+
+    Console.WriteLine("Ingrese el nombre del libro  que desea eliminar ->") ;
+    string nombreLibroEliminar = Console.ReadLine() ;
+
+    Console.WriteLine(@$"
+    ===================================
+    == Libro eliminado correctamente ==
+    ===================================
+    El libro {nombreLibroEliminar}, 
+    a sido totalmente eliminado en 
+    la bases de datos correctamente.
+    ") ;
+}
