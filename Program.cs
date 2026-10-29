@@ -32,7 +32,7 @@ static void ShowMainMenu()
         switch (opcionElegidaMenu)
         {
             case 1:
-                // ShowBooksMenu()
+                ShowBooksMenu() ;
                 break;
 
             case 2:
@@ -53,6 +53,10 @@ static void ShowMainMenu()
 
             case 6:
                 // ConfirmExitAndSave()
+                break;
+
+            default:
+                Console.WriteLine("Numero ingresado incorrecto, es del uno al 6") ;
                 break;
         }
     }
@@ -91,7 +95,7 @@ static void ShowBooksMenu()
                 break;
 
             case 2:
-                // ListBooksMenu()
+                ListBooksMenu() ;
                 break;
 
             case 3:
@@ -108,6 +112,10 @@ static void ShowBooksMenu()
 
             case 6:
                 // Se vuelve al menu principal automaticamente
+                break;
+
+            default:
+                Console.WriteLine("Numero ingresado incorrecto, es del uno al 6") ;
                 break;
         }
     }
@@ -148,4 +156,96 @@ static void RegisterBook()
     id / isbn -> {idLibro}.
     ====================================
     ");
+}
+
+static void ListBooksMenu()
+{
+    byte opcionListarLibro ;
+
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Listar libros elegida correctamente ===
+    ========================================================
+    ");
+
+    Console.WriteLine(@"
+    =====================================
+    == Que desea hacer especificamente ==
+    =====================================
+    1. Listar todos los libros.
+    2. Listar solo los libros disponibles.
+    3. Listar libros prestados.
+    ") ;
+
+    while (!byte.TryParse(Console.ReadLine(), out opcionListarLibro))
+    {
+        Console.WriteLine("Opcion no valida, vuelva y elija otra ->");
+    }
+
+    switch (opcionListarLibro)
+    {
+        case 1:
+            ListBooksAll() ;
+            break;
+
+        case 2:
+            ListBooksAvailable() ;
+            break;
+
+        case 3:
+            ListBooksBorrowed() ;
+            break;
+
+        default:
+            Console.WriteLine("Numero ingresado incorrecto, es del uno al 3") ;
+            break;
+        
+    }
+}
+
+static void ListBooksAll()
+{
+    Console.WriteLine(@"
+    ======================
+    == Todos los libros ==
+    ======================
+    • Cien años de soledad – Gabriel García Márquez
+    • La vorágine – José Eustasio Rivera
+    • María – Jorge Isaacs
+    • El olvido que seremos – Héctor Abad Faciolince
+    • Delirio – Laura Restrepo
+    • Satanás – Mario Mendoza
+    • La perra – Pilar Quintana
+    • El ruido de las cosas al caer – Juan Gabriel Vásquez
+    • Changó, el gran putas – Manuel Zapata Olivella
+    • La tejedora de coronas – Germán Espinosa
+    ") ;
+} 
+
+static void ListBooksAvailable()
+{
+    Console.WriteLine(@"
+    ==================================
+    == Todos los libros disponibles ==
+    ==================================
+    • La vorágine – José Eustasio Rivera
+    • María – Jorge Isaacs
+    • Satanás – Mario Mendoza
+    • La perra – Pilar Quintana
+    • Changó, el gran putas – Manuel Zapata Olivella
+    • La tejedora de coronas – Germán Espinosa
+    ") ;
+}
+
+static void ListBooksBorrowed()
+{
+    Console.WriteLine(@"
+    ================================
+    == Todos los libros prestados ==
+    ================================
+    • Cien años de soledad – Gabriel García Márquez 
+    • El olvido que seremos – Héctor Abad Faciolince 
+    • Delirio – Laura Restrepo 
+    • El ruido de las cosas al caer – Juan Gabriel Vásquez 
+    ") ;
 }
