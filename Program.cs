@@ -450,4 +450,61 @@ static void DeleteBook()
     ") ;
 }
 
+static void ShowUsersMenu()
+{
+    byte opcionElegidaUsuario ;
 
+   do
+    {
+        Console.WriteLine(@"
+    ============================
+    ====== Menu usuarios =======
+    ============================
+    1. Registrar usuario.
+    2. Listar usuario.
+    3. Ver detalle por usuario (por ID/documento).
+    4. Actualizar usuario.
+    5. Eliminar usuario.
+    6. Salir al menu principal
+    ==========================
+    Ingrese su opcion (solo el numero) -> 
+    ");
+
+        while (!byte.TryParse(Console.ReadLine(), out opcionElegidaUsuario))
+        {
+            Console.WriteLine("Opcion no valida, vuelva y elija otra ->");
+        }
+
+        switch (opcionElegidaUsuario)
+        {
+            case 1:
+                RegisterUser() ; 
+                break;
+
+            case 2:
+                ListUsers()() ;
+                break;
+
+            case 3:
+                ViewUserDetail() ;
+                break;
+
+            case 4:
+                UpdateUserMenu() ;
+                break;
+
+            case 5:
+                DeleteUser() ;
+                break;
+
+            case 6:
+                // Se vuelve al menu principal automaticamente
+                break;
+
+            default:
+                Console.WriteLine("Numero ingresado incorrecto, es del uno al 6") ;
+                break;
+        }
+    }
+    while (opcionElegidaUsuario != 6); 
+}
