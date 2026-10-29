@@ -450,6 +450,24 @@ static void DeleteBook()
     ");
 }
 
+/*
+En la rama feature/users-menu, se agrego lo siguiente:
+
+2.1Registrar usuario
+
+2.2 Listar usuarios
+
+2.3 Ver detalle de usuario (por ID/documento)
+
+2.4 Actualizar usuario
+
+- 2.4.1 Editar nombre
+- 2.4.2 Editar contacto
+- 2.4.3 Activar / desactivar
+    
+    2.5 Eliminar usuario
+*/
+
 static void ShowUsersMenu()
 {
     byte opcionElegidaUsuario;
