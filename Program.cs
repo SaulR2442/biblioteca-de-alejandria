@@ -32,15 +32,15 @@ static void ShowMainMenu()
         switch (opcionElegidaMenu)
         {
             case 1:
-                ShowBooksMenu();
+                ShowBooksMenu() ;
                 break;
 
             case 2:
-                ShowUsersMenu();
+                ShowUsersMenu() ;
                 break;
 
             case 3:
-                // ShowLoansMenu()
+                ShowLoansMenu() ;
                 break;
 
             case 4:
@@ -749,11 +749,95 @@ static void DeleteUser()
     string nombreUsuarioEliminar = Console.ReadLine();
 
     Console.WriteLine(@$"
-    ===================================
+    =====================================
     == Usuario eliminado correctamente ==
-    ===================================
+    =====================================
     El libro {nombreUsuarioEliminar}, 
     a sido totalmente eliminado en 
     la bases de datos correctamente.
     ");
+}
+
+/*
+En la rama feature/loans-menu se realizo las siguientes cosas:
+Crear préstamo
+
+- Validaciones:
+    - usuario existe y está activo
+    - libro existe y está disponible
+    - (opcional) máximo de préstamos activos por usuario
+        
+        3.2 Listar préstamos
+        
+- 3.2.1 Todos
+- 3.2.2 Activos
+- 3.2.3 Cerrados (devueltos)
+    
+    3.3 Ver detalle de préstamo (por ID)
+    
+    3.4 Registrar devolución
+    
+- Cambia el préstamo a “devuelto”
+- Marca el libro como “disponible”
+    
+    3.5 Eliminar préstamo
+*/
+
+static void ShowLoansMenu()
+{
+     byte opcionElegidaPrestamos;
+
+    do
+    {
+        Console.WriteLine(@"
+    =============================
+    ====== Menu prestamos =======
+    =============================
+    1.  Crear prestamo.
+    2. Listar prestamos.
+    3. Ver detalle por prestamos (por ID).
+    4. Registrar devolucion.
+    5. Eliminar prestamo.
+    6. Salir al menu principal
+    ==========================
+    Ingrese su opcion (solo el numero) -> 
+    ");
+
+        while (!byte.TryParse(Console.ReadLine(), out opcionElegidaPrestamos))
+        {
+            Console.WriteLine("Opcion no valida, vuelva y elija otra ->");
+        }
+
+        switch (opcionElegidaPrestamos)
+        {
+            case 1:
+                CreateLoan();
+                break;
+
+            case 2:
+                ListLoansMenu();
+                break;
+
+            case 3:
+                ViewLoanDetail();
+                break;
+
+            case 4:
+                RegisterReturn();
+                break;
+
+            case 5:
+                DeleteLoan();
+                break;
+
+            case 6:
+                // Se vuelve al menu principal automaticamente
+                break;
+
+            default:
+                Console.WriteLine("Numero ingresado incorrecto, es del uno al 6");
+                break;
+        }
+    }
+    while (opcionElegidaPrestamos != 6);
 }
