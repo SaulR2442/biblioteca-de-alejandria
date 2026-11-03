@@ -479,8 +479,8 @@ static void ShowUsersMenu()
     ====== Menu usuarios =======
     ============================
     1. Registrar usuario.
-    2. Listar usuario.
-    3. Ver detalle por usuario (por ID/documento).
+    2. Listar usuarios.
+    3. Ver detalle de usuario (por ID/documento).
     4. Actualizar usuario.
     5. Eliminar usuario.
     6. Salir al menu principal
