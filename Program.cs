@@ -1080,3 +1080,25 @@ static void ShowSearchReportsMenu()
     }
     while (opcionElegidaBuscar != 4);
 }
+
+static void SearchBook()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Buscar libro elegida correctamente   ===
+    ========================================================
+    ");
+
+    Console.WriteLine("Ingrese el titulo, autor, id o categoria del libro ->");
+    string busquedaLibro = Console.ReadLine();
+
+    Console.WriteLine($@"
+    ========================================
+    == Resultado de busqueda de libro (simulado) ==
+    ========================================
+    Busqueda: {busquedaLibro}
+    - Libro encontrado: Cien años de soledad - Gabriel García Márquez
+    - Libro encontrado: La vorágine - José Eustasio Rivera
+    ========================================
+    ");
+}
