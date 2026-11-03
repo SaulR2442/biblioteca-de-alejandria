@@ -1366,3 +1366,25 @@ static void LoadData()
     ========================================
     ");
 }
+
+static bool ConfirmResetData()
+{
+    char respuestaConfirmacion;
+
+    Console.WriteLine(@"
+    =========================================
+    == Esta seguro de reiniciar los datos? ==
+    == Se eliminaran todos los registros.  ==
+    =========================================
+    Ingrese S para confirmar o N para cancelar -> 
+    ");
+
+    while (!char.TryParse(Console.ReadLine(), out respuestaConfirmacion) ||
+           (respuestaConfirmacion != 'S' && respuestaConfirmacion != 's' &&
+            respuestaConfirmacion != 'N' && respuestaConfirmacion != 'n'))
+    {
+        Console.WriteLine("Opcion no valida, ingrese S o N ->");
+    }
+
+    return respuestaConfirmacion == 'S' || respuestaConfirmacion == 's';
+}
