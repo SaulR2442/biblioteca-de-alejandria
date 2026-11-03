@@ -1224,3 +1224,21 @@ static void ReportByBook()
     ========================================
     ");
 }
+
+static void ReportOverdue()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Reporte vencidos elegida ===
+    ========================================================
+    ");
+
+    Console.WriteLine(@"
+    ========================================
+    == Reporte de prestamos vencidos (simulado) ==
+    ========================================
+    - Préstamo ID: 003 - Libro: María - Usuario: Juan Ramírez - Vencido desde: 15/10/2026
+    - Préstamo ID: 004 - Libro: Delirio - Usuario: Ana Martínez - Vencido desde: 20/10/2026
+    ========================================
+    ");
+}
