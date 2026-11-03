@@ -445,8 +445,8 @@ static void DeleteBook()
     == Libro eliminado correctamente ==
     ===================================
     El libro {nombreLibroEliminar}, 
-    a sido totalmente eliminado en 
-    la bases de datos correctamente.
+    ha sido totalmente eliminado en 
+    la base de datos correctamente.
     ");
 }
 
