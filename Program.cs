@@ -874,3 +874,58 @@ static void CreateLoan()
     ========================================
     ");
 }
+
+static void ListLoansMenu()
+{
+    byte opcionListarPrestamo;
+
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Listar préstamos elegida correctamente ===
+    ========================================================
+    ");
+
+    Console.WriteLine(@"
+    =====================================
+    == Que desea hacer especificamente ==
+    =====================================
+    1. Listar todos los préstamos.
+    2. Listar préstamos activos.
+    3. Listar préstamos cerrados.
+    ");
+
+    while (!byte.TryParse(Console.ReadLine(), out opcionListarPrestamo))
+    {
+        Console.WriteLine("Opcion no valida, vuelva y elija otra ->");
+    }
+
+    switch (opcionListarPrestamo)
+    {
+        case 1:
+            ListLoansAll();
+            break;
+
+        case 2:
+            ListLoansActive();
+            break;
+
+        case 3:
+            ListLoansClosed();
+            break;
+
+        default:
+            Console.WriteLine("Numero ingresado incorrecto, es del uno al 3");
+            break;
+    }
+}
+
+static void ListLoansAll()
+{
+    Console.WriteLine(@"
+    ===========================
+    == Todos los préstamos   ==
+    ===========================
+    - Préstamo ID: 001 - Libro: Cien años de soledad - Usuario: Carlos Gómez
+    - Préstamo ID: 002 - Libro: El olvido que seremos - Usuario: María López
+    ");
+}
