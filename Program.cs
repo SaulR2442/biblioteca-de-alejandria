@@ -1178,3 +1178,26 @@ static void ShowReportsMenu()
     }
     while (opcionReporte != 5);
 }
+
+static void ReportByUser()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Reporte por usuario elegida ===
+    ========================================================
+    ");
+
+    Console.WriteLine("Ingrese el nombre o ID del usuario ->");
+    string idUsuarioReporte = Console.ReadLine();
+
+    Console.WriteLine($@"
+    ========================================
+    == Reporte por usuario (simulado) ==
+    ========================================
+    Usuario: {idUsuarioReporte}
+    - Prestamos activos: 1
+    - Prestamos cerrados: 2
+    - Multas pendientes: 0
+    ========================================
+    ");
+}
