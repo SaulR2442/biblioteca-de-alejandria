@@ -420,7 +420,7 @@ static void EditBookYearCategory()
 
     Console.WriteLine(@$"
     ============================================
-    == Categoria y año guardado correctamente ==
+    == Categoria y año guardados correctamente ==
     ============================================
     El libro {nombreLibroEditarCategoria},
     cambio de categoria de {nombreCategoriaLibroAntiguo},
