@@ -1339,3 +1339,30 @@ static void SaveData()
     ========================================
     ");
 }
+
+static void LoadData()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Cargar datos elegida correctamente   ===
+    ========================================================
+    ");
+
+    Console.WriteLine("Ingrese el nombre del archivo para cargar ->");
+    string nombreArchivo = Console.ReadLine();
+
+    Console.WriteLine(@"
+    ========================================
+    == Cargando datos (simulado) ==
+    ========================================
+    - Deserializando libros...
+    - Deserializando usuarios...
+    - Deserializando prestamos...
+    ");
+
+    Console.WriteLine($@"
+    ========================================
+    === Datos cargados desde: {nombreArchivo} ===
+    ========================================
+    ");
+}
