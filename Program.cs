@@ -973,3 +973,33 @@ static void ViewLoanDetail()
     ========================================
     ");
 }
+
+static void RegisterReturn()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Registrar devolucion elegida ===
+    ========================================================
+    ");
+
+    Console.WriteLine("Ingrese el ID del préstamo a devolver ->");
+    string idPrestamo = Console.ReadLine();
+
+    Console.WriteLine(@"
+    ===========================================
+    == Registro de devolucion (simulado) ==
+    ===========================================
+    - Marcando el préstamo como devuelto...
+    - Marcando el libro como disponible...
+    ");
+
+    Console.WriteLine($@"
+    ========================================
+    === Devolución registrada correctamente ===
+    ========================================
+    Préstamo ID: {idPrestamo}
+    Estado: Devuelto
+    Libro disponible
+    ========================================
+    ");
+}
