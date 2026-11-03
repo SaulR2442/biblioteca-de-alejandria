@@ -1201,3 +1201,26 @@ static void ReportByUser()
     ========================================
     ");
 }
+
+static void ReportByBook()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Reporte por libro elegida ===
+    ========================================================
+    ");
+
+    Console.WriteLine("Ingrese el titulo o ID del libro ->");
+    string idLibroReporte = Console.ReadLine();
+
+    Console.WriteLine($@"
+    ========================================
+    == Reporte por libro (simulado) ==
+    ========================================
+    Libro: {idLibroReporte}
+    - Estado: Prestado
+    - Usuario actual: Carlos Gómez
+    - Historial de prestamos: 3
+    ========================================
+    ");
+}
