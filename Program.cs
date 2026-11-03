@@ -48,7 +48,7 @@ static void ShowMainMenu()
                 break;
 
             case 5:
-                // ShowPersistenceMenu()
+                ShowPersistenceMenu();
                 break;
 
             case 6:
@@ -1030,6 +1030,55 @@ static void DeleteLoan()
     Préstamo ID: {idPrestamo}
     ========================================
     ");
+}
+
+static void ShowPersistenceMenu()
+{
+    byte opcionElegidaPersistencia;
+
+    do
+    {
+        Console.WriteLine(@"
+    ===================================
+    === Menu Guardar / Cargar datos ===
+    ===================================
+    1. Guardar datos.
+    2. Cargar datos.
+    3. Reiniciar datos.
+    4. Salir al menu principal
+    ===================================
+    Ingrese su opcion (solo el numero) -> 
+    ");
+
+        while (!byte.TryParse(Console.ReadLine(), out opcionElegidaPersistencia))
+        {
+            Console.WriteLine("Opcion no valida, vuelva y elija otra ->");
+        }
+
+        switch (opcionElegidaPersistencia)
+        {
+            case 1:
+                SaveData();
+                break;
+
+            case 2:
+                LoadData();
+                break;
+
+            case 3:
+                ResetData();
+                break;
+
+            case 4:
+                // Se vuelve al menu principal automaticamente
+                break;
+
+            default:
+                Console.WriteLine("Numero ingresado incorrecto, es del uno al 4");
+                break;
+        }
+    }
+    while (opcionElegidaPersistencia != 4);
 }
 
 static void ShowSearchReportsMenu()
