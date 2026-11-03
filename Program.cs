@@ -387,7 +387,7 @@ static void EditBookAuthor()
 
     Console.WriteLine(@$"
     ===================================
-    == Nombre guardado correctamente ==
+    == Autor guardado correctamente  ==
     ===================================
     El libro {nombreLibroEditarAutor},
     cambio de autor de {nombreAutorLibroAntiguo},
