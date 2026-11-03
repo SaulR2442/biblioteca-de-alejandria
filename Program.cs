@@ -1312,3 +1312,30 @@ static void ReportSummary()
     ========================================
     ");
 }
+
+static void SaveData()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Guardar datos elegida correctamente   ===
+    ========================================================
+    ");
+
+    Console.WriteLine("Ingrese el nombre del archivo para guardar ->");
+    string nombreArchivo = Console.ReadLine();
+
+    Console.WriteLine(@"
+    ========================================
+    == Guardando datos (simulado) ==
+    ========================================
+    - Serializando libros...
+    - Serializando usuarios...
+    - Serializando prestamos...
+    ");
+
+    Console.WriteLine($@"
+    ========================================
+    === Datos guardados en: {nombreArchivo} ===
+    ========================================
+    ");
+}
