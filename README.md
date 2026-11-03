@@ -1,26 +1,66 @@
 # Biblioteca de Alejandría
 
-Este proyecto es una aplicación de consola en C# que implementa la estructura de navegación y las funcionalidades básicas de gestión para una biblioteca.
+Este proyecto es una aplicación de consola en C# que implementa la navegación por menús y las funcionalidades básicas de gestión para una biblioteca.
 
-### Resumen del Estado Actual
+El sistema es una simulación: no usa base de datos, colecciones reales ni programación orientada a objetos. Cada opción del menú invoca una función que muestra mensajes descriptivos por consola.
 
-#### Funcionalidades implementadas:
-*   **Menú Principal**: Interfaz de navegación para acceder a los distintos módulos.
-*   **Módulo de Libros**:
+## Resumen del estado actual
+
+### Funcionalidades implementadas
+
+*   **Menú principal**: navegación hacia todos los módulos y opción de salida con confirmación.
+*   **Módulo de libros**:
     *   Registro de libros.
     *   Listado de libros (todos, disponibles, prestados).
     *   Visualización de detalles.
     *   Actualización de información (título, autor, año/categoría).
     *   Eliminación de libros.
-*   **Módulo de Usuarios**:
+*   **Módulo de usuarios**:
     *   Registro de usuarios.
     *   Listado de usuarios.
     *   Visualización de detalles.
-    *   Actualización de información (nombre, teléfono, edad).
+    *   Actualización de información (nombre, contacto, activar/desactivar).
     *   Eliminación de usuarios.
+*   **Módulo de préstamos**:
+    *   Creación de préstamos con validaciones simuladas.
+    *   Listado de préstamos (todos, activos, cerrados).
+    *   Detalle de préstamo por ID.
+    *   Registro de devoluciones.
+    *   Eliminación de préstamos.
+*   **Búsquedas y reportes**:
+    *   Búsqueda de libros (título, autor, ID/ISBN, categoría).
+    *   Búsqueda de usuarios (nombre, ID/documento).
+    *   Reportes por usuario, por libro, de vencidos y resumen general.
+*   **Guardar / Cargar datos**:
+    *   Guardado simulado de datos.
+    *   Carga simulada de datos.
+    *   Reinicio de datos con confirmación S/N.
+*   **Salida**:
+    *   Confirmación para guardar antes de salir (S/N).
 
-#### Características técnicas:
+### Características técnicas
+
 *   Uso de estructuras `do-while` y `switch-case` para la navegación por menús.
-*   Implementación de validación básica de entradas del usuario utilizando `TryParse`.
+*   Validación básica de entradas del usuario utilizando `TryParse`.
 *   Interfaz basada completamente en consola (`Console.WriteLine`).
-*   **Nota**: Actualmente, el sistema no cuenta con persistencia de datos; todas las operaciones son simuladas y los datos se manejan únicamente de forma temporal durante la ejecución.
+*   Funciones estáticas y datos simulados; no hay persistencia real.
+*   El menú principal se invoca al iniciar la aplicación.
+
+## Estructura Git Flow
+
+El desarrollo se organizó con ramas `feature/*` fusionadas a `develop`:
+
+*   `feature/project-bootstrap`
+*   `feature/main-menu-navigation`
+*   `feature/books-menu`
+*   `feature/users-menu`
+*   `feature/loans-menu`
+*   `feature/search-reports-menu`
+*   `feature/persistence-menu`
+*   `feature/exit-flow`
+
+Al finalizar, se integra `develop` en `main` y, opcionalmente, se crea el tag `v0.1-menu`.
+
+## Nota
+
+Todas las operaciones son simuladas. Los datos no se guardan en disco ni en una base de datos; solo se muestran mensajes por consola durante la ejecución.
