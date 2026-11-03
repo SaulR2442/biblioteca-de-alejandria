@@ -949,3 +949,27 @@ static void ListLoansClosed()
     - Préstamo ID: 002 - Libro: El olvido que seremos - Usuario: María López
     ");
 }
+
+static void ViewLoanDetail()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Ver detalle de préstamo elegida ===
+    ========================================================
+    ");
+
+    Console.WriteLine("Ingrese el ID del préstamo ->");
+    string idPrestamo = Console.ReadLine();
+
+    Console.WriteLine($@"
+    ========================================
+    == Detalle del préstamo (simulado) ==
+    ========================================
+    Préstamo ID: {idPrestamo}
+    Libro: Cien años de soledad
+    Usuario: Carlos Gómez
+    Estado: Activo
+    Fecha prestamo: 02/11/2026
+    ========================================
+    ");
+}
