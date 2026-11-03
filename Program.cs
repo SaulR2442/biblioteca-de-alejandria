@@ -841,3 +841,36 @@ static void ShowLoansMenu()
     }
     while (opcionElegidaPrestamos != 6);
 }
+
+static void CreateLoan()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Crear préstamo elegida correctamente   ===
+    ========================================================
+    ");
+
+    Console.WriteLine("Ingrese el ID del usuario ->");
+    string idUsuario = Console.ReadLine();
+
+    Console.WriteLine("Ingrese el ID del libro ->");
+    string idLibro = Console.ReadLine();
+
+    Console.WriteLine(@"
+    ===========================================
+    == Validaciones de préstamo (simuladas) ==
+    ===========================================
+    - Verificando si usuario existe y está activo...
+    - Verificando si libro existe y está disponible...
+    - Verificando límite de préstamos...
+    ");
+
+    Console.WriteLine($@"
+    ========================================
+    === Préstamo creado correctamente    ===
+    ========================================
+    Usuario ID: {idUsuario}
+    Libro ID: {idLibro}
+    ========================================
+    ");
+}
