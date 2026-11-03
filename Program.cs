@@ -44,7 +44,7 @@ static void ShowMainMenu()
                 break;
 
             case 4:
-                // ShowSearchReportsMenu()
+                ShowSearchReportsMenu();
                 break;
 
             case 5:
@@ -1030,4 +1030,53 @@ static void DeleteLoan()
     Préstamo ID: {idPrestamo}
     ========================================
     ");
+}
+
+static void ShowSearchReportsMenu()
+{
+    byte opcionElegidaBuscar;
+
+    do
+    {
+        Console.WriteLine(@"
+    ===================================
+    === Menu Buscar y Reportar   ===
+    ===================================
+    1. Buscar libro.
+    2. Buscar usuario.
+    3. Reportes.
+    4. Salir al menu principal
+    ===================================
+    Ingrese su opcion (solo el numero) -> 
+    ");
+
+        while (!byte.TryParse(Console.ReadLine(), out opcionElegidaBuscar))
+        {
+            Console.WriteLine("Opcion no valida, vuelva y elija otra ->");
+        }
+
+        switch (opcionElegidaBuscar)
+        {
+            case 1:
+                SearchBook();
+                break;
+
+            case 2:
+                SearchUser();
+                break;
+
+            case 3:
+                ShowReportsMenu();
+                break;
+
+            case 4:
+                // Se vuelve al menu principal automaticamente
+                break;
+
+            default:
+                Console.WriteLine("Numero ingresado incorrecto, es del uno al 4");
+                break;
+        }
+    }
+    while (opcionElegidaBuscar != 4);
 }
