@@ -1102,3 +1102,25 @@ static void SearchBook()
     ========================================
     ");
 }
+
+static void SearchUser()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Buscar usuario elegida correctamente ===
+    ========================================================
+    ");
+
+    Console.WriteLine("Ingrese el nombre o ID del usuario ->");
+    string busquedaUsuario = Console.ReadLine();
+
+    Console.WriteLine($@"
+    ========================================
+    == Resultado de busqueda de usuario (simulado) ==
+    ========================================
+    Busqueda: {busquedaUsuario}
+    - Usuario encontrado: Carlos Gómez - ID: 1039485721
+    - Usuario encontrado: María López - ID: 1012938475
+    ========================================
+    ");
+}
