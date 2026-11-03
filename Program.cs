@@ -1242,3 +1242,24 @@ static void ReportOverdue()
     ========================================
     ");
 }
+
+static void ReportSummary()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Resumen general elegida ===
+    ========================================================
+    ");
+
+    Console.WriteLine(@"
+    ========================================
+    == Resumen general del sistema (simulado) ==
+    ========================================
+    - Total libros registrados: 12
+    - Total usuarios registrados: 10
+    - Total prestamos activos: 4
+    - Total prestamos cerrados: 6
+    - Prestamos vencidos: 2
+    ========================================
+    ");
+}
