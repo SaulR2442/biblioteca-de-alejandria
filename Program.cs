@@ -929,3 +929,13 @@ static void ListLoansAll()
     - Préstamo ID: 002 - Libro: El olvido que seremos - Usuario: María López
     ");
 }
+
+static void ListLoansActive()
+{
+    Console.WriteLine(@"
+    ===========================
+    == Préstamos activos     ==
+    ===========================
+    - Préstamo ID: 001 - Libro: Cien años de soledad - Usuario: Carlos Gómez
+    ");
+}
