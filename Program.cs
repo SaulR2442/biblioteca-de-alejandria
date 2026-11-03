@@ -52,7 +52,7 @@ static void ShowMainMenu()
                 break;
 
             case 6:
-                // ConfirmExitAndSave()
+                ConfirmExitAndSave();
                 break;
 
             default:
@@ -1420,6 +1420,48 @@ static void ResetData()
     Console.WriteLine(@"
     ========================================
     === Datos reiniciados correctamente  ===
+    ========================================
+    ");
+}
+
+static void ConfirmExitAndSave()
+{
+    char respuestaGuardar;
+
+    Console.WriteLine(@"
+    =========================================
+    == Desea guardar antes de salir? (S/N) ==
+    =========================================
+    Ingrese S para guardar o N para salir sin guardar -> 
+    ");
+
+    while (!char.TryParse(Console.ReadLine(), out respuestaGuardar) ||
+           (respuestaGuardar != 'S' && respuestaGuardar != 's' &&
+            respuestaGuardar != 'N' && respuestaGuardar != 'n'))
+    {
+        Console.WriteLine("Opcion no valida, ingrese S o N ->");
+    }
+
+    if (respuestaGuardar == 'S' || respuestaGuardar == 's')
+    {
+        Console.WriteLine(@"
+    ========================================
+    == Guardando datos antes de salir...  ==
+    ========================================
+    ");
+    }
+    else
+    {
+        Console.WriteLine(@"
+    ========================================
+    == Saliendo sin guardar los datos...  ==
+    ========================================
+    ");
+    }
+
+    Console.WriteLine(@"
+    ========================================
+    === Gracias por usar la Biblioteca   ===
     ========================================
     ");
 }
