@@ -1300,10 +1300,12 @@ static void ReportSummary()
     ========================================
     == Resumen general del sistema (simulado) ==
     ========================================
-    - Total libros registrados: 12
+    - Total libros registrados: 10
+    - Libros disponibles: 6
+    - Libros prestados: 4
     - Total usuarios registrados: 10
-    - Total prestamos activos: 4
-    - Total prestamos cerrados: 6
+    - Total prestamos activos: 1
+    - Total prestamos cerrados: 1
     - Prestamos vencidos: 2
     ========================================
     ");
