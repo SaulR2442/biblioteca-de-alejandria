@@ -1388,3 +1388,38 @@ static bool ConfirmResetData()
 
     return respuestaConfirmacion == 'S' || respuestaConfirmacion == 's';
 }
+
+static void ResetData()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Reiniciar datos elegida correctamente ===
+    ========================================================
+    ");
+
+    if (!ConfirmResetData())
+    {
+        Console.WriteLine(@"
+    ==============================
+    == Reinicio cancelado       ==
+    ==============================
+    Los datos se mantienen intactos.
+        ");
+        return;
+    }
+
+    Console.WriteLine(@"
+    ========================================
+    == Reiniciando datos (simulado) ==
+    ========================================
+    - Eliminando libros...
+    - Eliminando usuarios...
+    - Eliminando prestamos...
+    ");
+
+    Console.WriteLine(@"
+    ========================================
+    === Datos reiniciados correctamente  ===
+    ========================================
+    ");
+}
