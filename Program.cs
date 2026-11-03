@@ -1124,3 +1124,57 @@ static void SearchUser()
     ========================================
     ");
 }
+
+static void ShowReportsMenu()
+{
+    byte opcionReporte;
+
+    do
+    {
+        Console.WriteLine(@"
+    ===================================
+    === Menu Reportes            ===
+    ===================================
+    1. Reporte por usuario.
+    2. Reporte por libro.
+    3. Reporte vencidos.
+    4. Resumen general.
+    5. Salir al menu anterior
+    ===================================
+    Ingrese su opcion (solo el numero) -> 
+    ");
+
+        while (!byte.TryParse(Console.ReadLine(), out opcionReporte))
+        {
+            Console.WriteLine("Opcion no valida, vuelva y elija otra ->");
+        }
+
+        switch (opcionReporte)
+        {
+            case 1:
+                ReportByUser();
+                break;
+
+            case 2:
+                ReportByBook();
+                break;
+
+            case 3:
+                ReportOverdue();
+                break;
+
+            case 4:
+                ReportSummary();
+                break;
+
+            case 5:
+                // Se vuelve al menu anterior automaticamente
+                break;
+
+            default:
+                Console.WriteLine("Numero ingresado incorrecto, es del uno al 5");
+                break;
+        }
+    }
+    while (opcionReporte != 5);
+}
