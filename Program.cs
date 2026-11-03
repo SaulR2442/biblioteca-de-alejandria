@@ -923,6 +923,8 @@ static void ListLoansAll()
     ===========================
     - Préstamo ID: 001 - Libro: Cien años de soledad - Usuario: Carlos Gómez
     - Préstamo ID: 002 - Libro: El olvido que seremos - Usuario: María López
+    - Préstamo ID: 003 - Libro: María - Usuario: Juan Ramírez
+    - Préstamo ID: 004 - Libro: Delirio - Usuario: Ana Martínez
     ");
 }
 
@@ -933,6 +935,8 @@ static void ListLoansActive()
     == Préstamos activos     ==
     ===========================
     - Préstamo ID: 001 - Libro: Cien años de soledad - Usuario: Carlos Gómez
+    - Préstamo ID: 003 - Libro: María - Usuario: Juan Ramírez
+    - Préstamo ID: 004 - Libro: Delirio - Usuario: Ana Martínez
     ");
 }
 
@@ -1334,7 +1338,7 @@ static void ReportSummary()
     - Libros disponibles: 6
     - Libros prestados: 4
     - Total usuarios registrados: 10
-    - Total prestamos activos: 1
+    - Total prestamos activos: 3
     - Total prestamos cerrados: 1
     - Prestamos vencidos: 2
     ========================================
