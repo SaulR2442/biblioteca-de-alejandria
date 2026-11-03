@@ -1463,3 +1463,6 @@ static void ConfirmExitAndSave()
     ========================================
     ");
 }
+
+// Llamada al menu principal para iniciar la aplicacion.
+ShowMainMenu();
