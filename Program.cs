@@ -752,9 +752,9 @@ static void DeleteUser()
     =====================================
     == Usuario eliminado correctamente ==
     =====================================
-    El libro {nombreUsuarioEliminar}, 
-    a sido totalmente eliminado en 
-    la bases de datos correctamente.
+    El usuario {nombreUsuarioEliminar}, 
+    ha sido totalmente eliminado en 
+    la base de datos correctamente.
     ");
 }
 
