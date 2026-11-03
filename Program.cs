@@ -630,7 +630,7 @@ static void UpdateUserMenu()
     =====================================
     1. Editar nombre.
     2. Editar telefono.
-    3. Editar edad.
+    3. Activar / desactivar.
     ");
 
     while (!byte.TryParse(Console.ReadLine(), out opcionActualizarUsuario))
@@ -649,7 +649,7 @@ static void UpdateUserMenu()
             break;
 
         case 3:
-            ;
+            ToggleUserActiveStatus();
             break;
 
         default:
@@ -710,30 +710,26 @@ static void EditUserContact()
     ");
 }
 
-static void EditUserAge()
+static void ToggleUserActiveStatus()
 {
     Console.WriteLine(@"
     ===================================================================
-    === Opcion de editar la edad del usuario elegida correctamente  ===
+    === Opcion de activar / desactivar usuario elegida correctamente ===
     ===================================================================
     ");
 
-    Console.WriteLine("Ingrese el nombre del usuario ->");
-    string nombreUsuarioEdad = Console.ReadLine();
+    Console.WriteLine("Ingrese el documento del usuario ->");
+    string documentoUsuarioEstado = Console.ReadLine();
 
-    Console.WriteLine("Ingrese la antigua edad del usuario ->");
-    string edadAntiguo = Console.ReadLine();
+    Console.WriteLine("Ingrese el nuevo estado del usuario (A = Activo / I = Inactivo) ->");
+    string estadoUsuario = Console.ReadLine();
 
-    Console.WriteLine("Ingrese la nueva edad del usuario ->");
-    string edadNuevo = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    =================================
-    == Edad guardado correctamente ==
-    =================================
-    El usuario {nombreUsuarioEdad}, 
-    actualizo su edad de {edadAntiguo},
-    a {edadNuevo}.
+    Console.WriteLine($@"
+    =====================================
+    == Estado guardado correctamente   ==
+    =====================================
+    El usuario con documento {documentoUsuarioEstado},
+    cambio su estado a {estadoUsuario}.
     ");
 }
 
