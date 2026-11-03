@@ -174,7 +174,7 @@ static void RegisterBook()
     === Libro guardado correctamente ===
     ====================================
     Nombre -> {nombreLibro}.
-    Author -> {nombreAutorLibro}.
+    Autor -> {nombreAutorLibro}.
     Categoria -> {categoriaLibro}.
     Año -> {añoLibro}.
     id / isbn -> {idLibro}.
