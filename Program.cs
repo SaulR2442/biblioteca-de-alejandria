@@ -939,3 +939,13 @@ static void ListLoansActive()
     - Préstamo ID: 001 - Libro: Cien años de soledad - Usuario: Carlos Gómez
     ");
 }
+
+static void ListLoansClosed()
+{
+    Console.WriteLine(@"
+    ===========================
+    == Préstamos cerrados    ==
+    ===========================
+    - Préstamo ID: 002 - Libro: El olvido que seremos - Usuario: María López
+    ");
+}
