@@ -1003,3 +1003,31 @@ static void RegisterReturn()
     ========================================
     ");
 }
+
+static void DeleteLoan()
+{
+    Console.WriteLine(@"
+    ========================================================
+    === Opcion de Eliminar préstamo elegida ===
+    ========================================================
+    ");
+
+    Console.WriteLine("Ingrese el ID del préstamo a eliminar ->");
+    string idPrestamo = Console.ReadLine();
+
+    Console.WriteLine(@"
+    ===========================================
+    == Reglas sugeridas para eliminación ==
+    ===========================================
+    - Validar que el préstamo esté cerrado...
+    - Validar que no haya multas pendientes...
+    ");
+
+    Console.WriteLine($@"
+    ========================================
+    === Préstamo eliminado correctamente ===
+    ========================================
+    Préstamo ID: {idPrestamo}
+    ========================================
+    ");
+}
