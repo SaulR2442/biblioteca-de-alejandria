@@ -1028,6 +1028,16 @@ static void DeleteLoan()
     ");
 }
 
+/*
+En la rama feature/persistence-menu, se hizo lo siguiente:
+
+5.1 Guardar datos (libros, usuarios, préstamos)
+
+5.2 Cargar datos
+
+5.3 Reiniciar datos (vaciar todo), pidiendo confirmación S/N
+*/
+
 static void ShowPersistenceMenu()
 {
     byte opcionElegidaPersistencia;
@@ -1076,6 +1086,26 @@ static void ShowPersistenceMenu()
     }
     while (opcionElegidaPersistencia != 4);
 }
+
+/*
+En la rama feature/search-reports-menu, se hizo lo siguiente:
+
+4.1 Buscar libro
+- por título
+- por autor
+- por ID/ISBN
+- por categoría
+
+4.2 Buscar usuario
+- por nombre
+- por ID/documento
+
+4.3 Reportes
+- préstamos por usuario
+- préstamos por libro
+- préstamos vencidos
+- resumen general: total libros / disponibles / prestados
+*/
 
 static void ShowSearchReportsMenu()
 {
@@ -1421,6 +1451,14 @@ static void ResetData()
     ========================================
     ");
 }
+
+/*
+En la rama feature/exit-flow, se hizo lo siguiente:
+
+6. Salir
+- Preguntar: ¿Guardar antes de salir? (S/N)
+- Llamar al menú principal al iniciar la aplicación.
+*/
 
 static void ConfirmExitAndSave()
 {
