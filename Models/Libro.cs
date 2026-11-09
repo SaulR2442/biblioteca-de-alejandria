@@ -24,6 +24,23 @@ class Libro
         " ;
     }
 
+    public string DetalleCompleto()
+    {
+        return $@"
+        ========================
+        == Detalles Completos ==
+        ========================
+        Nombre del autor -> {NombreAutor}
+        Nombre del libro -> {NombreLibro}
+        Id -> {Id}
+        Disponible -> {Disponible}
+        " ;
+    }
+
+    public override string ToString()
+    {
+        return ResumenCorto() ;
+    }
 
 
     
