@@ -1,11 +1,11 @@
-class Libro
+public class Libro
 {
     public int Id { get; set; } 
     public string NombreAutor { get; set; }
     public string NombreLibro { get; set; }
     public bool Disponible { get; set; }
 
-    public Libro()
+    public Libro ()
     {
         Disponible = true ;
     }
@@ -48,8 +48,5 @@ class Libro
     public override string ToString()
     {
         return ResumenCorto() ;
-    }
-
-
-    
+    }    
 }
