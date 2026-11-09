@@ -5,6 +5,11 @@ class Libro
     public string NombreLibro { get; set; }
     public bool Disponible { get; set; }
 
+    public Libro()
+    {
+        Disponible = true ;
+    }
+
     public Libro(int id, string nombreAutor, string nombreLibro)
     {
         Id = id ;
@@ -26,6 +31,9 @@ class Libro
 
     public string DetalleCompleto()
     {
+
+        string estado = Disponible ? "Sí" : "No";
+
         return $@"
         ========================
         == Detalles Completos ==
@@ -33,7 +41,7 @@ class Libro
         Nombre del autor -> {NombreAutor}
         Nombre del libro -> {NombreLibro}
         Id -> {Id}
-        Disponible -> {Disponible}
+        Disponible -> {estado}
         " ;
     }
 
