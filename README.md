@@ -50,6 +50,15 @@ El sistema utiliza Programación Orientada a Objetos (POO) para modelar las enti
     *   `EstadoPrestamo` (enum)
 *   El menú principal se invoca al iniciar la aplicación.
 
+### Pruebas de modelos (GFPI-F-135 V04)
+
+En la rama `feature/models-testing-objetos` cada funcionalidad instancia objetos
+reales de `Models` y muestra su información en consola:
+
+* `RegisterBook()` → 2 `Libro`, con `ResumenCorto()`, `DetalleCompleto()` y `Disponible`.
+* `RegisterUser()` → 2 `Usuario`, con `ResumenCorto()`, `DetalleCompleto()` y `Activo`.
+* `CreateLoan()` → 1 `Prestamo`, con `ResumenCorto()`, `DetalleCompleto()`, `Estado`, `EstaVencido()` y `DiasTranscurridos()`.
+
 ## Estructura Git Flow
 
 El desarrollo se organizó con ramas `feature/*` fusionadas a `develop`.
