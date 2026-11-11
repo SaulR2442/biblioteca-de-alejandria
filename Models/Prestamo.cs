@@ -3,7 +3,7 @@ using System;
 public class Prestamo
 {
     public string NombreApellido { get; set; }
-    public string Estado { get; set; }
+    public EstadoPrestamo Estado { get; set; }
     public DateTime FechaPrestamo { get; set; }
     public DateTime FechaVencimiento { get; set; }
     public DateTime? FechaDevolucion { get; set; }
@@ -11,7 +11,7 @@ public class Prestamo
     public Prestamo()
     {
         NombreApellido = string.Empty;
-        Estado = "Activo";
+        Estado = EstadoPrestamo.Activo;
         FechaDevolucion = null;
     }
 
@@ -21,7 +21,7 @@ public class Prestamo
         FechaPrestamo = fechaPrestamo;
         FechaVencimiento = fechaVencimiento;
         
-        Estado = "Activo";
+        Estado = EstadoPrestamo.Activo;
         FechaDevolucion = null;
     }
 

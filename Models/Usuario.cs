@@ -1,6 +1,3 @@
-using System.Data;
-using System.Runtime.CompilerServices;
-
 public class Usuario
 {
     
@@ -38,7 +35,7 @@ public class Usuario
     public string DetalleCompleto()
     {
 
-        string EstadoUsuario = Activo ? "Si" : "No" ;
+        string EstadoUsuario = Activo ? "Sí" : "No" ;
 
         return $@"
         ========================
@@ -47,6 +44,7 @@ public class Usuario
         Nombre del usuario -> {NombreUsuario} 
         Apellido del usuario -> {ApellidoUsuario}
         Edad -> {Edad}
+        Estado Activo -> {EstadoUsuario}
         ";
     }
 
