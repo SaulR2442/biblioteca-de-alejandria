@@ -7,6 +7,8 @@ public class Libro
 
     public Libro ()
     {
+        NombreAutor = string.Empty; 
+        NombreLibro = string.Empty;
         Disponible = true ;
     }
 
