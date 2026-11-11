@@ -897,6 +897,21 @@ static void CreateLoan()
     Libro ID: {idLibro}
     ========================================
     ");
+
+    // ===== Pruebas de modelos (GFPI-F-135 V04) =====
+    // Se instancia 1 objeto Prestamo y se muestran sus validaciones.
+    // Fechas pasadas para que las validaciones sean demostrativas.
+    Console.WriteLine("\n--- GFPI-F-135 V04 ---");
+    Prestamo prestamoPrueba = new Prestamo(
+        "Carlos Gómez",
+        DateTime.Now.AddDays(-20),
+        DateTime.Now.AddDays(-5));
+
+    Console.WriteLine(prestamoPrueba.ResumenCorto());
+    Console.WriteLine(prestamoPrueba.DetalleCompleto());
+    Console.WriteLine($"Validacion Estado -> {prestamoPrueba.Estado}");
+    Console.WriteLine($"Validacion EstaVencido() -> {prestamoPrueba.EstaVencido()}");
+    Console.WriteLine($"Validacion DiasTranscurridos() -> {prestamoPrueba.DiasTranscurridos()}");
 }
 
 static void ListLoansMenu()
