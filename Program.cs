@@ -180,6 +180,20 @@ static void RegisterBook()
     id / isbn -> {idLibro}.
     ====================================
     ");
+
+    // ===== Pruebas de modelos (GFPI-F-135 V04) =====
+    // Se instancian 2 objetos Libro y se muestra su informacion en consola.
+    Console.WriteLine("\n--- GFPI-F-135 V04 ---");
+    Libro libro1 = new Libro(1, "Antoine de Saint-Exupéry", "El Principito");
+    Libro libro2 = new Libro(2, "Miguel de Cervantes", "Don Quijote");
+
+    Console.WriteLine(libro1.ResumenCorto());
+    Console.WriteLine(libro1.DetalleCompleto());
+    Console.WriteLine($"Validacion Disponible -> {libro1.Disponible}");
+
+    Console.WriteLine(libro2.ResumenCorto());
+    Console.WriteLine(libro2.DetalleCompleto());
+    Console.WriteLine($"Validacion Disponible -> {libro2.Disponible}");
 }
 
 static void ListBooksMenu()
