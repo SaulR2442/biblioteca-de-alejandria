@@ -575,6 +575,20 @@ static void RegisterUser()
     Telefono -> {telefonoUsuario}.
     ====================================
     ");
+
+    // ===== Pruebas de modelos (GFPI-F-135 V04) =====
+    // Se instancian 2 objetos Usuario y se muestra su informacion en consola.
+    Console.WriteLine("\n--- GFPI-F-135 V04 ---");
+    Usuario usuario1 = new Usuario(1039485721, "Carlos", "Gómez", 25);
+    Usuario usuario2 = new Usuario(1012938475, "María", "López", 32);
+
+    Console.WriteLine(usuario1.ResumenCorto());
+    Console.WriteLine(usuario1.DetalleCompleto());
+    Console.WriteLine($"Validacion Activo -> {usuario1.Activo}");
+
+    Console.WriteLine(usuario2.ResumenCorto());
+    Console.WriteLine(usuario2.DetalleCompleto());
+    Console.WriteLine($"Validacion Activo -> {usuario2.Activo}");
 }
 
 static void ListUsers()
