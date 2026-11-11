@@ -2,7 +2,7 @@
 
 Este proyecto es una aplicación de consola en C# que implementa la navegación por menús y las funcionalidades básicas de gestión para una biblioteca.
 
-El sistema es una simulación: no usa base de datos, colecciones reales ni programación orientada a objetos. Cada opción del menú invoca una función que muestra mensajes descriptivos por consola.
+El sistema utiliza Programación Orientada a Objetos (POO) para modelar las entidades del dominio de la biblioteca.
 
 ## Resumen del estado actual
 
@@ -43,23 +43,16 @@ El sistema es una simulación: no usa base de datos, colecciones reales ni progr
 *   Uso de estructuras `do-while` y `switch-case` para la navegación por menús.
 *   Validación básica de entradas del usuario utilizando `TryParse`.
 *   Interfaz basada completamente en consola (`Console.WriteLine`).
-*   Funciones estáticas y datos simulados; no hay persistencia real.
+*   Uso de POO para la definición de entidades en la carpeta `Models`:
+    *   `Libro`
+    *   `Usuario`
+    *   `Prestamo`
+    *   `EstadoPrestamo` (enum)
 *   El menú principal se invoca al iniciar la aplicación.
 
 ## Estructura Git Flow
 
-El desarrollo se organizó con ramas `feature/*` fusionadas a `develop`:
-
-*   `feature/project-bootstrap`
-*   `feature/main-menu-navigation`
-*   `feature/books-menu`
-*   `feature/users-menu`
-*   `feature/loans-menu`
-*   `feature/search-reports-menu`
-*   `feature/persistence-menu`
-*   `feature/exit-flow`
-
-Al finalizar, se integra `develop` en `main` y, opcionalmente, se crea el tag `v0.1-menu`.
+El desarrollo se organizó con ramas `feature/*` fusionadas a `develop`.
 
 ## Nota
 
