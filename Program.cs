@@ -263,13 +263,10 @@ static void ListBooksAvailable()
     ==================================
     == Todos los libros disponibles ==
     ==================================
-    • La vorágine – José Eustasio Rivera
-    • María – Jorge Isaacs
-    • Satanás – Mario Mendoza
-    • La perra – Pilar Quintana
-    • Changó, el gran putas – Manuel Zapata Olivella
-    • La tejedora de coronas – Germán Espinosa
     ");
+    var libros = libroService.ObtenerDisponibles();
+    if (libros.Count == 0) Console.WriteLine("No hay libros disponibles.");
+    else foreach (var l in libros) Console.WriteLine(l.Linea());
 }
 
 static void ListBooksBorrowed()
@@ -278,11 +275,10 @@ static void ListBooksBorrowed()
     ================================
     == Todos los libros prestados ==
     ================================
-    • Cien años de soledad – Gabriel García Márquez 
-    • El olvido que seremos – Héctor Abad Faciolince 
-    • Delirio – Laura Restrepo 
-    • El ruido de las cosas al caer – Juan Gabriel Vásquez 
     ");
+    var libros = libroService.ObtenerPrestados();
+    if (libros.Count == 0) Console.WriteLine("No hay libros prestados.");
+    else foreach (var l in libros) Console.WriteLine(l.Linea());
 }
 
 static void ViewBookDetail()
@@ -292,22 +288,17 @@ static void ViewBookDetail()
     === Opcion de ver detalle de los libros elegida correctamente ===
     =================================================================
     ");
-
-    Console.WriteLine(@"
-    ========================================
-    == Todos los libros, con sus detalles ==
-    ========================================
-    • Cien años de soledad – Gabriel García Márquez - id: 1967 - Realismo magico
-    • La vorágine – José Eustasio Rivera - id: 1924 - Literatura de la selva / Realismo social
-    • María – Jorge Isaacs - id: 1867 - Romanticismo
-    • El olvido que seremos – Héctor Abad Faciolince - id: 2006 - Literatura de la selva / Realismo social
-    • Delirio – Laura Restrepo - id: 2004 - Drama psicológico / Ficción contemporánea
-    • Satanás – Mario Mendoza id: 2002 - Realismo degradado / Novela negra
-    • La perra – Pilar Quintana - id: 2017 - Drama psicológico / Realismo
-    • El ruido de las cosas al caer – Juan Gabriel Vásquez - id: 2011 - Ficción histórica / Drama contemporáneo
-    • Changó, el gran putas – Manuel Zapata Olivella - id: 1983 - Ficción histórica / Epopeya afroamericana
-    • La tejedora de coronas – Germán Espinosa - id: 1982 - Ficción histórica / Barroco
-    ");
+    Console.WriteLine("Ingrese el ISBN del libro ->");
+    string isbn = Console.ReadLine() ?? "";
+    var libro = libroService.BuscarPorIsbn(isbn);
+    if (libro == null)
+    {
+        Console.WriteLine("Libro no encontrado.");
+    }
+    else
+    {
+        Console.WriteLine(libro.DetalleCompleto());
+    }
 }
 
 static void UpdateBookMenu()
@@ -362,21 +353,16 @@ static void EditBookTitle()
     === Opcion de editar el titulo de los libros elegida correctamente ===
     ======================================================================
     ");
+    Console.WriteLine("Ingrese el ISBN del libro a editar ->");
+    string isbn = Console.ReadLine() ?? "";
+    var libro = libroService.BuscarPorIsbn(isbn);
+    if (libro == null) { Console.WriteLine("Libro no encontrado."); return; }
 
-    Console.WriteLine("Ingrese el antiguo nombre del libro ->");
-    string nombreLibroAntiguo = Console.ReadLine();
-
+    Console.WriteLine($"Titulo actual: {libro.NombreLibro}");
     Console.WriteLine("Ingrese el nuevo nombre del libro ->");
-    string nombreLibroNuevo = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    ===================================
-    == Nombre guardado correctamente ==
-    ===================================
-    El libro {nombreLibroAntiguo}, 
-    actualizo su nombre a 
-    {nombreLibroNuevo}.
-    ");
+    string nuevo = Console.ReadLine() ?? "";
+    libro.NombreLibro = nuevo;
+    Console.WriteLine("Nombre actualizado correctamente.");
 }
 
 static void EditBookAuthor()
@@ -386,24 +372,15 @@ static void EditBookAuthor()
     === Opcion de editar el autor de los libros elegida correctamente ===
     =====================================================================
     ");
+    Console.WriteLine("Ingrese el ISBN del libro a editar ->");
+    string isbn = Console.ReadLine() ?? "";
+    var libro = libroService.BuscarPorIsbn(isbn);
+    if (libro == null) { Console.WriteLine("Libro no encontrado."); return; }
 
-    Console.WriteLine("Ingrese el nombre del libro ->");
-    string nombreLibroEditarAutor = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el antiguo nombre del autor del libro ->");
-    string nombreAutorLibroAntiguo = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el nuevo nombre del autor del libro ->");
-    string nombreAutorLibroNuevo = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    ===================================
-    == Autor guardado correctamente  ==
-    ===================================
-    El libro {nombreLibroEditarAutor},
-    cambio de autor de {nombreAutorLibroAntiguo},
-    a {nombreAutorLibroNuevo}.
-    ");
+    Console.WriteLine($"Autor actual: {libro.NombreAutor}");
+    Console.WriteLine("Ingrese el nuevo nombre del autor ->");
+    libro.NombreAutor = Console.ReadLine() ?? "";
+    Console.WriteLine("Autor actualizado correctamente.");
 }
 
 static void EditBookYearCategory()
@@ -413,31 +390,16 @@ static void EditBookYearCategory()
     === Opcion de editar el año y categoria de los libros elegida correctamente ===
     ===============================================================================
     ");
+    Console.WriteLine("Ingrese el ISBN del libro a editar ->");
+    string isbn = Console.ReadLine() ?? "";
+    var libro = libroService.BuscarPorIsbn(isbn);
+    if (libro == null) { Console.WriteLine("Libro no encontrado."); return; }
 
-    Console.WriteLine("Ingrese el nombre del libro ->");
-    string nombreLibroEditarCategoria = Console.ReadLine();
-
-    Console.WriteLine("Ingrese la antigua categoria del libro ->");
-    string nombreCategoriaLibroAntiguo = Console.ReadLine();
-
-    Console.WriteLine("Ingrese la nueva categoria del libro ->");
-    string nombreCategoriaLibroNuevo = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el antiguo año del libro ->");
-    string añoLibroAntiguo = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el nuevo año del libro ->");
-    string añoLibroNuevo = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    ============================================
-    == Categoria y año guardados correctamente ==
-    ============================================
-    El libro {nombreLibroEditarCategoria},
-    cambio de categoria de {nombreCategoriaLibroAntiguo},
-    a {nombreCategoriaLibroNuevo}, y el año
-    cambio de {añoLibroAntiguo}, a {añoLibroNuevo}.
-    ");
+    Console.WriteLine($"Categoria actual: {libro.Categoria}. Ingrese nueva categoria ->");
+    libro.Categoria = Console.ReadLine() ?? "";
+    Console.WriteLine($"Año actual: {libro.Anio}. Ingrese nuevo año ->");
+    if (int.TryParse(Console.ReadLine(), out int anio)) libro.Anio = anio;
+    Console.WriteLine("Categoria y año actualizados correctamente.");
 }
 
 static void DeleteBook()
@@ -447,18 +409,12 @@ static void DeleteBook()
     === Opcion de eliminar los libros elegida correctamente ===
     ===========================================================
     ");
-
-    Console.WriteLine("Ingrese el nombre del libro  que desea eliminar ->");
-    string nombreLibroEliminar = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    ===================================
-    == Libro eliminado correctamente ==
-    ===================================
-    El libro {nombreLibroEliminar}, 
-    ha sido totalmente eliminado en 
-    la base de datos correctamente.
-    ");
+    Console.WriteLine("Ingrese el ISBN del libro que desea eliminar ->");
+    string isbn = Console.ReadLine() ?? "";
+    if (libroService.EliminarLibro(isbn))
+        Console.WriteLine("Libro eliminado correctamente.");
+    else
+        Console.WriteLine("No se pudo eliminar (no encontrado).");
 }
 
 /*
