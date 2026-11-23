@@ -212,6 +212,8 @@ void ListBooksMenu()
     1. Listar todos los libros.
     2. Listar solo los libros disponibles.
     3. Listar libros prestados.
+    4. Ordenar por título.
+    5. Ordenar por año.
     ");
 
     while (!byte.TryParse(Console.ReadLine(), out opcionListarLibro))
@@ -221,22 +223,16 @@ void ListBooksMenu()
 
     switch (opcionListarLibro)
     {
-        case 1:
-            ListBooksAll();
+        case 1: ListBooksAll(); break;
+        case 2: ListBooksAvailable(); break;
+        case 3: ListBooksBorrowed(); break;
+        case 4:
+            foreach (var l in libroService.OrdenarPorTitulo()) Console.WriteLine(l.Linea());
             break;
-
-        case 2:
-            ListBooksAvailable();
+        case 5:
+            foreach (var l in libroService.OrdenarPorAnio()) Console.WriteLine(l.Linea());
             break;
-
-        case 3:
-            ListBooksBorrowed();
-            break;
-
-        default:
-            Console.WriteLine("Numero ingresado incorrecto, es del uno al 3");
-            break;
-
+        default: Console.WriteLine("Numero ingresado incorrecto, es del uno al 5"); break;
     }
 }
 
@@ -540,8 +536,11 @@ void ListUsers()
     ====================================================
     === Opcion listar usuarios elegida correctamente ===
     ====================================================
+    1. Listar todos
+    2. Ordenar por nombre
     ");
-    var usuarios = usuarioService.ObtenerTodos();
+    string op = Console.ReadLine() ?? "1";
+    var usuarios = op == "2" ? usuarioService.OrdenarPorNombre() : usuarioService.ObtenerTodos();
     if (usuarios.Count == 0) Console.WriteLine("No hay usuarios registrados.");
     else foreach (var u in usuarios) Console.WriteLine(u.Linea());
 }
@@ -803,6 +802,7 @@ void ListLoansMenu()
     1. Listar todos los préstamos.
     2. Listar préstamos activos.
     3. Listar préstamos cerrados.
+    4. Ordenar por fecha límite.
     ");
 
     while (!byte.TryParse(Console.ReadLine(), out opcionListarPrestamo))
@@ -812,21 +812,15 @@ void ListLoansMenu()
 
     switch (opcionListarPrestamo)
     {
-        case 1:
-            ListLoansAll();
+        case 1: ListLoansAll(); break;
+        case 2: ListLoansActive(); break;
+        case 3: ListLoansClosed(); break;
+        case 4:
+            var ordenados = prestamoService.OrdenarPorFechaLimite();
+            if (ordenados.Count == 0) Console.WriteLine("No hay préstamos.");
+            else foreach (var p in ordenados) Console.WriteLine(p.Linea());
             break;
-
-        case 2:
-            ListLoansActive();
-            break;
-
-        case 3:
-            ListLoansClosed();
-            break;
-
-        default:
-            Console.WriteLine("Numero ingresado incorrecto, es del uno al 3");
-            break;
+        default: Console.WriteLine("Numero ingresado incorrecto, es del uno al 4"); break;
     }
 }
 
