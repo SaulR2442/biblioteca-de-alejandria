@@ -1,10 +1,14 @@
+LibroService libroService = new LibroService();
+UsuarioService usuarioService = new UsuarioService();
+PrestamoService prestamoService = new PrestamoService();
+
 ﻿/*
 En la rama feature/main-menu-navigation, se creo el menu de navegacion basico
 con el do while, una validacion simple con .TryParse y un switch / case donde
 se revisa cual caso escogio el usario y se mete al otro sub menu 
 */
 
-static void ShowMainMenu()
+void ShowMainMenu()
 {
     byte opcionElegidaMenu;
 
@@ -87,7 +91,7 @@ En la rama feature/books-menu, se hizo lo siguiente:
 Cabe aclarar que sin guardar ningun tipo de dato, en un base de datos; solo los datos se guardan temporalmente.
 */
 
-static void ShowBooksMenu()
+void ShowBooksMenu()
 {
     byte opcionElegidaLibros;
 
@@ -146,7 +150,7 @@ static void ShowBooksMenu()
     while (opcionElegidaLibros != 6);
 }
 
-static void RegisterBook()
+void RegisterBook()
 {
     Console.WriteLine(@"
     ========================================================
@@ -155,21 +159,25 @@ static void RegisterBook()
     ");
 
     Console.WriteLine("Ingrese el nombre del libro ->");
-    string nombreLibro = Console.ReadLine();
+    string nombreLibro = Console.ReadLine() ?? "";
 
     Console.WriteLine("Ingrese el nombre del autor del libro ->");
-    string nombreAutorLibro = Console.ReadLine();
+    string nombreAutorLibro = Console.ReadLine() ?? "";
 
     Console.WriteLine("Ingrese la categoria del libro ->");
-    string categoriaLibro = Console.ReadLine();
+    string categoriaLibro = Console.ReadLine() ?? "";
 
     Console.WriteLine("Ingrese el año cuando salio el libro ->");
-    string añoLibro = Console.ReadLine();
+    if (!int.TryParse(Console.ReadLine(), out int añoLibro)) añoLibro = 2024;
 
-    Console.WriteLine("Ingrese el id / isbn del libro ->");
-    string idLibro = Console.ReadLine();
+    Console.WriteLine("Ingrese el isbn del libro ->");
+    string isbnLibro = Console.ReadLine() ?? "";
 
-    Console.WriteLine($@"
+    Libro nuevoLibro = new Libro(isbnLibro, nombreAutorLibro, nombreLibro, categoriaLibro, añoLibro);
+
+    if (libroService.AgregarLibro(nuevoLibro))
+    {
+        Console.WriteLine($@"
     ====================================
     === Libro guardado correctamente ===
     ====================================
@@ -177,26 +185,17 @@ static void RegisterBook()
     Autor -> {nombreAutorLibro}.
     Categoria -> {categoriaLibro}.
     Año -> {añoLibro}.
-    id / isbn -> {idLibro}.
+    ISBN -> {isbnLibro}.
     ====================================
     ");
-
-    // ===== Pruebas de modelos (GFPI-F-135 V04) =====
-    // Se instancian 2 objetos Libro y se muestra su informacion en consola.
-    Console.WriteLine("\n--- GFPI-F-135 V04 ---");
-    Libro libro1 = new Libro(1, "Antoine de Saint-Exupéry", "El Principito");
-    Libro libro2 = new Libro(2, "Miguel de Cervantes", "Don Quijote");
-
-    Console.WriteLine(libro1.ResumenCorto());
-    Console.WriteLine(libro1.DetalleCompleto());
-    Console.WriteLine($"Validacion Disponible -> {libro1.Disponible}");
-
-    Console.WriteLine(libro2.ResumenCorto());
-    Console.WriteLine(libro2.DetalleCompleto());
-    Console.WriteLine($"Validacion Disponible -> {libro2.Disponible}");
+    }
+    else
+    {
+        Console.WriteLine("Error: No se pudo agregar el libro (¿ISBN duplicado?)");
+    }
 }
 
-static void ListBooksMenu()
+void ListBooksMenu()
 {
     byte opcionListarLibro;
 
@@ -213,6 +212,8 @@ static void ListBooksMenu()
     1. Listar todos los libros.
     2. Listar solo los libros disponibles.
     3. Listar libros prestados.
+    4. Ordenar por título.
+    5. Ordenar por año.
     ");
 
     while (!byte.TryParse(Console.ReadLine(), out opcionListarLibro))
@@ -222,98 +223,85 @@ static void ListBooksMenu()
 
     switch (opcionListarLibro)
     {
-        case 1:
-            ListBooksAll();
+        case 1: ListBooksAll(); break;
+        case 2: ListBooksAvailable(); break;
+        case 3: ListBooksBorrowed(); break;
+        case 4:
+            foreach (var l in libroService.OrdenarPorTitulo()) Console.WriteLine(l.Linea());
             break;
-
-        case 2:
-            ListBooksAvailable();
+        case 5:
+            foreach (var l in libroService.OrdenarPorAnio()) Console.WriteLine(l.Linea());
             break;
-
-        case 3:
-            ListBooksBorrowed();
-            break;
-
-        default:
-            Console.WriteLine("Numero ingresado incorrecto, es del uno al 3");
-            break;
-
+        default: Console.WriteLine("Numero ingresado incorrecto, es del uno al 5"); break;
     }
 }
 
-static void ListBooksAll()
+void ListBooksAll()
 {
     Console.WriteLine(@"
     ======================
     == Todos los libros ==
     ======================
-    • Cien años de soledad – Gabriel García Márquez
-    • La vorágine – José Eustasio Rivera
-    • María – Jorge Isaacs
-    • El olvido que seremos – Héctor Abad Faciolince
-    • Delirio – Laura Restrepo
-    • Satanás – Mario Mendoza
-    • La perra – Pilar Quintana
-    • El ruido de las cosas al caer – Juan Gabriel Vásquez
-    • Changó, el gran putas – Manuel Zapata Olivella
-    • La tejedora de coronas – Germán Espinosa
     ");
+    var libros = libroService.ObtenerTodos();
+    if (libros.Count == 0)
+    {
+        Console.WriteLine("No hay libros registrados.");
+    }
+    else
+    {
+        foreach (var l in libros)
+        {
+            Console.WriteLine(l.Linea());
+        }
+    }
 }
 
-static void ListBooksAvailable()
+void ListBooksAvailable()
 {
     Console.WriteLine(@"
     ==================================
     == Todos los libros disponibles ==
     ==================================
-    • La vorágine – José Eustasio Rivera
-    • María – Jorge Isaacs
-    • Satanás – Mario Mendoza
-    • La perra – Pilar Quintana
-    • Changó, el gran putas – Manuel Zapata Olivella
-    • La tejedora de coronas – Germán Espinosa
     ");
+    var libros = libroService.ObtenerDisponibles();
+    if (libros.Count == 0) Console.WriteLine("No hay libros disponibles.");
+    else foreach (var l in libros) Console.WriteLine(l.Linea());
 }
 
-static void ListBooksBorrowed()
+void ListBooksBorrowed()
 {
     Console.WriteLine(@"
     ================================
     == Todos los libros prestados ==
     ================================
-    • Cien años de soledad – Gabriel García Márquez 
-    • El olvido que seremos – Héctor Abad Faciolince 
-    • Delirio – Laura Restrepo 
-    • El ruido de las cosas al caer – Juan Gabriel Vásquez 
     ");
+    var libros = libroService.ObtenerPrestados();
+    if (libros.Count == 0) Console.WriteLine("No hay libros prestados.");
+    else foreach (var l in libros) Console.WriteLine(l.Linea());
 }
 
-static void ViewBookDetail()
+void ViewBookDetail()
 {
     Console.WriteLine(@"
     =================================================================
     === Opcion de ver detalle de los libros elegida correctamente ===
     =================================================================
     ");
-
-    Console.WriteLine(@"
-    ========================================
-    == Todos los libros, con sus detalles ==
-    ========================================
-    • Cien años de soledad – Gabriel García Márquez - id: 1967 - Realismo magico
-    • La vorágine – José Eustasio Rivera - id: 1924 - Literatura de la selva / Realismo social
-    • María – Jorge Isaacs - id: 1867 - Romanticismo
-    • El olvido que seremos – Héctor Abad Faciolince - id: 2006 - Literatura de la selva / Realismo social
-    • Delirio – Laura Restrepo - id: 2004 - Drama psicológico / Ficción contemporánea
-    • Satanás – Mario Mendoza id: 2002 - Realismo degradado / Novela negra
-    • La perra – Pilar Quintana - id: 2017 - Drama psicológico / Realismo
-    • El ruido de las cosas al caer – Juan Gabriel Vásquez - id: 2011 - Ficción histórica / Drama contemporáneo
-    • Changó, el gran putas – Manuel Zapata Olivella - id: 1983 - Ficción histórica / Epopeya afroamericana
-    • La tejedora de coronas – Germán Espinosa - id: 1982 - Ficción histórica / Barroco
-    ");
+    Console.WriteLine("Ingrese el ISBN del libro ->");
+    string isbn = Console.ReadLine() ?? "";
+    var libro = libroService.BuscarPorIsbn(isbn);
+    if (libro == null)
+    {
+        Console.WriteLine("Libro no encontrado.");
+    }
+    else
+    {
+        Console.WriteLine(libro.DetalleCompleto());
+    }
 }
 
-static void UpdateBookMenu()
+void UpdateBookMenu()
 {
     byte opcionActualizarLibro;
 
@@ -358,110 +346,75 @@ static void UpdateBookMenu()
     }
 }
 
-static void EditBookTitle()
+void EditBookTitle()
 {
     Console.WriteLine(@"
     ======================================================================
     === Opcion de editar el titulo de los libros elegida correctamente ===
     ======================================================================
     ");
+    Console.WriteLine("Ingrese el ISBN del libro a editar ->");
+    string isbn = Console.ReadLine() ?? "";
+    var libro = libroService.BuscarPorIsbn(isbn);
+    if (libro == null) { Console.WriteLine("Libro no encontrado."); return; }
 
-    Console.WriteLine("Ingrese el antiguo nombre del libro ->");
-    string nombreLibroAntiguo = Console.ReadLine();
-
+    Console.WriteLine($"Titulo actual: {libro.NombreLibro}");
     Console.WriteLine("Ingrese el nuevo nombre del libro ->");
-    string nombreLibroNuevo = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    ===================================
-    == Nombre guardado correctamente ==
-    ===================================
-    El libro {nombreLibroAntiguo}, 
-    actualizo su nombre a 
-    {nombreLibroNuevo}.
-    ");
+    string nuevo = Console.ReadLine() ?? "";
+    libro.NombreLibro = nuevo;
+    Console.WriteLine("Nombre actualizado correctamente.");
 }
 
-static void EditBookAuthor()
+void EditBookAuthor()
 {
     Console.WriteLine(@"
     =====================================================================
     === Opcion de editar el autor de los libros elegida correctamente ===
     =====================================================================
     ");
+    Console.WriteLine("Ingrese el ISBN del libro a editar ->");
+    string isbn = Console.ReadLine() ?? "";
+    var libro = libroService.BuscarPorIsbn(isbn);
+    if (libro == null) { Console.WriteLine("Libro no encontrado."); return; }
 
-    Console.WriteLine("Ingrese el nombre del libro ->");
-    string nombreLibroEditarAutor = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el antiguo nombre del autor del libro ->");
-    string nombreAutorLibroAntiguo = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el nuevo nombre del autor del libro ->");
-    string nombreAutorLibroNuevo = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    ===================================
-    == Autor guardado correctamente  ==
-    ===================================
-    El libro {nombreLibroEditarAutor},
-    cambio de autor de {nombreAutorLibroAntiguo},
-    a {nombreAutorLibroNuevo}.
-    ");
+    Console.WriteLine($"Autor actual: {libro.NombreAutor}");
+    Console.WriteLine("Ingrese el nuevo nombre del autor ->");
+    libro.NombreAutor = Console.ReadLine() ?? "";
+    Console.WriteLine("Autor actualizado correctamente.");
 }
 
-static void EditBookYearCategory()
+void EditBookYearCategory()
 {
     Console.WriteLine(@"
     ===============================================================================
     === Opcion de editar el año y categoria de los libros elegida correctamente ===
     ===============================================================================
     ");
+    Console.WriteLine("Ingrese el ISBN del libro a editar ->");
+    string isbn = Console.ReadLine() ?? "";
+    var libro = libroService.BuscarPorIsbn(isbn);
+    if (libro == null) { Console.WriteLine("Libro no encontrado."); return; }
 
-    Console.WriteLine("Ingrese el nombre del libro ->");
-    string nombreLibroEditarCategoria = Console.ReadLine();
-
-    Console.WriteLine("Ingrese la antigua categoria del libro ->");
-    string nombreCategoriaLibroAntiguo = Console.ReadLine();
-
-    Console.WriteLine("Ingrese la nueva categoria del libro ->");
-    string nombreCategoriaLibroNuevo = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el antiguo año del libro ->");
-    string añoLibroAntiguo = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el nuevo año del libro ->");
-    string añoLibroNuevo = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    ============================================
-    == Categoria y año guardados correctamente ==
-    ============================================
-    El libro {nombreLibroEditarCategoria},
-    cambio de categoria de {nombreCategoriaLibroAntiguo},
-    a {nombreCategoriaLibroNuevo}, y el año
-    cambio de {añoLibroAntiguo}, a {añoLibroNuevo}.
-    ");
+    Console.WriteLine($"Categoria actual: {libro.Categoria}. Ingrese nueva categoria ->");
+    libro.Categoria = Console.ReadLine() ?? "";
+    Console.WriteLine($"Año actual: {libro.Anio}. Ingrese nuevo año ->");
+    if (int.TryParse(Console.ReadLine(), out int anio)) libro.Anio = anio;
+    Console.WriteLine("Categoria y año actualizados correctamente.");
 }
 
-static void DeleteBook()
+void DeleteBook()
 {
     Console.WriteLine(@"
     ===========================================================
     === Opcion de eliminar los libros elegida correctamente ===
     ===========================================================
     ");
-
-    Console.WriteLine("Ingrese el nombre del libro  que desea eliminar ->");
-    string nombreLibroEliminar = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    ===================================
-    == Libro eliminado correctamente ==
-    ===================================
-    El libro {nombreLibroEliminar}, 
-    ha sido totalmente eliminado en 
-    la base de datos correctamente.
-    ");
+    Console.WriteLine("Ingrese el ISBN del libro que desea eliminar ->");
+    string isbn = Console.ReadLine() ?? "";
+    if (libroService.EliminarLibro(isbn))
+        Console.WriteLine("Libro eliminado correctamente.");
+    else
+        Console.WriteLine("No se pudo eliminar (no encontrado).");
 }
 
 /*
@@ -482,7 +435,7 @@ En la rama feature/users-menu, se agrego lo siguiente:
     2.5 Eliminar usuario
 */
 
-static void ShowUsersMenu()
+void ShowUsersMenu()
 {
     byte opcionElegidaUsuario;
 
@@ -541,7 +494,7 @@ static void ShowUsersMenu()
     while (opcionElegidaUsuario != 6);
 }
 
-static void RegisterUser()
+void RegisterUser()
 {
     Console.WriteLine(@"
     =========================================================
@@ -550,99 +503,63 @@ static void RegisterUser()
     ");
 
     Console.WriteLine("Ingrese el nombre del usuario ->");
-    string nombreUsuario = Console.ReadLine();
-
+    string nombreUsuario = Console.ReadLine() ?? "";
     Console.WriteLine("Ingrese el apellido del usuario ->");
-    string apellidoUsuario = Console.ReadLine();
-
+    string apellidoUsuario = Console.ReadLine() ?? "";
     Console.WriteLine("Ingrese la edad del usuario ->");
-    string edadUsuario = Console.ReadLine();
-
+    if (!int.TryParse(Console.ReadLine(), out int edadUsuario)) edadUsuario = 0;
     Console.WriteLine("Ingrese el documento del usuario ->");
-    string documentoUsuario = Console.ReadLine();
-
+    string documentoUsuario = Console.ReadLine() ?? "";
     Console.WriteLine("Ingrese el telefono del usuario ->");
-    string telefonoUsuario = Console.ReadLine();
+    string telefonoUsuario = Console.ReadLine() ?? "";
 
-    Console.WriteLine($@"
+    var usuario = new Usuario(documentoUsuario, nombreUsuario, apellidoUsuario, edadUsuario, telefonoUsuario);
+    if (usuarioService.AgregarUsuario(usuario))
+    {
+        Console.WriteLine($@"
     ========================================
     === Usuario registrado correctamente ===
     ========================================
-    Nombre -> {nombreUsuario}.
-    Apellido -> {apellidoUsuario}.
-    Edad -> {edadUsuario}.
+    Nombre -> {nombreUsuario} {apellidoUsuario}.
     Documento -> {documentoUsuario}.
-    Telefono -> {telefonoUsuario}.
-    ====================================
-    ");
-
-    // ===== Pruebas de modelos (GFPI-F-135 V04) =====
-    // Se instancian 2 objetos Usuario y se muestra su informacion en consola.
-    Console.WriteLine("\n--- GFPI-F-135 V04 ---");
-    Usuario usuario1 = new Usuario(1039485721, "Carlos", "Gómez", 25);
-    Usuario usuario2 = new Usuario(1012938475, "María", "López", 32);
-
-    Console.WriteLine(usuario1.ResumenCorto());
-    Console.WriteLine(usuario1.DetalleCompleto());
-    Console.WriteLine($"Validacion Activo -> {usuario1.Activo}");
-
-    Console.WriteLine(usuario2.ResumenCorto());
-    Console.WriteLine(usuario2.DetalleCompleto());
-    Console.WriteLine($"Validacion Activo -> {usuario2.Activo}");
+    ====================================");
+    }
+    else
+    {
+        Console.WriteLine("Error: No se pudo registrar (¿documento duplicado?)");
+    }
 }
 
-static void ListUsers()
+void ListUsers()
 {
     Console.WriteLine(@"
     ====================================================
     === Opcion listar usuarios elegida correctamente ===
     ====================================================
+    1. Listar todos
+    2. Ordenar por nombre
     ");
-
-    Console.WriteLine(@"
-    =======================
-    == Lista de usuarios ==
-    =======================
-    - Carlos Gómez 
-    - María López 
-    - Juan Ramírez 
-    - Ana Martínez 
-    - Luis Torres 
-    - Laura Sánchez 
-    - Pedro Castro 
-    - Sofía Herrera 
-    - Andrés Rojas 
-    - Camila Vargas 
-    ");
-
+    string op = Console.ReadLine() ?? "1";
+    var usuarios = op == "2" ? usuarioService.OrdenarPorNombre() : usuarioService.ObtenerTodos();
+    if (usuarios.Count == 0) Console.WriteLine("No hay usuarios registrados.");
+    else foreach (var u in usuarios) Console.WriteLine(u.Linea());
 }
 
-static void ViewUserDetail()
+void ViewUserDetail()
 {
     Console.WriteLine(@"
     =====================================================================
     === Opcion ver los detalles de los usuarios elegida correctamente ===
     =====================================================================
     ");
-
-    Console.WriteLine(@"
-    =======================
-    == Lista de usuarios ==
-    =======================
-    - Carlos - Gómez - 25 - 1039485721 - 3001234567
-    - María - López - 32 - 1012938475 - 3109876543
-    - Juan - Ramírez - 19 - 1002345678 - 3123456789
-    - Ana - Martínez - 45 - 43567891 - 3156789123
-    - Luis - Torres - 28 - 1023456789 - 3112345678
-    - Laura - Sánchez - 22 - 1056789123 - 3209876543
-    - Pedro - Castro - 50 - 71234567 - 3187654321
-    - Sofía - Herrera - 30 - 1034567890 - 3012345678
-    - Andrés - Rojas - 21 - 1045678901 - 3023456789
-    - Camila - Vargas - 27 - 1098765432 - 3145678901
-    ");
+    Console.WriteLine("Ingrese el documento del usuario ->");
+    string doc = Console.ReadLine() ?? "";
+    var usuario = usuarioService.BuscarPorDocumento(doc);
+    if (usuario == null) Console.WriteLine("Usuario no encontrado.");
+    else Console.WriteLine(usuario.DetalleCompleto());
 }
 
-static void UpdateUserMenu()
+void UpdateUserMenu()
 {
     byte opcionActualizarUsuario;
 
@@ -687,99 +604,73 @@ static void UpdateUserMenu()
     }
 }
 
-static void EditUserName()
+void EditUserName()
 {
     Console.WriteLine(@"
     =====================================================================
     === Opcion de editar el nombre del usuario elegida correctamente  ===
     =====================================================================
     ");
+    Console.WriteLine("Ingrese el documento del usuario ->");
+    string doc = Console.ReadLine() ?? "";
+    var usuario = usuarioService.BuscarPorDocumento(doc);
+    if (usuario == null) { Console.WriteLine("Usuario no encontrado."); return; }
 
-    Console.WriteLine("Ingrese el antiguo nombre del usuario ->");
-    string nombreUsuarioAntiguo = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el nuevo nombre del usuario ->");
-    string nombreUsuarioNuevo = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    ===================================
-    == Nombre guardado correctamente ==
-    ===================================
-    El usuario {nombreUsuarioAntiguo}, 
-    actualizo su nombre a 
-    {nombreUsuarioNuevo}.
-    ");
+    Console.WriteLine($"Nombre actual: {usuario.Nombre}. Nuevo nombre ->");
+    usuario.Nombre = Console.ReadLine() ?? "";
+    Console.WriteLine($"Apellido actual: {usuario.Apellido}. Nuevo apellido ->");
+    usuario.Apellido = Console.ReadLine() ?? "";
+    Console.WriteLine("Nombre actualizado correctamente.");
 }
 
-static void EditUserContact()
+void EditUserContact()
 {
     Console.WriteLine(@"
     =======================================================================
     === Opcion de editar el telefono del usuario elegida correctamente  ===
     =======================================================================
     ");
+    Console.WriteLine("Ingrese el documento del usuario ->");
+    string doc = Console.ReadLine() ?? "";
+    var usuario = usuarioService.BuscarPorDocumento(doc);
+    if (usuario == null) { Console.WriteLine("Usuario no encontrado."); return; }
 
-    Console.WriteLine("Ingrese el nombre del usuario ->");
-    string nombreUsuarioTelefono = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el antiguo telefono del usuario ->");
-    string telefonoAntiguo = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el nuevo telefono del usuario ->");
-    string telefonoNuevo = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    =====================================
-    == Telefono guardado correctamente ==
-    =====================================
-    El usuario {nombreUsuarioTelefono}, 
-    actualizo su telefono de {telefonoAntiguo},
-    a {telefonoNuevo}.
-    ");
+    Console.WriteLine($"Telefono actual: {usuario.Telefono}. Nuevo telefono ->");
+    usuario.Telefono = Console.ReadLine() ?? "";
+    Console.WriteLine("Telefono actualizado correctamente.");
 }
 
-static void ToggleUserActiveStatus()
+void ToggleUserActiveStatus()
 {
     Console.WriteLine(@"
     ===================================================================
     === Opcion de activar / desactivar usuario elegida correctamente ===
     ===================================================================
     ");
-
     Console.WriteLine("Ingrese el documento del usuario ->");
-    string documentoUsuarioEstado = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el nuevo estado del usuario (A = Activo / I = Inactivo) ->");
-    string estadoUsuario = Console.ReadLine();
-
-    Console.WriteLine($@"
-    =====================================
-    == Estado guardado correctamente   ==
-    =====================================
-    El usuario con documento {documentoUsuarioEstado},
-    cambio su estado a {estadoUsuario}.
-    ");
+    string doc = Console.ReadLine() ?? "";
+    Console.WriteLine("Ingrese el nuevo estado (A = Activo / I = Inactivo) ->");
+    string estado = Console.ReadLine() ?? "";
+    bool activo = estado.Trim().Equals("A", StringComparison.OrdinalIgnoreCase);
+    if (usuarioService.CambiarEstado(doc, activo))
+        Console.WriteLine("Estado actualizado correctamente.");
+    else
+        Console.WriteLine("Usuario no encontrado.");
 }
 
-static void DeleteUser()
+void DeleteUser()
 {
     Console.WriteLine(@"
     ========================================================
     === Opcion de eliminar usuario elegida correctamente ===
     ========================================================
     ");
-
-    Console.WriteLine("Ingrese el nombre del usuario  que desea eliminar ->");
-    string nombreUsuarioEliminar = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    =====================================
-    == Usuario eliminado correctamente ==
-    =====================================
-    El usuario {nombreUsuarioEliminar}, 
-    ha sido totalmente eliminado en 
-    la base de datos correctamente.
-    ");
+    Console.WriteLine("Ingrese el documento del usuario que desea eliminar ->");
+    string doc = Console.ReadLine() ?? "";
+    if (usuarioService.EliminarUsuario(doc))
+        Console.WriteLine("Usuario eliminado correctamente.");
+    else
+        Console.WriteLine("No se pudo eliminar (no encontrado).");
 }
 
 /*
@@ -807,7 +698,7 @@ Crear préstamo
     3.5 Eliminar préstamo
 */
 
-static void ShowLoansMenu()
+void ShowLoansMenu()
 {
      byte opcionElegidaPrestamos;
 
@@ -866,55 +757,35 @@ static void ShowLoansMenu()
     while (opcionElegidaPrestamos != 6);
 }
 
-static void CreateLoan()
+void CreateLoan()
 {
     Console.WriteLine(@"
     ========================================================
     === Opcion de Crear préstamo elegida correctamente   ===
     ========================================================
     ");
+    Console.WriteLine("Ingrese el documento del usuario ->");
+    string doc = Console.ReadLine() ?? "";
+    Console.WriteLine("Ingrese el ISBN del libro ->");
+    string isbn = Console.ReadLine() ?? "";
 
-    Console.WriteLine("Ingrese el ID del usuario ->");
-    string idUsuario = Console.ReadLine();
+    var usuario = usuarioService.BuscarPorDocumento(doc);
+    var libro = libroService.BuscarPorIsbn(isbn);
+    string? error = prestamoService.ValidarPrestamo(libro, usuario);
+    if (error != null)
+    {
+        Console.WriteLine($"No se pudo crear el préstamo: {error}");
+        return;
+    }
 
-    Console.WriteLine("Ingrese el ID del libro ->");
-    string idLibro = Console.ReadLine();
-
-    Console.WriteLine(@"
-    ===========================================
-    == Validaciones de préstamo (simuladas) ==
-    ===========================================
-    - Verificando si usuario existe y está activo...
-    - Verificando si libro existe y está disponible...
-    - Verificando límite de préstamos...
-    ");
-
-    Console.WriteLine($@"
-    ========================================
-    === Préstamo creado correctamente    ===
-    ========================================
-    Usuario ID: {idUsuario}
-    Libro ID: {idLibro}
-    ========================================
-    ");
-
-    // ===== Pruebas de modelos (GFPI-F-135 V04) =====
-    // Se instancia 1 objeto Prestamo y se muestran sus validaciones.
-    // Fechas pasadas para que las validaciones sean demostrativas.
-    Console.WriteLine("\n--- GFPI-F-135 V04 ---");
-    Prestamo prestamoPrueba = new Prestamo(
-        "Carlos Gómez",
-        DateTime.Now.AddDays(-20),
-        DateTime.Now.AddDays(-5));
-
-    Console.WriteLine(prestamoPrueba.ResumenCorto());
-    Console.WriteLine(prestamoPrueba.DetalleCompleto());
-    Console.WriteLine($"Validacion Estado -> {prestamoPrueba.Estado}");
-    Console.WriteLine($"Validacion EstaVencido() -> {prestamoPrueba.EstaVencido()}");
-    Console.WriteLine($"Validacion DiasTranscurridos() -> {prestamoPrueba.DiasTranscurridos()}");
+    var prestamo = prestamoService.RegistrarPrestamo(libro!, usuario!);
+    if (prestamo != null)
+        Console.WriteLine($"Préstamo creado correctamente. ID: {prestamo.Id}");
+    else
+        Console.WriteLine("No se pudo crear el préstamo.");
 }
 
-static void ListLoansMenu()
+void ListLoansMenu()
 {
     byte opcionListarPrestamo;
 
@@ -931,6 +802,7 @@ static void ListLoansMenu()
     1. Listar todos los préstamos.
     2. Listar préstamos activos.
     3. Listar préstamos cerrados.
+    4. Ordenar por fecha límite.
     ");
 
     while (!byte.TryParse(Console.ReadLine(), out opcionListarPrestamo))
@@ -940,139 +812,93 @@ static void ListLoansMenu()
 
     switch (opcionListarPrestamo)
     {
-        case 1:
-            ListLoansAll();
+        case 1: ListLoansAll(); break;
+        case 2: ListLoansActive(); break;
+        case 3: ListLoansClosed(); break;
+        case 4:
+            var ordenados = prestamoService.OrdenarPorFechaLimite();
+            if (ordenados.Count == 0) Console.WriteLine("No hay préstamos.");
+            else foreach (var p in ordenados) Console.WriteLine(p.Linea());
             break;
-
-        case 2:
-            ListLoansActive();
-            break;
-
-        case 3:
-            ListLoansClosed();
-            break;
-
-        default:
-            Console.WriteLine("Numero ingresado incorrecto, es del uno al 3");
-            break;
+        default: Console.WriteLine("Numero ingresado incorrecto, es del uno al 4"); break;
     }
 }
 
-static void ListLoansAll()
+void ListLoansAll()
 {
     Console.WriteLine(@"
     ===========================
     == Todos los préstamos   ==
-    ===========================
-    - Préstamo ID: 001 - Libro: Cien años de soledad - Usuario: Carlos Gómez
-    - Préstamo ID: 002 - Libro: El olvido que seremos - Usuario: María López
-    - Préstamo ID: 003 - Libro: María - Usuario: Juan Ramírez
-    - Préstamo ID: 004 - Libro: Delirio - Usuario: Ana Martínez
-    ");
+    ===========================");
+    var list = prestamoService.ObtenerTodos();
+    if (list.Count == 0) Console.WriteLine("No hay préstamos registrados.");
+    else foreach (var p in list) Console.WriteLine(p.Linea());
 }
 
-static void ListLoansActive()
+void ListLoansActive()
 {
     Console.WriteLine(@"
     ===========================
     == Préstamos activos     ==
-    ===========================
-    - Préstamo ID: 001 - Libro: Cien años de soledad - Usuario: Carlos Gómez
-    - Préstamo ID: 003 - Libro: María - Usuario: Juan Ramírez
-    - Préstamo ID: 004 - Libro: Delirio - Usuario: Ana Martínez
-    ");
+    ===========================");
+    var list = prestamoService.BuscarPorEstado(EstadoPrestamo.Activo);
+    if (list.Count == 0) Console.WriteLine("No hay préstamos activos.");
+    else foreach (var p in list) Console.WriteLine(p.Linea());
 }
 
-static void ListLoansClosed()
+void ListLoansClosed()
 {
     Console.WriteLine(@"
     ===========================
     == Préstamos cerrados    ==
-    ===========================
-    - Préstamo ID: 002 - Libro: El olvido que seremos - Usuario: María López
-    ");
+    ===========================");
+    var list = prestamoService.ObtenerCerrados();
+    if (list.Count == 0) Console.WriteLine("No hay préstamos cerrados.");
+    else foreach (var p in list) Console.WriteLine(p.Linea());
 }
 
-static void ViewLoanDetail()
+void ViewLoanDetail()
 {
     Console.WriteLine(@"
     ========================================================
     === Opcion de Ver detalle de préstamo elegida ===
     ========================================================
     ");
-
     Console.WriteLine("Ingrese el ID del préstamo ->");
-    string idPrestamo = Console.ReadLine();
-
-    Console.WriteLine($@"
-    ========================================
-    == Detalle del préstamo (simulado) ==
-    ========================================
-    Préstamo ID: {idPrestamo}
-    Libro: Cien años de soledad
-    Usuario: Carlos Gómez
-    Estado: Activo
-    Fecha prestamo: 02/11/2026
-    ========================================
-    ");
+    if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("ID inválido."); return; }
+    var prestamo = prestamoService.BuscarPorId(id);
+    if (prestamo == null) Console.WriteLine("Préstamo no encontrado.");
+    else Console.WriteLine(prestamo.DetalleCompleto());
 }
 
-static void RegisterReturn()
+void RegisterReturn()
 {
     Console.WriteLine(@"
     ========================================================
     === Opcion de Registrar devolucion elegida ===
     ========================================================
     ");
-
     Console.WriteLine("Ingrese el ID del préstamo a devolver ->");
-    string idPrestamo = Console.ReadLine();
-
-    Console.WriteLine(@"
-    ===========================================
-    == Registro de devolucion (simulado) ==
-    ===========================================
-    - Marcando el préstamo como devuelto...
-    - Marcando el libro como disponible...
-    ");
-
-    Console.WriteLine($@"
-    ========================================
-    === Devolución registrada correctamente ===
-    ========================================
-    Préstamo ID: {idPrestamo}
-    Estado: Devuelto
-    Libro disponible
-    ========================================
-    ");
+    if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("ID inválido."); return; }
+    if (prestamoService.DevolverPrestamo(id))
+        Console.WriteLine("Devolución registrada correctamente.");
+    else
+        Console.WriteLine("No se pudo registrar la devolución (no encontrado o ya devuelto).");
 }
 
-static void DeleteLoan()
+void DeleteLoan()
 {
     Console.WriteLine(@"
     ========================================================
     === Opcion de Eliminar préstamo elegida ===
     ========================================================
     ");
-
     Console.WriteLine("Ingrese el ID del préstamo a eliminar ->");
-    string idPrestamo = Console.ReadLine();
-
-    Console.WriteLine(@"
-    ===========================================
-    == Reglas sugeridas para eliminación ==
-    ===========================================
-    - Validar que el préstamo esté cerrado...
-    - Validar que no haya multas pendientes...
-    ");
-
-    Console.WriteLine($@"
-    ========================================
-    === Préstamo eliminado correctamente ===
-    ========================================
-    Préstamo ID: {idPrestamo}
-    ========================================
-    ");
+    if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("ID inválido."); return; }
+    if (prestamoService.EliminarPrestamo(id))
+        Console.WriteLine("Préstamo eliminado correctamente.");
+    else
+        Console.WriteLine("No se pudo eliminar (no encontrado o no está devuelto).");
 }
 
 /*
@@ -1085,7 +911,7 @@ En la rama feature/persistence-menu, se hizo lo siguiente:
 5.3 Reiniciar datos (vaciar todo), pidiendo confirmación S/N
 */
 
-static void ShowPersistenceMenu()
+void ShowPersistenceMenu()
 {
     byte opcionElegidaPersistencia;
 
@@ -1154,7 +980,7 @@ En la rama feature/search-reports-menu, se hizo lo siguiente:
 - resumen general: total libros / disponibles / prestados
 */
 
-static void ShowSearchReportsMenu()
+void ShowSearchReportsMenu()
 {
     byte opcionElegidaBuscar;
 
@@ -1203,51 +1029,51 @@ static void ShowSearchReportsMenu()
     while (opcionElegidaBuscar != 4);
 }
 
-static void SearchBook()
+void SearchBook()
 {
     Console.WriteLine(@"
     ========================================================
     === Opcion de Buscar libro elegida correctamente   ===
     ========================================================
     ");
-
-    Console.WriteLine("Ingrese el titulo, autor, id o categoria del libro ->");
-    string busquedaLibro = Console.ReadLine();
-
-    Console.WriteLine($@"
-    ========================================
-    == Resultado de busqueda de libro (simulado) ==
-    ========================================
-    Busqueda: {busquedaLibro}
-    - Libro encontrado: Cien años de soledad - Gabriel García Márquez
-    - Libro encontrado: La vorágine - José Eustasio Rivera
-    ========================================
-    ");
+    Console.WriteLine("Buscar por: 1. Título  2. Autor  3. ISBN  4. Categoría");
+    string op = Console.ReadLine() ?? "";
+    Console.WriteLine("Ingrese término de búsqueda ->");
+    string term = Console.ReadLine() ?? "";
+    List<Libro> resultados = op switch
+    {
+        "1" => libroService.BuscarPorTitulo(term),
+        "2" => libroService.BuscarPorAutor(term),
+        "3" => libroService.BuscarPorIsbn(term) is Libro l ? new List<Libro> { l } : new List<Libro>(),
+        "4" => libroService.BuscarPorCategoria(term),
+        _ => new List<Libro>()
+    };
+    if (resultados.Count == 0) Console.WriteLine("No se encontraron libros.");
+    else foreach (var l in resultados) Console.WriteLine(l.Linea());
 }
 
-static void SearchUser()
+void SearchUser()
 {
     Console.WriteLine(@"
     ========================================================
     === Opcion de Buscar usuario elegida correctamente ===
     ========================================================
     ");
-
-    Console.WriteLine("Ingrese el nombre o ID del usuario ->");
-    string busquedaUsuario = Console.ReadLine();
-
-    Console.WriteLine($@"
-    ========================================
-    == Resultado de busqueda de usuario (simulado) ==
-    ========================================
-    Busqueda: {busquedaUsuario}
-    - Usuario encontrado: Carlos Gómez - ID: 1039485721
-    - Usuario encontrado: María López - ID: 1012938475
-    ========================================
-    ");
+    Console.WriteLine("Buscar por: 1. Nombre  2. Documento");
+    string op = Console.ReadLine() ?? "";
+    Console.WriteLine("Ingrese término de búsqueda ->");
+    string term = Console.ReadLine() ?? "";
+    List<Usuario> resultados = op switch
+    {
+        "1" => usuarioService.BuscarPorNombre(term),
+        "2" => usuarioService.BuscarPorDocumento(term) is Usuario u ? new List<Usuario> { u } : new List<Usuario>(),
+        _ => new List<Usuario>()
+    };
+    if (resultados.Count == 0) Console.WriteLine("No se encontraron usuarios.");
+    else foreach (var u in resultados) Console.WriteLine(u.Linea());
 }
 
-static void ShowReportsMenu()
+void ShowReportsMenu()
 {
     byte opcionReporte;
 
@@ -1255,13 +1081,14 @@ static void ShowReportsMenu()
     {
         Console.WriteLine(@"
     ===================================
-    === Menu Reportes            ===
+    === Menu Reportes / KPIs      ===
     ===================================
     1. Reporte por usuario.
     2. Reporte por libro.
     3. Reporte vencidos.
-    4. Resumen general.
-    5. Salir al menu anterior
+    4. Resumen general (KPIs).
+    5. Comparación Array vs List.
+    6. Salir al menu anterior
     ===================================
     Ingrese su opcion (solo el numero) -> 
     ");
@@ -1273,176 +1100,133 @@ static void ShowReportsMenu()
 
         switch (opcionReporte)
         {
-            case 1:
-                ReportByUser();
-                break;
-
-            case 2:
-                ReportByBook();
-                break;
-
-            case 3:
-                ReportOverdue();
-                break;
-
-            case 4:
-                ReportSummary();
-                break;
-
-            case 5:
-                // Se vuelve al menu anterior automaticamente
-                break;
-
-            default:
-                Console.WriteLine("Numero ingresado incorrecto, es del uno al 5");
-                break;
+            case 1: ReportByUser(); break;
+            case 2: ReportByBook(); break;
+            case 3: ReportOverdue(); break;
+            case 4: ReportSummary(); break;
+            case 5: DemostrarArrayVsList(); break;
+            case 6: break;
+            default: Console.WriteLine("Numero ingresado incorrecto, es del uno al 6"); break;
         }
     }
-    while (opcionReporte != 5);
+    while (opcionReporte != 6);
 }
 
-static void ReportByUser()
+void ReportByUser()
+{
+    Console.WriteLine("Ingrese el documento del usuario ->");
+    string doc = Console.ReadLine() ?? "";
+    var usuario = usuarioService.BuscarPorDocumento(doc);
+    if (usuario == null) { Console.WriteLine("Usuario no encontrado."); return; }
+    var prestamos = prestamoService.ObtenerPorUsuario(doc);
+    Console.WriteLine($@"
+    == Reporte por usuario ==
+    Usuario: {usuario.NombreCompleto} ({doc})
+    - Total préstamos: {prestamos.Count}
+    - Activos/Vencidos: {prestamos.Count(p => p.Estado != EstadoPrestamo.Devuelto)}
+    - Devueltos: {prestamos.Count(p => p.Estado == EstadoPrestamo.Devuelto)}");
+    foreach (var p in prestamos) Console.WriteLine("  " + p.Linea());
+}
+
+void ReportByBook()
+{
+    Console.WriteLine("Ingrese el ISBN del libro ->");
+    string isbn = Console.ReadLine() ?? "";
+    var libro = libroService.BuscarPorIsbn(isbn);
+    if (libro == null) { Console.WriteLine("Libro no encontrado."); return; }
+    var prestamos = prestamoService.ObtenerPorLibro(isbn);
+    Console.WriteLine($@"
+    == Reporte por libro ==
+    Libro: {libro.NombreLibro} ({isbn})
+    - Disponible: {(libro.Disponible ? "Sí" : "No")}
+    - Historial de préstamos: {prestamos.Count}");
+    foreach (var p in prestamos) Console.WriteLine("  " + p.Linea());
+}
+
+void ReportOverdue()
 {
     Console.WriteLine(@"
-    ========================================================
-    === Opcion de Reporte por usuario elegida ===
-    ========================================================
-    ");
+    == Préstamos vencidos ==");
+    var vencidos = prestamoService.BuscarPorEstado(EstadoPrestamo.Vencido);
+    if (vencidos.Count == 0) Console.WriteLine("No hay préstamos vencidos.");
+    else foreach (var p in vencidos) Console.WriteLine(p.Linea());
+}
 
-    Console.WriteLine("Ingrese el nombre o ID del usuario ->");
-    string idUsuarioReporte = Console.ReadLine();
-
+void ReportSummary()
+{
     Console.WriteLine($@"
     ========================================
-    == Reporte por usuario (simulado) ==
+    == Resumen general / KPIs ==
     ========================================
-    Usuario: {idUsuarioReporte}
-    - Prestamos activos: 1
-    - Prestamos cerrados: 2
-    - Multas pendientes: 0
-    ========================================
-    ");
+    LIBROS
+    - Total: {libroService.TotalLibros()}
+    - Disponibles: {libroService.LibrosDisponibles()}
+    - Prestados: {libroService.LibrosPrestados()}
+
+    USUARIOS
+    - Total: {usuarioService.TotalUsuarios()}
+    - Activos: {usuarioService.UsuariosActivos()}
+    - Inactivos: {usuarioService.UsuariosInactivos()}
+
+    PRÉSTAMOS
+    - Total: {prestamoService.TotalPrestamos()}
+    - Activos: {prestamoService.PrestamosActivos()}
+    - Vencidos: {prestamoService.PrestamosVencidos()}
+    - Devueltos: {prestamoService.PrestamosDevueltos()}
+    - Promedio días préstamo: {prestamoService.PromedioDiasPrestamo():F2}
+    ========================================");
 }
 
-static void ReportByBook()
+// Requerimiento 7: Comparación Array vs List<T>
+void DemostrarArrayVsList()
 {
     Console.WriteLine(@"
-    ========================================================
-    === Opcion de Reporte por libro elegida ===
-    ========================================================
-    ");
+    ==========================================
+    == Comparación: Array vs List<T> ==
+    ==========================================");
 
-    Console.WriteLine("Ingrese el titulo o ID del libro ->");
-    string idLibroReporte = Console.ReadLine();
+    // --- ARRAY: tamaño fijo ---
+    // Un array tiene un tamaño definido al crearse. No se puede agregar o quitar elementos dinámicamente.
+    Libro[] arrayLibros = new Libro[2];
+    arrayLibros[0] = new Libro("A1", "Autor A", "Libro Array 1", "Cat", 2001);
+    arrayLibros[1] = new Libro("A2", "Autor B", "Libro Array 2", "Cat", 2002);
+    Console.WriteLine($"Array: Length = {arrayLibros.Length} (fijo). No se puede hacer Add().");
+    // Para "agregar" un 3er elemento habría que crear un nuevo array más grande y copiar.
+    // arrayLibros[2] = ... -> lanzaría IndexOutOfRangeException
 
-    Console.WriteLine($@"
-    ========================================
-    == Reporte por libro (simulado) ==
-    ========================================
-    Libro: {idLibroReporte}
-    - Estado: Prestado
-    - Usuario actual: Carlos Gómez
-    - Historial de prestamos: 3
-    ========================================
+    // --- LIST<T>: tamaño dinámico ---
+    // List<T> crece y se reduce según se necesite. Ofrece Add, Remove, búsquedas, etc.
+    List<Libro> listaLibros = new List<Libro>();
+    listaLibros.Add(new Libro("L1", "Autor A", "Libro List 1", "Cat", 2001));
+    listaLibros.Add(new Libro("L2", "Autor B", "Libro List 2", "Cat", 2002));
+    listaLibros.Add(new Libro("L3", "Autor C", "Libro List 3", "Cat", 2003)); // crece dinámicamente
+    Console.WriteLine($"List:  Count  = {listaLibros.Count} (dinámico). Se puede Add/Remove.");
+    listaLibros.RemoveAt(0);
+    Console.WriteLine($"List tras RemoveAt(0): Count = {listaLibros.Count}");
+
+    Console.WriteLine(@"
+    Conclusión:
+    - Array: tamaño fijo, acceso por índice, menos flexible.
+    - List<T>: tamaño dinámico, métodos Add/Remove/Find/OrderBy, ideal para colecciones que cambian.
     ");
 }
 
-static void ReportOverdue()
-{
-    Console.WriteLine(@"
-    ========================================================
-    === Opcion de Reporte vencidos elegida ===
-    ========================================================
-    ");
-
-    Console.WriteLine(@"
-    ========================================
-    == Reporte de prestamos vencidos (simulado) ==
-    ========================================
-    - Préstamo ID: 003 - Libro: María - Usuario: Juan Ramírez - Vencido desde: 15/10/2026
-    - Préstamo ID: 004 - Libro: Delirio - Usuario: Ana Martínez - Vencido desde: 20/10/2026
-    ========================================
-    ");
-}
-
-static void ReportSummary()
-{
-    Console.WriteLine(@"
-    ========================================================
-    === Opcion de Resumen general elegida ===
-    ========================================================
-    ");
-
-    Console.WriteLine(@"
-    ========================================
-    == Resumen general del sistema (simulado) ==
-    ========================================
-    - Total libros registrados: 10
-    - Libros disponibles: 6
-    - Libros prestados: 4
-    - Total usuarios registrados: 10
-    - Total prestamos activos: 3
-    - Total prestamos cerrados: 1
-    - Prestamos vencidos: 2
-    ========================================
-    ");
-}
-
-static void SaveData()
+void SaveData()
 {
     Console.WriteLine(@"
     ========================================================
     === Opcion de Guardar datos elegida correctamente   ===
     ========================================================
     ");
-
-    Console.WriteLine("Ingrese el nombre del archivo para guardar ->");
-    string nombreArchivo = Console.ReadLine();
-
-    Console.WriteLine(@"
-    ========================================
-    == Guardando datos (simulado) ==
-    ========================================
-    - Serializando libros...
-    - Serializando usuarios...
-    - Serializando prestamos...
-    ");
-
-    Console.WriteLine($@"
-    ========================================
-    === Datos guardados en: {nombreArchivo} ===
-    ========================================
-    ");
+    Console.WriteLine("(Simulado) Los datos están en memoria durante la ejecución.");
 }
 
-static void LoadData()
+void LoadData()
 {
-    Console.WriteLine(@"
-    ========================================================
-    === Opcion de Cargar datos elegida correctamente   ===
-    ========================================================
-    ");
-
-    Console.WriteLine("Ingrese el nombre del archivo para cargar ->");
-    string nombreArchivo = Console.ReadLine();
-
-    Console.WriteLine(@"
-    ========================================
-    == Cargando datos (simulado) ==
-    ========================================
-    - Deserializando libros...
-    - Deserializando usuarios...
-    - Deserializando prestamos...
-    ");
-
-    Console.WriteLine($@"
-    ========================================
-    === Datos cargados desde: {nombreArchivo} ===
-    ========================================
-    ");
+    Console.WriteLine("Cargar datos (simulado): los datos de prueba ya están en memoria.");
 }
 
-static bool ConfirmResetData()
+bool ConfirmResetData()
 {
     char respuestaConfirmacion;
 
@@ -1464,7 +1248,7 @@ static bool ConfirmResetData()
     return respuestaConfirmacion == 'S' || respuestaConfirmacion == 's';
 }
 
-static void ResetData()
+void ResetData()
 {
     Console.WriteLine(@"
     ========================================================
@@ -1483,20 +1267,11 @@ static void ResetData()
         return;
     }
 
-    Console.WriteLine(@"
-    ========================================
-    == Reiniciando datos (simulado) ==
-    ========================================
-    - Eliminando libros...
-    - Eliminando usuarios...
-    - Eliminando prestamos...
-    ");
+    libroService.Reiniciar();
+    usuarioService.Reiniciar();
+    prestamoService.Reiniciar();
 
-    Console.WriteLine(@"
-    ========================================
-    === Datos reiniciados correctamente  ===
-    ========================================
-    ");
+    Console.WriteLine("Datos reiniciados correctamente.");
 }
 
 /*
@@ -1507,7 +1282,7 @@ En la rama feature/exit-flow, se hizo lo siguiente:
 - Llamar al menú principal al iniciar la aplicación.
 */
 
-static void ConfirmExitAndSave()
+void ConfirmExitAndSave()
 {
     char respuestaGuardar;
 
@@ -1549,5 +1324,28 @@ static void ConfirmExitAndSave()
     ");
 }
 
-// Llamada al menu principal para iniciar la aplicacion.
+
+
+
+void SeedData()
+{
+    libroService.AgregarLibro(new Libro("ISBN-001", "Gabriel García Márquez", "Cien años de soledad", "Realismo mágico", 1967));
+    libroService.AgregarLibro(new Libro("ISBN-002", "Antoine de Saint-Exupéry", "El Principito", "Fábula", 1943));
+    libroService.AgregarLibro(new Libro("ISBN-003", "Miguel de Cervantes", "Don Quijote", "Novela", 1605));
+
+    usuarioService.AgregarUsuario(new Usuario("1001", "Carlos", "Gómez", 25, "3001234567"));
+    usuarioService.AgregarUsuario(new Usuario("1002", "María", "López", 32, "3109876543"));
+
+    var u1 = usuarioService.BuscarPorDocumento("1001");
+    var l1 = libroService.BuscarPorIsbn("ISBN-001");
+    var l2 = libroService.BuscarPorIsbn("ISBN-002");
+    if (u1 != null && l1 != null) prestamoService.RegistrarPrestamo(l1, u1, 7, DateTime.Now.AddDays(-20));
+    if (u1 != null && l2 != null)
+    {
+        var p = prestamoService.RegistrarPrestamo(l2, u1, 7, DateTime.Now.AddDays(-3));
+        if (p != null) prestamoService.DevolverPrestamo(p.Id, DateTime.Now.AddDays(-1));
+    }
+}
+
+SeedData();
 ShowMainMenu();
