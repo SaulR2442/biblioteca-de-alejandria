@@ -155,21 +155,25 @@ static void RegisterBook()
     ");
 
     Console.WriteLine("Ingrese el nombre del libro ->");
-    string nombreLibro = Console.ReadLine();
+    string nombreLibro = Console.ReadLine() ?? "";
 
     Console.WriteLine("Ingrese el nombre del autor del libro ->");
-    string nombreAutorLibro = Console.ReadLine();
+    string nombreAutorLibro = Console.ReadLine() ?? "";
 
     Console.WriteLine("Ingrese la categoria del libro ->");
-    string categoriaLibro = Console.ReadLine();
+    string categoriaLibro = Console.ReadLine() ?? "";
 
     Console.WriteLine("Ingrese el año cuando salio el libro ->");
-    string añoLibro = Console.ReadLine();
+    if (!int.TryParse(Console.ReadLine(), out int añoLibro)) añoLibro = 2024;
 
-    Console.WriteLine("Ingrese el id / isbn del libro ->");
-    string idLibro = Console.ReadLine();
+    Console.WriteLine("Ingrese el isbn del libro ->");
+    string isbnLibro = Console.ReadLine() ?? "";
 
-    Console.WriteLine($@"
+    Libro nuevoLibro = new Libro(isbnLibro, nombreAutorLibro, nombreLibro, categoriaLibro, añoLibro);
+
+    if (libroService.AgregarLibro(nuevoLibro))
+    {
+        Console.WriteLine($@"
     ====================================
     === Libro guardado correctamente ===
     ====================================
@@ -177,23 +181,14 @@ static void RegisterBook()
     Autor -> {nombreAutorLibro}.
     Categoria -> {categoriaLibro}.
     Año -> {añoLibro}.
-    id / isbn -> {idLibro}.
+    ISBN -> {isbnLibro}.
     ====================================
     ");
-
-    // ===== Pruebas de modelos (GFPI-F-135 V04) =====
-    // Se instancian 2 objetos Libro y se muestra su informacion en consola.
-    Console.WriteLine("\n--- GFPI-F-135 V04 ---");
-    Libro libro1 = new Libro(1, "Antoine de Saint-Exupéry", "El Principito");
-    Libro libro2 = new Libro(2, "Miguel de Cervantes", "Don Quijote");
-
-    Console.WriteLine(libro1.ResumenCorto());
-    Console.WriteLine(libro1.DetalleCompleto());
-    Console.WriteLine($"Validacion Disponible -> {libro1.Disponible}");
-
-    Console.WriteLine(libro2.ResumenCorto());
-    Console.WriteLine(libro2.DetalleCompleto());
-    Console.WriteLine($"Validacion Disponible -> {libro2.Disponible}");
+    }
+    else
+    {
+        Console.WriteLine("Error: No se pudo agregar el libro (¿ISBN duplicado?)");
+    }
 }
 
 static void ListBooksMenu()
@@ -247,17 +242,19 @@ static void ListBooksAll()
     ======================
     == Todos los libros ==
     ======================
-    • Cien años de soledad – Gabriel García Márquez
-    • La vorágine – José Eustasio Rivera
-    • María – Jorge Isaacs
-    • El olvido que seremos – Héctor Abad Faciolince
-    • Delirio – Laura Restrepo
-    • Satanás – Mario Mendoza
-    • La perra – Pilar Quintana
-    • El ruido de las cosas al caer – Juan Gabriel Vásquez
-    • Changó, el gran putas – Manuel Zapata Olivella
-    • La tejedora de coronas – Germán Espinosa
     ");
+    var libros = libroService.ObtenerTodos();
+    if (libros.Count == 0)
+    {
+        Console.WriteLine("No hay libros registrados.");
+    }
+    else
+    {
+        foreach (var l in libros)
+        {
+            Console.WriteLine(l.Linea());
+        }
+    }
 }
 
 static void ListBooksAvailable()
@@ -1550,4 +1547,8 @@ static void ConfirmExitAndSave()
 }
 
 // Llamada al menu principal para iniciar la aplicacion.
+static LibroService libroService = new LibroService();
+static UsuarioService usuarioService = new UsuarioService();
+static PrestamoService prestamoService = new PrestamoService();
+
 ShowMainMenu();
