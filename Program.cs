@@ -1,10 +1,14 @@
+LibroService libroService = new LibroService();
+UsuarioService usuarioService = new UsuarioService();
+PrestamoService prestamoService = new PrestamoService();
+
 ﻿/*
 En la rama feature/main-menu-navigation, se creo el menu de navegacion basico
 con el do while, una validacion simple con .TryParse y un switch / case donde
 se revisa cual caso escogio el usario y se mete al otro sub menu 
 */
 
-static void ShowMainMenu()
+void ShowMainMenu()
 {
     byte opcionElegidaMenu;
 
@@ -87,7 +91,7 @@ En la rama feature/books-menu, se hizo lo siguiente:
 Cabe aclarar que sin guardar ningun tipo de dato, en un base de datos; solo los datos se guardan temporalmente.
 */
 
-static void ShowBooksMenu()
+void ShowBooksMenu()
 {
     byte opcionElegidaLibros;
 
@@ -146,7 +150,7 @@ static void ShowBooksMenu()
     while (opcionElegidaLibros != 6);
 }
 
-static void RegisterBook()
+void RegisterBook()
 {
     Console.WriteLine(@"
     ========================================================
@@ -191,7 +195,7 @@ static void RegisterBook()
     }
 }
 
-static void ListBooksMenu()
+void ListBooksMenu()
 {
     byte opcionListarLibro;
 
@@ -236,7 +240,7 @@ static void ListBooksMenu()
     }
 }
 
-static void ListBooksAll()
+void ListBooksAll()
 {
     Console.WriteLine(@"
     ======================
@@ -257,7 +261,7 @@ static void ListBooksAll()
     }
 }
 
-static void ListBooksAvailable()
+void ListBooksAvailable()
 {
     Console.WriteLine(@"
     ==================================
@@ -269,7 +273,7 @@ static void ListBooksAvailable()
     else foreach (var l in libros) Console.WriteLine(l.Linea());
 }
 
-static void ListBooksBorrowed()
+void ListBooksBorrowed()
 {
     Console.WriteLine(@"
     ================================
@@ -281,7 +285,7 @@ static void ListBooksBorrowed()
     else foreach (var l in libros) Console.WriteLine(l.Linea());
 }
 
-static void ViewBookDetail()
+void ViewBookDetail()
 {
     Console.WriteLine(@"
     =================================================================
@@ -301,7 +305,7 @@ static void ViewBookDetail()
     }
 }
 
-static void UpdateBookMenu()
+void UpdateBookMenu()
 {
     byte opcionActualizarLibro;
 
@@ -346,7 +350,7 @@ static void UpdateBookMenu()
     }
 }
 
-static void EditBookTitle()
+void EditBookTitle()
 {
     Console.WriteLine(@"
     ======================================================================
@@ -365,7 +369,7 @@ static void EditBookTitle()
     Console.WriteLine("Nombre actualizado correctamente.");
 }
 
-static void EditBookAuthor()
+void EditBookAuthor()
 {
     Console.WriteLine(@"
     =====================================================================
@@ -383,7 +387,7 @@ static void EditBookAuthor()
     Console.WriteLine("Autor actualizado correctamente.");
 }
 
-static void EditBookYearCategory()
+void EditBookYearCategory()
 {
     Console.WriteLine(@"
     ===============================================================================
@@ -402,7 +406,7 @@ static void EditBookYearCategory()
     Console.WriteLine("Categoria y año actualizados correctamente.");
 }
 
-static void DeleteBook()
+void DeleteBook()
 {
     Console.WriteLine(@"
     ===========================================================
@@ -435,7 +439,7 @@ En la rama feature/users-menu, se agrego lo siguiente:
     2.5 Eliminar usuario
 */
 
-static void ShowUsersMenu()
+void ShowUsersMenu()
 {
     byte opcionElegidaUsuario;
 
@@ -494,7 +498,7 @@ static void ShowUsersMenu()
     while (opcionElegidaUsuario != 6);
 }
 
-static void RegisterUser()
+void RegisterUser()
 {
     Console.WriteLine(@"
     =========================================================
@@ -530,7 +534,7 @@ static void RegisterUser()
     }
 }
 
-static void ListUsers()
+void ListUsers()
 {
     Console.WriteLine(@"
     ====================================================
@@ -542,7 +546,7 @@ static void ListUsers()
     else foreach (var u in usuarios) Console.WriteLine(u.Linea());
 }
 
-static void ViewUserDetail()
+void ViewUserDetail()
 {
     Console.WriteLine(@"
     =====================================================================
@@ -556,7 +560,7 @@ static void ViewUserDetail()
     else Console.WriteLine(usuario.DetalleCompleto());
 }
 
-static void UpdateUserMenu()
+void UpdateUserMenu()
 {
     byte opcionActualizarUsuario;
 
@@ -601,7 +605,7 @@ static void UpdateUserMenu()
     }
 }
 
-static void EditUserName()
+void EditUserName()
 {
     Console.WriteLine(@"
     =====================================================================
@@ -620,7 +624,7 @@ static void EditUserName()
     Console.WriteLine("Nombre actualizado correctamente.");
 }
 
-static void EditUserContact()
+void EditUserContact()
 {
     Console.WriteLine(@"
     =======================================================================
@@ -637,7 +641,7 @@ static void EditUserContact()
     Console.WriteLine("Telefono actualizado correctamente.");
 }
 
-static void ToggleUserActiveStatus()
+void ToggleUserActiveStatus()
 {
     Console.WriteLine(@"
     ===================================================================
@@ -655,7 +659,7 @@ static void ToggleUserActiveStatus()
         Console.WriteLine("Usuario no encontrado.");
 }
 
-static void DeleteUser()
+void DeleteUser()
 {
     Console.WriteLine(@"
     ========================================================
@@ -695,7 +699,7 @@ Crear préstamo
     3.5 Eliminar préstamo
 */
 
-static void ShowLoansMenu()
+void ShowLoansMenu()
 {
      byte opcionElegidaPrestamos;
 
@@ -754,7 +758,7 @@ static void ShowLoansMenu()
     while (opcionElegidaPrestamos != 6);
 }
 
-static void CreateLoan()
+void CreateLoan()
 {
     Console.WriteLine(@"
     ========================================================
@@ -782,7 +786,7 @@ static void CreateLoan()
         Console.WriteLine("No se pudo crear el préstamo.");
 }
 
-static void ListLoansMenu()
+void ListLoansMenu()
 {
     byte opcionListarPrestamo;
 
@@ -826,7 +830,7 @@ static void ListLoansMenu()
     }
 }
 
-static void ListLoansAll()
+void ListLoansAll()
 {
     Console.WriteLine(@"
     ===========================
@@ -837,7 +841,7 @@ static void ListLoansAll()
     else foreach (var p in list) Console.WriteLine(p.Linea());
 }
 
-static void ListLoansActive()
+void ListLoansActive()
 {
     Console.WriteLine(@"
     ===========================
@@ -848,7 +852,7 @@ static void ListLoansActive()
     else foreach (var p in list) Console.WriteLine(p.Linea());
 }
 
-static void ListLoansClosed()
+void ListLoansClosed()
 {
     Console.WriteLine(@"
     ===========================
@@ -859,7 +863,7 @@ static void ListLoansClosed()
     else foreach (var p in list) Console.WriteLine(p.Linea());
 }
 
-static void ViewLoanDetail()
+void ViewLoanDetail()
 {
     Console.WriteLine(@"
     ========================================================
@@ -873,7 +877,7 @@ static void ViewLoanDetail()
     else Console.WriteLine(prestamo.DetalleCompleto());
 }
 
-static void RegisterReturn()
+void RegisterReturn()
 {
     Console.WriteLine(@"
     ========================================================
@@ -888,7 +892,7 @@ static void RegisterReturn()
         Console.WriteLine("No se pudo registrar la devolución (no encontrado o ya devuelto).");
 }
 
-static void DeleteLoan()
+void DeleteLoan()
 {
     Console.WriteLine(@"
     ========================================================
@@ -913,7 +917,7 @@ En la rama feature/persistence-menu, se hizo lo siguiente:
 5.3 Reiniciar datos (vaciar todo), pidiendo confirmación S/N
 */
 
-static void ShowPersistenceMenu()
+void ShowPersistenceMenu()
 {
     byte opcionElegidaPersistencia;
 
@@ -982,7 +986,7 @@ En la rama feature/search-reports-menu, se hizo lo siguiente:
 - resumen general: total libros / disponibles / prestados
 */
 
-static void ShowSearchReportsMenu()
+void ShowSearchReportsMenu()
 {
     byte opcionElegidaBuscar;
 
@@ -1031,51 +1035,51 @@ static void ShowSearchReportsMenu()
     while (opcionElegidaBuscar != 4);
 }
 
-static void SearchBook()
+void SearchBook()
 {
     Console.WriteLine(@"
     ========================================================
     === Opcion de Buscar libro elegida correctamente   ===
     ========================================================
     ");
-
-    Console.WriteLine("Ingrese el titulo, autor, id o categoria del libro ->");
-    string busquedaLibro = Console.ReadLine();
-
-    Console.WriteLine($@"
-    ========================================
-    == Resultado de busqueda de libro (simulado) ==
-    ========================================
-    Busqueda: {busquedaLibro}
-    - Libro encontrado: Cien años de soledad - Gabriel García Márquez
-    - Libro encontrado: La vorágine - José Eustasio Rivera
-    ========================================
-    ");
+    Console.WriteLine("Buscar por: 1. Título  2. Autor  3. ISBN  4. Categoría");
+    string op = Console.ReadLine() ?? "";
+    Console.WriteLine("Ingrese término de búsqueda ->");
+    string term = Console.ReadLine() ?? "";
+    List<Libro> resultados = op switch
+    {
+        "1" => libroService.BuscarPorTitulo(term),
+        "2" => libroService.BuscarPorAutor(term),
+        "3" => libroService.BuscarPorIsbn(term) is Libro l ? new List<Libro> { l } : new List<Libro>(),
+        "4" => libroService.BuscarPorCategoria(term),
+        _ => new List<Libro>()
+    };
+    if (resultados.Count == 0) Console.WriteLine("No se encontraron libros.");
+    else foreach (var l in resultados) Console.WriteLine(l.Linea());
 }
 
-static void SearchUser()
+void SearchUser()
 {
     Console.WriteLine(@"
     ========================================================
     === Opcion de Buscar usuario elegida correctamente ===
     ========================================================
     ");
-
-    Console.WriteLine("Ingrese el nombre o ID del usuario ->");
-    string busquedaUsuario = Console.ReadLine();
-
-    Console.WriteLine($@"
-    ========================================
-    == Resultado de busqueda de usuario (simulado) ==
-    ========================================
-    Busqueda: {busquedaUsuario}
-    - Usuario encontrado: Carlos Gómez - ID: 1039485721
-    - Usuario encontrado: María López - ID: 1012938475
-    ========================================
-    ");
+    Console.WriteLine("Buscar por: 1. Nombre  2. Documento");
+    string op = Console.ReadLine() ?? "";
+    Console.WriteLine("Ingrese término de búsqueda ->");
+    string term = Console.ReadLine() ?? "";
+    List<Usuario> resultados = op switch
+    {
+        "1" => usuarioService.BuscarPorNombre(term),
+        "2" => usuarioService.BuscarPorDocumento(term) is Usuario u ? new List<Usuario> { u } : new List<Usuario>(),
+        _ => new List<Usuario>()
+    };
+    if (resultados.Count == 0) Console.WriteLine("No se encontraron usuarios.");
+    else foreach (var u in resultados) Console.WriteLine(u.Linea());
 }
 
-static void ShowReportsMenu()
+void ShowReportsMenu()
 {
     byte opcionReporte;
 
@@ -1083,13 +1087,14 @@ static void ShowReportsMenu()
     {
         Console.WriteLine(@"
     ===================================
-    === Menu Reportes            ===
+    === Menu Reportes / KPIs      ===
     ===================================
     1. Reporte por usuario.
     2. Reporte por libro.
     3. Reporte vencidos.
-    4. Resumen general.
-    5. Salir al menu anterior
+    4. Resumen general (KPIs).
+    5. Comparación Array vs List.
+    6. Salir al menu anterior
     ===================================
     Ingrese su opcion (solo el numero) -> 
     ");
@@ -1101,176 +1106,133 @@ static void ShowReportsMenu()
 
         switch (opcionReporte)
         {
-            case 1:
-                ReportByUser();
-                break;
-
-            case 2:
-                ReportByBook();
-                break;
-
-            case 3:
-                ReportOverdue();
-                break;
-
-            case 4:
-                ReportSummary();
-                break;
-
-            case 5:
-                // Se vuelve al menu anterior automaticamente
-                break;
-
-            default:
-                Console.WriteLine("Numero ingresado incorrecto, es del uno al 5");
-                break;
+            case 1: ReportByUser(); break;
+            case 2: ReportByBook(); break;
+            case 3: ReportOverdue(); break;
+            case 4: ReportSummary(); break;
+            case 5: DemostrarArrayVsList(); break;
+            case 6: break;
+            default: Console.WriteLine("Numero ingresado incorrecto, es del uno al 6"); break;
         }
     }
-    while (opcionReporte != 5);
+    while (opcionReporte != 6);
 }
 
-static void ReportByUser()
+void ReportByUser()
+{
+    Console.WriteLine("Ingrese el documento del usuario ->");
+    string doc = Console.ReadLine() ?? "";
+    var usuario = usuarioService.BuscarPorDocumento(doc);
+    if (usuario == null) { Console.WriteLine("Usuario no encontrado."); return; }
+    var prestamos = prestamoService.ObtenerPorUsuario(doc);
+    Console.WriteLine($@"
+    == Reporte por usuario ==
+    Usuario: {usuario.NombreCompleto} ({doc})
+    - Total préstamos: {prestamos.Count}
+    - Activos/Vencidos: {prestamos.Count(p => p.Estado != EstadoPrestamo.Devuelto)}
+    - Devueltos: {prestamos.Count(p => p.Estado == EstadoPrestamo.Devuelto)}");
+    foreach (var p in prestamos) Console.WriteLine("  " + p.Linea());
+}
+
+void ReportByBook()
+{
+    Console.WriteLine("Ingrese el ISBN del libro ->");
+    string isbn = Console.ReadLine() ?? "";
+    var libro = libroService.BuscarPorIsbn(isbn);
+    if (libro == null) { Console.WriteLine("Libro no encontrado."); return; }
+    var prestamos = prestamoService.ObtenerPorLibro(isbn);
+    Console.WriteLine($@"
+    == Reporte por libro ==
+    Libro: {libro.NombreLibro} ({isbn})
+    - Disponible: {(libro.Disponible ? "Sí" : "No")}
+    - Historial de préstamos: {prestamos.Count}");
+    foreach (var p in prestamos) Console.WriteLine("  " + p.Linea());
+}
+
+void ReportOverdue()
 {
     Console.WriteLine(@"
-    ========================================================
-    === Opcion de Reporte por usuario elegida ===
-    ========================================================
-    ");
+    == Préstamos vencidos ==");
+    var vencidos = prestamoService.BuscarPorEstado(EstadoPrestamo.Vencido);
+    if (vencidos.Count == 0) Console.WriteLine("No hay préstamos vencidos.");
+    else foreach (var p in vencidos) Console.WriteLine(p.Linea());
+}
 
-    Console.WriteLine("Ingrese el nombre o ID del usuario ->");
-    string idUsuarioReporte = Console.ReadLine();
-
+void ReportSummary()
+{
     Console.WriteLine($@"
     ========================================
-    == Reporte por usuario (simulado) ==
+    == Resumen general / KPIs ==
     ========================================
-    Usuario: {idUsuarioReporte}
-    - Prestamos activos: 1
-    - Prestamos cerrados: 2
-    - Multas pendientes: 0
-    ========================================
-    ");
+    LIBROS
+    - Total: {libroService.TotalLibros()}
+    - Disponibles: {libroService.LibrosDisponibles()}
+    - Prestados: {libroService.LibrosPrestados()}
+
+    USUARIOS
+    - Total: {usuarioService.TotalUsuarios()}
+    - Activos: {usuarioService.UsuariosActivos()}
+    - Inactivos: {usuarioService.UsuariosInactivos()}
+
+    PRÉSTAMOS
+    - Total: {prestamoService.TotalPrestamos()}
+    - Activos: {prestamoService.PrestamosActivos()}
+    - Vencidos: {prestamoService.PrestamosVencidos()}
+    - Devueltos: {prestamoService.PrestamosDevueltos()}
+    - Promedio días préstamo: {prestamoService.PromedioDiasPrestamo():F2}
+    ========================================");
 }
 
-static void ReportByBook()
+// Requerimiento 7: Comparación Array vs List<T>
+void DemostrarArrayVsList()
 {
     Console.WriteLine(@"
-    ========================================================
-    === Opcion de Reporte por libro elegida ===
-    ========================================================
-    ");
+    ==========================================
+    == Comparación: Array vs List<T> ==
+    ==========================================");
 
-    Console.WriteLine("Ingrese el titulo o ID del libro ->");
-    string idLibroReporte = Console.ReadLine();
+    // --- ARRAY: tamaño fijo ---
+    // Un array tiene un tamaño definido al crearse. No se puede agregar o quitar elementos dinámicamente.
+    Libro[] arrayLibros = new Libro[2];
+    arrayLibros[0] = new Libro("A1", "Autor A", "Libro Array 1", "Cat", 2001);
+    arrayLibros[1] = new Libro("A2", "Autor B", "Libro Array 2", "Cat", 2002);
+    Console.WriteLine($"Array: Length = {arrayLibros.Length} (fijo). No se puede hacer Add().");
+    // Para "agregar" un 3er elemento habría que crear un nuevo array más grande y copiar.
+    // arrayLibros[2] = ... -> lanzaría IndexOutOfRangeException
 
-    Console.WriteLine($@"
-    ========================================
-    == Reporte por libro (simulado) ==
-    ========================================
-    Libro: {idLibroReporte}
-    - Estado: Prestado
-    - Usuario actual: Carlos Gómez
-    - Historial de prestamos: 3
-    ========================================
+    // --- LIST<T>: tamaño dinámico ---
+    // List<T> crece y se reduce según se necesite. Ofrece Add, Remove, búsquedas, etc.
+    List<Libro> listaLibros = new List<Libro>();
+    listaLibros.Add(new Libro("L1", "Autor A", "Libro List 1", "Cat", 2001));
+    listaLibros.Add(new Libro("L2", "Autor B", "Libro List 2", "Cat", 2002));
+    listaLibros.Add(new Libro("L3", "Autor C", "Libro List 3", "Cat", 2003)); // crece dinámicamente
+    Console.WriteLine($"List:  Count  = {listaLibros.Count} (dinámico). Se puede Add/Remove.");
+    listaLibros.RemoveAt(0);
+    Console.WriteLine($"List tras RemoveAt(0): Count = {listaLibros.Count}");
+
+    Console.WriteLine(@"
+    Conclusión:
+    - Array: tamaño fijo, acceso por índice, menos flexible.
+    - List<T>: tamaño dinámico, métodos Add/Remove/Find/OrderBy, ideal para colecciones que cambian.
     ");
 }
 
-static void ReportOverdue()
-{
-    Console.WriteLine(@"
-    ========================================================
-    === Opcion de Reporte vencidos elegida ===
-    ========================================================
-    ");
-
-    Console.WriteLine(@"
-    ========================================
-    == Reporte de prestamos vencidos (simulado) ==
-    ========================================
-    - Préstamo ID: 003 - Libro: María - Usuario: Juan Ramírez - Vencido desde: 15/10/2026
-    - Préstamo ID: 004 - Libro: Delirio - Usuario: Ana Martínez - Vencido desde: 20/10/2026
-    ========================================
-    ");
-}
-
-static void ReportSummary()
-{
-    Console.WriteLine(@"
-    ========================================================
-    === Opcion de Resumen general elegida ===
-    ========================================================
-    ");
-
-    Console.WriteLine(@"
-    ========================================
-    == Resumen general del sistema (simulado) ==
-    ========================================
-    - Total libros registrados: 10
-    - Libros disponibles: 6
-    - Libros prestados: 4
-    - Total usuarios registrados: 10
-    - Total prestamos activos: 3
-    - Total prestamos cerrados: 1
-    - Prestamos vencidos: 2
-    ========================================
-    ");
-}
-
-static void SaveData()
+void SaveData()
 {
     Console.WriteLine(@"
     ========================================================
     === Opcion de Guardar datos elegida correctamente   ===
     ========================================================
     ");
-
-    Console.WriteLine("Ingrese el nombre del archivo para guardar ->");
-    string nombreArchivo = Console.ReadLine();
-
-    Console.WriteLine(@"
-    ========================================
-    == Guardando datos (simulado) ==
-    ========================================
-    - Serializando libros...
-    - Serializando usuarios...
-    - Serializando prestamos...
-    ");
-
-    Console.WriteLine($@"
-    ========================================
-    === Datos guardados en: {nombreArchivo} ===
-    ========================================
-    ");
+    Console.WriteLine("(Simulado) Los datos están en memoria durante la ejecución.");
 }
 
-static void LoadData()
+void LoadData()
 {
-    Console.WriteLine(@"
-    ========================================================
-    === Opcion de Cargar datos elegida correctamente   ===
-    ========================================================
-    ");
-
-    Console.WriteLine("Ingrese el nombre del archivo para cargar ->");
-    string nombreArchivo = Console.ReadLine();
-
-    Console.WriteLine(@"
-    ========================================
-    == Cargando datos (simulado) ==
-    ========================================
-    - Deserializando libros...
-    - Deserializando usuarios...
-    - Deserializando prestamos...
-    ");
-
-    Console.WriteLine($@"
-    ========================================
-    === Datos cargados desde: {nombreArchivo} ===
-    ========================================
-    ");
+    Console.WriteLine("Cargar datos (simulado): los datos de prueba ya están en memoria.");
 }
 
-static bool ConfirmResetData()
+bool ConfirmResetData()
 {
     char respuestaConfirmacion;
 
@@ -1292,7 +1254,7 @@ static bool ConfirmResetData()
     return respuestaConfirmacion == 'S' || respuestaConfirmacion == 's';
 }
 
-static void ResetData()
+void ResetData()
 {
     Console.WriteLine(@"
     ========================================================
@@ -1311,20 +1273,11 @@ static void ResetData()
         return;
     }
 
-    Console.WriteLine(@"
-    ========================================
-    == Reiniciando datos (simulado) ==
-    ========================================
-    - Eliminando libros...
-    - Eliminando usuarios...
-    - Eliminando prestamos...
-    ");
+    libroService.Reiniciar();
+    usuarioService.Reiniciar();
+    prestamoService.Reiniciar();
 
-    Console.WriteLine(@"
-    ========================================
-    === Datos reiniciados correctamente  ===
-    ========================================
-    ");
+    Console.WriteLine("Datos reiniciados correctamente.");
 }
 
 /*
@@ -1335,7 +1288,7 @@ En la rama feature/exit-flow, se hizo lo siguiente:
 - Llamar al menú principal al iniciar la aplicación.
 */
 
-static void ConfirmExitAndSave()
+void ConfirmExitAndSave()
 {
     char respuestaGuardar;
 
@@ -1377,9 +1330,28 @@ static void ConfirmExitAndSave()
     ");
 }
 
-// Llamada al menu principal para iniciar la aplicacion.
-static LibroService libroService = new LibroService();
-static UsuarioService usuarioService = new UsuarioService();
-static PrestamoService prestamoService = new PrestamoService();
 
+
+
+void SeedData()
+{
+    libroService.AgregarLibro(new Libro("ISBN-001", "Gabriel García Márquez", "Cien años de soledad", "Realismo mágico", 1967));
+    libroService.AgregarLibro(new Libro("ISBN-002", "Antoine de Saint-Exupéry", "El Principito", "Fábula", 1943));
+    libroService.AgregarLibro(new Libro("ISBN-003", "Miguel de Cervantes", "Don Quijote", "Novela", 1605));
+
+    usuarioService.AgregarUsuario(new Usuario("1001", "Carlos", "Gómez", 25, "3001234567"));
+    usuarioService.AgregarUsuario(new Usuario("1002", "María", "López", 32, "3109876543"));
+
+    var u1 = usuarioService.BuscarPorDocumento("1001");
+    var l1 = libroService.BuscarPorIsbn("ISBN-001");
+    var l2 = libroService.BuscarPorIsbn("ISBN-002");
+    if (u1 != null && l1 != null) prestamoService.RegistrarPrestamo(l1, u1, 7, DateTime.Now.AddDays(-20));
+    if (u1 != null && l2 != null)
+    {
+        var p = prestamoService.RegistrarPrestamo(l2, u1, 7, DateTime.Now.AddDays(-3));
+        if (p != null) prestamoService.DevolverPrestamo(p.Id, DateTime.Now.AddDays(-1));
+    }
+}
+
+SeedData();
 ShowMainMenu();
