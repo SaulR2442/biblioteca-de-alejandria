@@ -16,7 +16,6 @@ public class Usuario
         Activo = true;
     }
 
-    // El Id lo asigna UsuarioService al agregar
     public Usuario(string documento, string nombre, string apellido, int edad, string telefono)
     {
         Documento = documento;
