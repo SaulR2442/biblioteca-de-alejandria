@@ -1,17 +1,12 @@
 public class Prestamo
 {
-    public string NombreApellido { get; set; }
-    public string Estado { get; set; }
+    public int Id { get; set; }
+    public Libro Libro { get; set; }
+    public Usuario Usuario { get; set; }
     public DateTime FechaPrestamo { get; set; }
     public DateTime FechaLimite { get; set; }
     public DateTime? FechaDevolucion { get; set; }
-
-    public Prestamo()
-    {
-        NombreApellido = string.Empty;
-        Estado = "Activo";
-        FechaDevolucion = null;
-    }
+    public EstadoPrestamo Estado { get; set; }
 
     public Prestamo(int id, Libro libro, Usuario usuario, DateTime fechaPrestamo, int diasPrestamo = 7)
     {
@@ -19,10 +14,8 @@ public class Prestamo
         Libro = libro;
         Usuario = usuario;
         FechaPrestamo = fechaPrestamo;
-        FechaVencimiento = fechaVencimiento;
-        
-        Estado = "Activo";
-        FechaDevolucion = null;
+        FechaLimite = fechaPrestamo.AddDays(diasPrestamo);
+        Estado = EstadoPrestamo.Activo;
     }
 
     public bool EstaVencido() => !FechaDevolucion.HasValue && DateTime.Now > FechaLimite;
