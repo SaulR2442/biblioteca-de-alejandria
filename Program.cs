@@ -1110,7 +1110,8 @@ void ShowReportsMenu()
     3. Reporte vencidos.
     4. Resumen general (KPIs).
     5. Comparación Array vs List.
-    6. Salir al menu anterior
+    6. Demostración modelos (EV07).
+    7. Salir al menu anterior
     ===================================
     Ingrese su opcion (solo el numero) -> 
     ");
@@ -1127,11 +1128,12 @@ void ShowReportsMenu()
             case 3: ReportOverdue(); break;
             case 4: ReportSummary(); break;
             case 5: DemostrarArrayVsList(); break;
-            case 6: break;
-            default: Console.WriteLine("Numero ingresado incorrecto, es del uno al 6"); break;
+            case 6: DemostrarModelosEV07(); break;
+            case 7: break;
+            default: Console.WriteLine("Numero ingresado incorrecto, es del uno al 7"); break;
         }
     }
-    while (opcionReporte != 6);
+    while (opcionReporte != 7);
 }
 
 void ReportByUser()
@@ -1231,6 +1233,43 @@ void DemostrarArrayVsList()
     - Array: tamaño fijo, acceso por índice, menos flexible.
     - List<T>: tamaño dinámico, métodos Add/Remove/Find/OrderBy, ideal para colecciones que cambian.
     ");
+}
+
+// Demostración EV07: creación de objetos y validación de métodos
+void DemostrarModelosEV07()
+{
+    Console.WriteLine(@"
+    ==========================================
+    == Demostración modelos EV07 ==
+    ==========================================");
+
+    Libro libro1 = new Libro("EV07-001", "Antoine de Saint-Exupéry", "El Principito", "Fábula", 1943);
+    Libro libro2 = new Libro("EV07-002", "Miguel de Cervantes", "Don Quijote", "Novela", 1605);
+    Usuario usuario1 = new Usuario("2001", "Carlos", "Gómez", 25, "3001234567");
+    Usuario usuario2 = new Usuario("2002", "María", "López", 32, "3109876543");
+    Prestamo prestamo = new Prestamo(99, libro1, usuario1, DateTime.Now.AddDays(-20), 15);
+
+    Console.WriteLine(libro1.ResumenCorto());
+    Console.WriteLine(libro1.DetalleCompleto());
+    Console.WriteLine($"Validación Disponible -> {libro1.Disponible}\n");
+
+    Console.WriteLine(libro2.ResumenCorto());
+    Console.WriteLine(libro2.DetalleCompleto());
+    Console.WriteLine($"Validación Disponible -> {libro2.Disponible}\n");
+
+    Console.WriteLine(usuario1.ResumenCorto());
+    Console.WriteLine(usuario1.DetalleCompleto());
+    Console.WriteLine($"Validación Activo -> {usuario1.Activo}\n");
+
+    Console.WriteLine(usuario2.ResumenCorto());
+    Console.WriteLine(usuario2.DetalleCompleto());
+    Console.WriteLine($"Validación Activo -> {usuario2.Activo}\n");
+
+    Console.WriteLine(prestamo.ResumenCorto());
+    Console.WriteLine(prestamo.DetalleCompleto());
+    Console.WriteLine($"Validación Estado -> {prestamo.Estado}");
+    Console.WriteLine($"Validación EstaVencido() -> {prestamo.EstaVencido()}");
+    Console.WriteLine($"Validación DiasTranscurridos() -> {prestamo.DiasTranscurridos()}");
 }
 
 void SaveData()
