@@ -26,31 +26,18 @@ public class Usuario
         Activo = true;
     }
 
-    public string ResumenCorto()
-    {
-        return $@"
-        ===================
-        == Resumen Corto ==
-        ===================
-        Nombre del usuario -> {NombreUsuario} 
-        Apellido del usuario -> {ApellidoUsuario}
-        ";
-    }
+    public string ResumenCorto() => $"Usuario: {NombreCompleto} | Doc: {Documento}";
 
-    public string DetalleCompleto()
-    {
+    public string DetalleCompleto() => string.Join(Environment.NewLine,
+        $"Id         -> {Id}",
+        $"Documento  -> {Documento}",
+        $"Nombre     -> {NombreCompleto}",
+        $"Edad       -> {Edad}",
+        $"Telefono   -> {Telefono}",
+        $"Activo     -> {(Activo ? "Sí" : "No")}");
 
-        string EstadoUsuario = Activo ? "Si" : "No" ;
-
-        return $@"
-        ========================
-        == Detalles Completos ==
-        ========================
-        Nombre del usuario -> {NombreUsuario} 
-        Apellido del usuario -> {ApellidoUsuario}
-        Edad -> {Edad}
-        ";
-    }
+    public string Linea() =>
+        $"[{Id}] {NombreCompleto} | Doc {Documento} | Tel {Telefono} | {(Activo ? "Activo" : "Inactivo")}";
 
     public override string ToString() => ResumenCorto();
 }
