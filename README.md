@@ -1,68 +1,55 @@
 # Biblioteca de Alejandría
 
-Este proyecto es una aplicación de consola en C# que implementa la navegación por menús y las funcionalidades básicas de gestión para una biblioteca.
+Aplicación de consola en **C# (.NET 8)** para gestionar una biblioteca. El proyecto evolucionó desde un menú simulado (EV06) a un modelo con POO (EV07) y una capa de servicios con colecciones dinámicas `List<T>` (EV08).
 
-El sistema utiliza Programación Orientada a Objetos (POO) para modelar las entidades del dominio de la biblioteca.
+## Estructura del proyecto
 
-## Resumen del estado actual
+```text
+/Models
+  Libro.cs
+  Usuario.cs
+  Prestamo.cs
+  EstadoPrestamo.cs
+/Services
+  LibroService.cs
+  UsuarioService.cs
+  PrestamoService.cs
+Program.cs
+```
 
-### Funcionalidades implementadas
+## Funcionalidades
 
-*   **Menú principal**: navegación hacia todos los módulos y opción de salida con confirmación.
-*   **Módulo de libros**:
-    *   Registro de libros.
-    *   Listado de libros (todos, disponibles, prestados).
-    *   Visualización de detalles.
-    *   Actualización de información (título, autor, año/categoría).
-    *   Eliminación de libros.
-*   **Módulo de usuarios**:
-    *   Registro de usuarios.
-    *   Listado de usuarios.
-    *   Visualización de detalles.
-    *   Actualización de información (nombre, contacto, activar/desactivar).
-    *   Eliminación de usuarios.
-*   **Módulo de préstamos**:
-    *   Creación de préstamos con validaciones simuladas.
-    *   Listado de préstamos (todos, activos, cerrados).
-    *   Detalle de préstamo por ID.
-    *   Registro de devoluciones.
-    *   Eliminación de préstamos.
-*   **Búsquedas y reportes**:
-    *   Búsqueda de libros (título, autor, ID/ISBN, categoría).
-    *   Búsqueda de usuarios (nombre, ID/documento).
-    *   Reportes por usuario, por libro, de vencidos y resumen general.
-*   **Guardar / Cargar datos**:
-    *   Guardado simulado de datos.
-    *   Carga simulada de datos.
-    *   Reinicio de datos con confirmación S/N.
-*   **Salida**:
-    *   Confirmación para guardar antes de salir (S/N).
+- **Menú principal**: navegación entre módulos, validación básica de entrada y salida con confirmación.
+- **Libros**: registrar, listar (todos/disponibles/prestados), detalle por ISBN, actualizar, eliminar. No permite eliminar un libro prestado.
+- **Usuarios**: registrar, listar/ordenar por nombre, detalle por documento, actualizar, activar/desactivar, eliminar. No permite eliminar usuarios con préstamos activos.
+- **Préstamos**: crear con validaciones (usuario activo, libro disponible, límite de préstamos), listar/ordenar por fecha límite, detalle por ID, registrar devolución, eliminar préstamos cerrados.
+- **Búsquedas y reportes**: búsqueda de libros por título/autor/ISBN/categoría; usuarios por nombre/documento; reportes por usuario/libro, vencidos y resumen general.
+- **KPIs**: total de libros/disponibles/prestados, usuarios activos/inactivos, préstamos activos/vencidos/devueltos y promedio de días de préstamo.
+- **Comparación Array vs List**: demo en consola desde el menú Reportes/KPIs.
+- **Datos de prueba**: `SeedData()` carga datos iniciales al iniciar para probar búsquedas, ordenaciones y KPIs.
 
-### Características técnicas
+## Modelos (POO)
 
-*   Uso de estructuras `do-while` y `switch-case` para la navegación por menús.
-*   Validación básica de entradas del usuario utilizando `TryParse`.
-*   Interfaz basada completamente en consola (`Console.WriteLine`).
-*   Uso de POO para la definición de entidades en la carpeta `Models`:
-    *   `Libro`
-    *   `Usuario`
-    *   `Prestamo`
-    *   `EstadoPrestamo` (enum)
-*   El menú principal se invoca al iniciar la aplicación.
+- `Libro`: ISBN, autor, título, categoría, año, disponibilidad; `ResumenCorto()`, `DetalleCompleto()`, `Linea()`.
+- `Usuario`: documento, nombre, apellido, edad, teléfono, activo; `ResumenCorto()`, `DetalleCompleto()`, `Linea()`.
+- `Prestamo`: libro, usuario, fechas, estado; `EstaVencido()`, `DiasTranscurridos()`, `ActualizarEstado()`.
+- `EstadoPrestamo`: `Activo`, `Devuelto`, `Vencido`.
 
-### Pruebas de modelos (GFPI-F-135 V04)
+## Servicios (List<T>)
 
-En la rama `feature/models-testing-objetos` cada funcionalidad instancia objetos
-reales de `Models` y muestra su información en consola:
+Cada servicio encapsula su `List<T>` y la lógica de negocio:
 
-* `RegisterBook()` → 2 `Libro`, con `ResumenCorto()`, `DetalleCompleto()` y `Disponible`.
-* `RegisterUser()` → 2 `Usuario`, con `ResumenCorto()`, `DetalleCompleto()` y `Activo`.
-* `CreateLoan()` → 1 `Prestamo`, con `ResumenCorto()`, `DetalleCompleto()`, `Estado`, `EstaVencido()` y `DiasTranscurridos()`.
+- `LibroService`: agregar, eliminar, obtener, buscar por ISBN/título/autor/categoría, ordenar por título/año, KPIs.
+- `UsuarioService`: agregar, eliminar, cambiar estado, buscar por documento/nombre, ordenar por nombre, KPIs.
+- `PrestamoService`: validar/registrar/devolver/eliminar, buscar por ID/estado/usuario/libro, ordenar por fecha límite, KPIs.
 
-## Estructura Git Flow
+## Ejecución
 
-El desarrollo se organizó con ramas `feature/*` fusionadas a `develop`.
+```bash
+dotnet build
+dotnet run
+```
 
-## Nota
+## Git Flow
 
-Todas las operaciones son simuladas. Los datos no se guardan en disco ni en una base de datos; solo se muestran mensajes por consola durante la ejecución.
+El desarrollo se gestiona con ramas `feature/*`, integración en `develop` y cierre en `main`. Los commits usan mensajes claros (`feat:`, `fix:`, `docs:`, `merge:`).
