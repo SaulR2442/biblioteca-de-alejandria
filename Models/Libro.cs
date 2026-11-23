@@ -10,7 +10,11 @@ public class Libro
 
     public Libro()
     {
-        Disponible = true ;
+        Isbn = string.Empty;
+        NombreAutor = string.Empty;
+        NombreLibro = string.Empty;
+        Categoria = string.Empty;
+        Disponible = true;
     }
 
     // El Id lo asigna LibroService al agregar
