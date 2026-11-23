@@ -1335,16 +1335,27 @@ void SeedData()
 
     usuarioService.AgregarUsuario(new Usuario("1001", "Carlos", "Gómez", 25, "3001234567"));
     usuarioService.AgregarUsuario(new Usuario("1002", "María", "López", 32, "3109876543"));
+    usuarioService.AgregarUsuario(new Usuario("1003", "Ana", "Martínez", 28, "3150000000"));
+    usuarioService.CambiarEstado("1003", false); // usuario inactivo para KPI
 
     var u1 = usuarioService.BuscarPorDocumento("1001");
+    var u2 = usuarioService.BuscarPorDocumento("1002");
     var l1 = libroService.BuscarPorIsbn("ISBN-001");
     var l2 = libroService.BuscarPorIsbn("ISBN-002");
+    var l3 = libroService.BuscarPorIsbn("ISBN-003");
+
+    // Vencido (fecha límite pasada, sin devolver)
     if (u1 != null && l1 != null) prestamoService.RegistrarPrestamo(l1, u1, 7, DateTime.Now.AddDays(-20));
+
+    // Devuelto
     if (u1 != null && l2 != null)
     {
-        var p = prestamoService.RegistrarPrestamo(l2, u1, 7, DateTime.Now.AddDays(-3));
-        if (p != null) prestamoService.DevolverPrestamo(p.Id, DateTime.Now.AddDays(-1));
+        var p = prestamoService.RegistrarPrestamo(l2, u1, 7, DateTime.Now.AddDays(-10));
+        if (p != null) prestamoService.DevolverPrestamo(p.Id, DateTime.Now.AddDays(-3));
     }
+
+    // Activo (vigente)
+    if (u2 != null && l3 != null) prestamoService.RegistrarPrestamo(l3, u2, 7, DateTime.Now);
 }
 
 SeedData();
