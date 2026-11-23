@@ -411,10 +411,21 @@ void DeleteBook()
     ");
     Console.WriteLine("Ingrese el ISBN del libro que desea eliminar ->");
     string isbn = Console.ReadLine() ?? "";
+    var libro = libroService.BuscarPorIsbn(isbn);
+    if (libro == null)
+    {
+        Console.WriteLine("No se pudo eliminar (no encontrado).");
+        return;
+    }
+    if (!libro.Disponible)
+    {
+        Console.WriteLine("No se puede eliminar: el libro está prestado.");
+        return;
+    }
     if (libroService.EliminarLibro(isbn))
         Console.WriteLine("Libro eliminado correctamente.");
     else
-        Console.WriteLine("No se pudo eliminar (no encontrado).");
+        Console.WriteLine("No se pudo eliminar el libro.");
 }
 
 /*
@@ -667,10 +678,21 @@ void DeleteUser()
     ");
     Console.WriteLine("Ingrese el documento del usuario que desea eliminar ->");
     string doc = Console.ReadLine() ?? "";
+    var usuario = usuarioService.BuscarPorDocumento(doc);
+    if (usuario == null)
+    {
+        Console.WriteLine("No se pudo eliminar (no encontrado).");
+        return;
+    }
+    if (prestamoService.TienePrestamosAbiertos(usuario))
+    {
+        Console.WriteLine("No se puede eliminar: el usuario tiene préstamos activos.");
+        return;
+    }
     if (usuarioService.EliminarUsuario(doc))
         Console.WriteLine("Usuario eliminado correctamente.");
     else
-        Console.WriteLine("No se pudo eliminar (no encontrado).");
+        Console.WriteLine("No se pudo eliminar el usuario.");
 }
 
 /*
