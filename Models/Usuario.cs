@@ -1,24 +1,29 @@
 public class Usuario
 {
-    
-    public int Documento { get; set; }
-    public string NombreUsuario { get; set; }
-    public string ApellidoUsuario { get; set; }
-    public byte Edad { get; set; }
+    public int Id { get; set; }
+    public string Documento { get; set; }
+    public string Nombre { get; set; }
+    public string Apellido { get; set; }
+    public int Edad { get; set; }
+    public string Telefono { get; set; }
     public bool Activo { get; set; }
 
-    public Usuario ()
+    public string NombreCompleto => $"{Nombre} {Apellido}";
+
+    public Usuario()
     {
-        Activo = true ;
+        Documento = Nombre = Apellido = Telefono = string.Empty;
+        Activo = true;
     }
 
-    public Usuario (int documento, string nombreUsuario, string apellidoUsuario, byte edad)
+    public Usuario(string documento, string nombre, string apellido, int edad, string telefono)
     {
-        Documento = documento ;
-        NombreUsuario = nombreUsuario ;
-        ApellidoUsuario = apellidoUsuario ;
-        Edad = edad ;
-        Activo = true ;
+        Documento = documento;
+        Nombre = nombre;
+        Apellido = apellido;
+        Edad = edad;
+        Telefono = telefono;
+        Activo = true;
     }
 
     public string ResumenCorto()
@@ -35,7 +40,7 @@ public class Usuario
     public string DetalleCompleto()
     {
 
-        string EstadoUsuario = Activo ? "Sí" : "No" ;
+        string EstadoUsuario = Activo ? "Si" : "No" ;
 
         return $@"
         ========================
@@ -44,13 +49,8 @@ public class Usuario
         Nombre del usuario -> {NombreUsuario} 
         Apellido del usuario -> {ApellidoUsuario}
         Edad -> {Edad}
-        Estado Activo -> {EstadoUsuario}
         ";
     }
 
-    public override string ToString()
-    {
-        return ResumenCorto() ;
-    }    
-
+    public override string ToString() => ResumenCorto();
 }
