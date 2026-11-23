@@ -761,45 +761,25 @@ static void CreateLoan()
     === Opcion de Crear préstamo elegida correctamente   ===
     ========================================================
     ");
+    Console.WriteLine("Ingrese el documento del usuario ->");
+    string doc = Console.ReadLine() ?? "";
+    Console.WriteLine("Ingrese el ISBN del libro ->");
+    string isbn = Console.ReadLine() ?? "";
 
-    Console.WriteLine("Ingrese el ID del usuario ->");
-    string idUsuario = Console.ReadLine();
+    var usuario = usuarioService.BuscarPorDocumento(doc);
+    var libro = libroService.BuscarPorIsbn(isbn);
+    string? error = prestamoService.ValidarPrestamo(libro, usuario);
+    if (error != null)
+    {
+        Console.WriteLine($"No se pudo crear el préstamo: {error}");
+        return;
+    }
 
-    Console.WriteLine("Ingrese el ID del libro ->");
-    string idLibro = Console.ReadLine();
-
-    Console.WriteLine(@"
-    ===========================================
-    == Validaciones de préstamo (simuladas) ==
-    ===========================================
-    - Verificando si usuario existe y está activo...
-    - Verificando si libro existe y está disponible...
-    - Verificando límite de préstamos...
-    ");
-
-    Console.WriteLine($@"
-    ========================================
-    === Préstamo creado correctamente    ===
-    ========================================
-    Usuario ID: {idUsuario}
-    Libro ID: {idLibro}
-    ========================================
-    ");
-
-    // ===== Pruebas de modelos (GFPI-F-135 V04) =====
-    // Se instancia 1 objeto Prestamo y se muestran sus validaciones.
-    // Fechas pasadas para que las validaciones sean demostrativas.
-    Console.WriteLine("\n--- GFPI-F-135 V04 ---");
-    Prestamo prestamoPrueba = new Prestamo(
-        "Carlos Gómez",
-        DateTime.Now.AddDays(-20),
-        DateTime.Now.AddDays(-5));
-
-    Console.WriteLine(prestamoPrueba.ResumenCorto());
-    Console.WriteLine(prestamoPrueba.DetalleCompleto());
-    Console.WriteLine($"Validacion Estado -> {prestamoPrueba.Estado}");
-    Console.WriteLine($"Validacion EstaVencido() -> {prestamoPrueba.EstaVencido()}");
-    Console.WriteLine($"Validacion DiasTranscurridos() -> {prestamoPrueba.DiasTranscurridos()}");
+    var prestamo = prestamoService.RegistrarPrestamo(libro!, usuario!);
+    if (prestamo != null)
+        Console.WriteLine($"Préstamo creado correctamente. ID: {prestamo.Id}");
+    else
+        Console.WriteLine("No se pudo crear el préstamo.");
 }
 
 static void ListLoansMenu()
@@ -851,12 +831,10 @@ static void ListLoansAll()
     Console.WriteLine(@"
     ===========================
     == Todos los préstamos   ==
-    ===========================
-    - Préstamo ID: 001 - Libro: Cien años de soledad - Usuario: Carlos Gómez
-    - Préstamo ID: 002 - Libro: El olvido que seremos - Usuario: María López
-    - Préstamo ID: 003 - Libro: María - Usuario: Juan Ramírez
-    - Préstamo ID: 004 - Libro: Delirio - Usuario: Ana Martínez
-    ");
+    ===========================");
+    var list = prestamoService.ObtenerTodos();
+    if (list.Count == 0) Console.WriteLine("No hay préstamos registrados.");
+    else foreach (var p in list) Console.WriteLine(p.Linea());
 }
 
 static void ListLoansActive()
@@ -864,11 +842,10 @@ static void ListLoansActive()
     Console.WriteLine(@"
     ===========================
     == Préstamos activos     ==
-    ===========================
-    - Préstamo ID: 001 - Libro: Cien años de soledad - Usuario: Carlos Gómez
-    - Préstamo ID: 003 - Libro: María - Usuario: Juan Ramírez
-    - Préstamo ID: 004 - Libro: Delirio - Usuario: Ana Martínez
-    ");
+    ===========================");
+    var list = prestamoService.BuscarPorEstado(EstadoPrestamo.Activo);
+    if (list.Count == 0) Console.WriteLine("No hay préstamos activos.");
+    else foreach (var p in list) Console.WriteLine(p.Linea());
 }
 
 static void ListLoansClosed()
@@ -876,9 +853,10 @@ static void ListLoansClosed()
     Console.WriteLine(@"
     ===========================
     == Préstamos cerrados    ==
-    ===========================
-    - Préstamo ID: 002 - Libro: El olvido que seremos - Usuario: María López
-    ");
+    ===========================");
+    var list = prestamoService.ObtenerCerrados();
+    if (list.Count == 0) Console.WriteLine("No hay préstamos cerrados.");
+    else foreach (var p in list) Console.WriteLine(p.Linea());
 }
 
 static void ViewLoanDetail()
@@ -888,21 +866,11 @@ static void ViewLoanDetail()
     === Opcion de Ver detalle de préstamo elegida ===
     ========================================================
     ");
-
     Console.WriteLine("Ingrese el ID del préstamo ->");
-    string idPrestamo = Console.ReadLine();
-
-    Console.WriteLine($@"
-    ========================================
-    == Detalle del préstamo (simulado) ==
-    ========================================
-    Préstamo ID: {idPrestamo}
-    Libro: Cien años de soledad
-    Usuario: Carlos Gómez
-    Estado: Activo
-    Fecha prestamo: 02/11/2026
-    ========================================
-    ");
+    if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("ID inválido."); return; }
+    var prestamo = prestamoService.BuscarPorId(id);
+    if (prestamo == null) Console.WriteLine("Préstamo no encontrado.");
+    else Console.WriteLine(prestamo.DetalleCompleto());
 }
 
 static void RegisterReturn()
@@ -912,27 +880,12 @@ static void RegisterReturn()
     === Opcion de Registrar devolucion elegida ===
     ========================================================
     ");
-
     Console.WriteLine("Ingrese el ID del préstamo a devolver ->");
-    string idPrestamo = Console.ReadLine();
-
-    Console.WriteLine(@"
-    ===========================================
-    == Registro de devolucion (simulado) ==
-    ===========================================
-    - Marcando el préstamo como devuelto...
-    - Marcando el libro como disponible...
-    ");
-
-    Console.WriteLine($@"
-    ========================================
-    === Devolución registrada correctamente ===
-    ========================================
-    Préstamo ID: {idPrestamo}
-    Estado: Devuelto
-    Libro disponible
-    ========================================
-    ");
+    if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("ID inválido."); return; }
+    if (prestamoService.DevolverPrestamo(id))
+        Console.WriteLine("Devolución registrada correctamente.");
+    else
+        Console.WriteLine("No se pudo registrar la devolución (no encontrado o ya devuelto).");
 }
 
 static void DeleteLoan()
@@ -942,25 +895,12 @@ static void DeleteLoan()
     === Opcion de Eliminar préstamo elegida ===
     ========================================================
     ");
-
     Console.WriteLine("Ingrese el ID del préstamo a eliminar ->");
-    string idPrestamo = Console.ReadLine();
-
-    Console.WriteLine(@"
-    ===========================================
-    == Reglas sugeridas para eliminación ==
-    ===========================================
-    - Validar que el préstamo esté cerrado...
-    - Validar que no haya multas pendientes...
-    ");
-
-    Console.WriteLine($@"
-    ========================================
-    === Préstamo eliminado correctamente ===
-    ========================================
-    Préstamo ID: {idPrestamo}
-    ========================================
-    ");
+    if (!int.TryParse(Console.ReadLine(), out int id)) { Console.WriteLine("ID inválido."); return; }
+    if (prestamoService.EliminarPrestamo(id))
+        Console.WriteLine("Préstamo eliminado correctamente.");
+    else
+        Console.WriteLine("No se pudo eliminar (no encontrado o no está devuelto).");
 }
 
 /*
