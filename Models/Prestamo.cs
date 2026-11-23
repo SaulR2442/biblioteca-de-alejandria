@@ -1,63 +1,55 @@
-using System;
-
 public class Prestamo
 {
     public string NombreApellido { get; set; }
-    public EstadoPrestamo Estado { get; set; }
+    public string Estado { get; set; }
     public DateTime FechaPrestamo { get; set; }
-    public DateTime FechaVencimiento { get; set; }
+    public DateTime FechaLimite { get; set; }
     public DateTime? FechaDevolucion { get; set; }
 
     public Prestamo()
     {
         NombreApellido = string.Empty;
-        Estado = EstadoPrestamo.Activo;
+        Estado = "Activo";
         FechaDevolucion = null;
     }
 
-    public Prestamo(string nombreApellido, DateTime fechaPrestamo, DateTime fechaVencimiento)
+    public Prestamo(int id, Libro libro, Usuario usuario, DateTime fechaPrestamo, int diasPrestamo = 7)
     {
-        NombreApellido = nombreApellido;
+        Id = id;
+        Libro = libro;
+        Usuario = usuario;
         FechaPrestamo = fechaPrestamo;
         FechaVencimiento = fechaVencimiento;
         
-        Estado = EstadoPrestamo.Activo;
+        Estado = "Activo";
         FechaDevolucion = null;
     }
 
-    public bool EstaVencido()
+    public bool EstaVencido() => !FechaDevolucion.HasValue && DateTime.Now > FechaLimite;
+
+    public int DiasTranscurridos() => (int)((FechaDevolucion ?? DateTime.Now) - FechaPrestamo).TotalDays;
+
+    public void ActualizarEstado()
     {
-        return !FechaDevolucion.HasValue && DateTime.Now > FechaVencimiento;
+        if (FechaDevolucion.HasValue) Estado = EstadoPrestamo.Devuelto;
+        else if (EstaVencido()) Estado = EstadoPrestamo.Vencido;
+        else Estado = EstadoPrestamo.Activo;
     }
 
-    public int DiasTranscurridos()
-    {
-        return (DateTime.Now - FechaPrestamo).Days;
-    }
+    public string ResumenCorto() => $"Préstamo {Id}: {Libro.NombreLibro} -> {Usuario.NombreCompleto}";
 
-    public string ResumenCorto()
-    {
-        return $"Préstamo de {NombreApellido} | Estado: {Estado}";
-    }
+    public string DetalleCompleto() => string.Join(Environment.NewLine,
+        $"Id               -> {Id}",
+        $"Libro            -> {Libro.NombreLibro}",
+        $"Usuario          -> {Usuario.NombreCompleto}",
+        $"Fecha préstamo   -> {FechaPrestamo:dd/MM/yyyy}",
+        $"Fecha límite     -> {FechaLimite:dd/MM/yyyy}",
+        $"Fecha devolución -> {(FechaDevolucion.HasValue ? FechaDevolucion.Value.ToString("dd/MM/yyyy") : "pendiente")}",
+        $"Estado           -> {Estado}",
+        $"Días             -> {DiasTranscurridos()}");
 
-    public string DetalleCompleto()
-    {
-        string devolucionTexto = FechaDevolucion.HasValue
-            ? FechaDevolucion.Value.ToString("dd/MM/yyyy")
-            : "Pendiente de devolución";
+    public string Linea() =>
+        $"[{Id}] {Libro.NombreLibro} -> {Usuario.NombreCompleto} | Límite {FechaLimite:dd/MM/yyyy} | {Estado}";
 
-        return $"--- DETALLE DEL PRÉSTAMO ---\n" +
-               $"Titular: {NombreApellido}\n" +
-               $"Estado: {Estado}\n" +
-               $"Fecha de Préstamo: {FechaPrestamo:dd/MM/yyyy}\n" +
-               $"Fecha de Vencimiento: {FechaVencimiento:dd/MM/yyyy}\n" +
-               $"Fecha de Devolución: {devolucionTexto}\n" +
-               $"Días Transcurridos: {DiasTranscurridos()}\n" +
-               $"¿Vencido?: {(EstaVencido() ? "Sí" : "No")}";
-    }
-
-    public override string ToString()
-    {
-        return $"{NombreApellido} - {FechaPrestamo:dd/MM/yyyy} ({Estado})";
-    }
+    public override string ToString() => ResumenCorto();
 }
