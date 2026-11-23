@@ -503,45 +503,31 @@ static void RegisterUser()
     ");
 
     Console.WriteLine("Ingrese el nombre del usuario ->");
-    string nombreUsuario = Console.ReadLine();
-
+    string nombreUsuario = Console.ReadLine() ?? "";
     Console.WriteLine("Ingrese el apellido del usuario ->");
-    string apellidoUsuario = Console.ReadLine();
-
+    string apellidoUsuario = Console.ReadLine() ?? "";
     Console.WriteLine("Ingrese la edad del usuario ->");
-    string edadUsuario = Console.ReadLine();
-
+    if (!int.TryParse(Console.ReadLine(), out int edadUsuario)) edadUsuario = 0;
     Console.WriteLine("Ingrese el documento del usuario ->");
-    string documentoUsuario = Console.ReadLine();
-
+    string documentoUsuario = Console.ReadLine() ?? "";
     Console.WriteLine("Ingrese el telefono del usuario ->");
-    string telefonoUsuario = Console.ReadLine();
+    string telefonoUsuario = Console.ReadLine() ?? "";
 
-    Console.WriteLine($@"
+    var usuario = new Usuario(documentoUsuario, nombreUsuario, apellidoUsuario, edadUsuario, telefonoUsuario);
+    if (usuarioService.AgregarUsuario(usuario))
+    {
+        Console.WriteLine($@"
     ========================================
     === Usuario registrado correctamente ===
     ========================================
-    Nombre -> {nombreUsuario}.
-    Apellido -> {apellidoUsuario}.
-    Edad -> {edadUsuario}.
+    Nombre -> {nombreUsuario} {apellidoUsuario}.
     Documento -> {documentoUsuario}.
-    Telefono -> {telefonoUsuario}.
-    ====================================
-    ");
-
-    // ===== Pruebas de modelos (GFPI-F-135 V04) =====
-    // Se instancian 2 objetos Usuario y se muestra su informacion en consola.
-    Console.WriteLine("\n--- GFPI-F-135 V04 ---");
-    Usuario usuario1 = new Usuario(1039485721, "Carlos", "Gómez", 25);
-    Usuario usuario2 = new Usuario(1012938475, "María", "López", 32);
-
-    Console.WriteLine(usuario1.ResumenCorto());
-    Console.WriteLine(usuario1.DetalleCompleto());
-    Console.WriteLine($"Validacion Activo -> {usuario1.Activo}");
-
-    Console.WriteLine(usuario2.ResumenCorto());
-    Console.WriteLine(usuario2.DetalleCompleto());
-    Console.WriteLine($"Validacion Activo -> {usuario2.Activo}");
+    ====================================");
+    }
+    else
+    {
+        Console.WriteLine("Error: No se pudo registrar (¿documento duplicado?)");
+    }
 }
 
 static void ListUsers()
@@ -551,23 +537,9 @@ static void ListUsers()
     === Opcion listar usuarios elegida correctamente ===
     ====================================================
     ");
-
-    Console.WriteLine(@"
-    =======================
-    == Lista de usuarios ==
-    =======================
-    - Carlos Gómez 
-    - María López 
-    - Juan Ramírez 
-    - Ana Martínez 
-    - Luis Torres 
-    - Laura Sánchez 
-    - Pedro Castro 
-    - Sofía Herrera 
-    - Andrés Rojas 
-    - Camila Vargas 
-    ");
-
+    var usuarios = usuarioService.ObtenerTodos();
+    if (usuarios.Count == 0) Console.WriteLine("No hay usuarios registrados.");
+    else foreach (var u in usuarios) Console.WriteLine(u.Linea());
 }
 
 static void ViewUserDetail()
@@ -577,22 +549,11 @@ static void ViewUserDetail()
     === Opcion ver los detalles de los usuarios elegida correctamente ===
     =====================================================================
     ");
-
-    Console.WriteLine(@"
-    =======================
-    == Lista de usuarios ==
-    =======================
-    - Carlos - Gómez - 25 - 1039485721 - 3001234567
-    - María - López - 32 - 1012938475 - 3109876543
-    - Juan - Ramírez - 19 - 1002345678 - 3123456789
-    - Ana - Martínez - 45 - 43567891 - 3156789123
-    - Luis - Torres - 28 - 1023456789 - 3112345678
-    - Laura - Sánchez - 22 - 1056789123 - 3209876543
-    - Pedro - Castro - 50 - 71234567 - 3187654321
-    - Sofía - Herrera - 30 - 1034567890 - 3012345678
-    - Andrés - Rojas - 21 - 1045678901 - 3023456789
-    - Camila - Vargas - 27 - 1098765432 - 3145678901
-    ");
+    Console.WriteLine("Ingrese el documento del usuario ->");
+    string doc = Console.ReadLine() ?? "";
+    var usuario = usuarioService.BuscarPorDocumento(doc);
+    if (usuario == null) Console.WriteLine("Usuario no encontrado.");
+    else Console.WriteLine(usuario.DetalleCompleto());
 }
 
 static void UpdateUserMenu()
@@ -647,21 +608,16 @@ static void EditUserName()
     === Opcion de editar el nombre del usuario elegida correctamente  ===
     =====================================================================
     ");
+    Console.WriteLine("Ingrese el documento del usuario ->");
+    string doc = Console.ReadLine() ?? "";
+    var usuario = usuarioService.BuscarPorDocumento(doc);
+    if (usuario == null) { Console.WriteLine("Usuario no encontrado."); return; }
 
-    Console.WriteLine("Ingrese el antiguo nombre del usuario ->");
-    string nombreUsuarioAntiguo = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el nuevo nombre del usuario ->");
-    string nombreUsuarioNuevo = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    ===================================
-    == Nombre guardado correctamente ==
-    ===================================
-    El usuario {nombreUsuarioAntiguo}, 
-    actualizo su nombre a 
-    {nombreUsuarioNuevo}.
-    ");
+    Console.WriteLine($"Nombre actual: {usuario.Nombre}. Nuevo nombre ->");
+    usuario.Nombre = Console.ReadLine() ?? "";
+    Console.WriteLine($"Apellido actual: {usuario.Apellido}. Nuevo apellido ->");
+    usuario.Apellido = Console.ReadLine() ?? "";
+    Console.WriteLine("Nombre actualizado correctamente.");
 }
 
 static void EditUserContact()
@@ -671,24 +627,14 @@ static void EditUserContact()
     === Opcion de editar el telefono del usuario elegida correctamente  ===
     =======================================================================
     ");
+    Console.WriteLine("Ingrese el documento del usuario ->");
+    string doc = Console.ReadLine() ?? "";
+    var usuario = usuarioService.BuscarPorDocumento(doc);
+    if (usuario == null) { Console.WriteLine("Usuario no encontrado."); return; }
 
-    Console.WriteLine("Ingrese el nombre del usuario ->");
-    string nombreUsuarioTelefono = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el antiguo telefono del usuario ->");
-    string telefonoAntiguo = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el nuevo telefono del usuario ->");
-    string telefonoNuevo = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    =====================================
-    == Telefono guardado correctamente ==
-    =====================================
-    El usuario {nombreUsuarioTelefono}, 
-    actualizo su telefono de {telefonoAntiguo},
-    a {telefonoNuevo}.
-    ");
+    Console.WriteLine($"Telefono actual: {usuario.Telefono}. Nuevo telefono ->");
+    usuario.Telefono = Console.ReadLine() ?? "";
+    Console.WriteLine("Telefono actualizado correctamente.");
 }
 
 static void ToggleUserActiveStatus()
@@ -698,20 +644,15 @@ static void ToggleUserActiveStatus()
     === Opcion de activar / desactivar usuario elegida correctamente ===
     ===================================================================
     ");
-
     Console.WriteLine("Ingrese el documento del usuario ->");
-    string documentoUsuarioEstado = Console.ReadLine();
-
-    Console.WriteLine("Ingrese el nuevo estado del usuario (A = Activo / I = Inactivo) ->");
-    string estadoUsuario = Console.ReadLine();
-
-    Console.WriteLine($@"
-    =====================================
-    == Estado guardado correctamente   ==
-    =====================================
-    El usuario con documento {documentoUsuarioEstado},
-    cambio su estado a {estadoUsuario}.
-    ");
+    string doc = Console.ReadLine() ?? "";
+    Console.WriteLine("Ingrese el nuevo estado (A = Activo / I = Inactivo) ->");
+    string estado = Console.ReadLine() ?? "";
+    bool activo = estado.Trim().Equals("A", StringComparison.OrdinalIgnoreCase);
+    if (usuarioService.CambiarEstado(doc, activo))
+        Console.WriteLine("Estado actualizado correctamente.");
+    else
+        Console.WriteLine("Usuario no encontrado.");
 }
 
 static void DeleteUser()
@@ -721,18 +662,12 @@ static void DeleteUser()
     === Opcion de eliminar usuario elegida correctamente ===
     ========================================================
     ");
-
-    Console.WriteLine("Ingrese el nombre del usuario  que desea eliminar ->");
-    string nombreUsuarioEliminar = Console.ReadLine();
-
-    Console.WriteLine(@$"
-    =====================================
-    == Usuario eliminado correctamente ==
-    =====================================
-    El usuario {nombreUsuarioEliminar}, 
-    ha sido totalmente eliminado en 
-    la base de datos correctamente.
-    ");
+    Console.WriteLine("Ingrese el documento del usuario que desea eliminar ->");
+    string doc = Console.ReadLine() ?? "";
+    if (usuarioService.EliminarUsuario(doc))
+        Console.WriteLine("Usuario eliminado correctamente.");
+    else
+        Console.WriteLine("No se pudo eliminar (no encontrado).");
 }
 
 /*
