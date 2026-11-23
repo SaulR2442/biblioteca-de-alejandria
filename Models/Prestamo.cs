@@ -8,6 +8,15 @@ public class Prestamo
     public DateTime? FechaDevolucion { get; set; }
     public EstadoPrestamo Estado { get; set; }
 
+    public Prestamo()
+    {
+        Libro = new Libro();
+        Usuario = new Usuario();
+        FechaPrestamo = DateTime.Now;
+        FechaLimite = DateTime.Now.AddDays(7);
+        Estado = EstadoPrestamo.Activo;
+    }
+
     public Prestamo(int id, Libro libro, Usuario usuario, DateTime fechaPrestamo, int diasPrestamo = 7)
     {
         Id = id;
